@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "291466450567",
+    "firebase_url": "https://testapp-bc30f-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "testapp-bc30f",
+    "storage_bucket": "testapp-bc30f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:291466450567:android:986dcaaeb1f80beeb6ca22",
+        "android_client_info": {
+          "package_name": "sg.edu.np.tracknshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "291466450567-jege8u5230tl6lpvnijm28khre2n8ego.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkr3Kryly63rsR1sh8vru82fIUO1ptndI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "291466450567-jege8u5230tl6lpvnijm28khre2n8ego.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
