@@ -1,4 +1,4 @@
-package sg.edu.np.tracknshare;
+package sg.edu.np.tracknshare.models;
 
 public class User {
     private String Id;
@@ -26,6 +26,12 @@ public class User {
     }
 
     public void setEmail(String email) {
+        Email = email;
+    }
+
+    public User(String id, String userName, String email) {
+        Id = id;
+        UserName = userName;
         Email = email;
     }
 }
