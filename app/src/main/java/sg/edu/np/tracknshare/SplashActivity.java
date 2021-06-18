@@ -23,11 +23,11 @@ public class SplashActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         AuthHandler auth = new AuthHandler(this);
-//        if (auth.IsSignedIn()){
-//            Intent intent = new Intent(SplashActivity.this, BaseActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
+        if (auth.IsSignedIn()){
+            Intent intent = new Intent(SplashActivity.this, BaseActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         ConstraintLayout cL = findViewById(R.id.splash_button);
         cL.setOnClickListener(new View.OnClickListener(){

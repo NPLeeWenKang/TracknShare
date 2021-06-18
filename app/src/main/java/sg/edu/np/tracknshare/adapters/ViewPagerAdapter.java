@@ -14,7 +14,7 @@ import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.SplashLoginActivity;
 import sg.edu.np.tracknshare.viewholders.ViewPagerViewHolder;
 
-public class ViewPagerAdapter extends RecyclerView.Adapter {
+public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerViewHolder> {
     Context context;
     ViewPager2 viewPager2;
     public ViewPagerAdapter(Context c, ViewPager2 vp2){
@@ -23,7 +23,7 @@ public class ViewPagerAdapter extends RecyclerView.Adapter {
     }
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewPagerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View item;
         if (viewType == 0){
             item = LayoutInflater.from(parent.getContext()).inflate(R.layout.description_1, parent, false);
@@ -39,8 +39,8 @@ public class ViewPagerAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+    public void onBindViewHolder(@NonNull ViewPagerViewHolder holder, int position) {
+        holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (position == 2){
@@ -51,7 +51,7 @@ public class ViewPagerAdapter extends RecyclerView.Adapter {
                 }
             }
         });
-        holder.itemView.findViewById(R.id.nextButton).setOnClickListener(new View.OnClickListener(){
+        holder.view.findViewById(R.id.nextButton).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 if (position == 2){

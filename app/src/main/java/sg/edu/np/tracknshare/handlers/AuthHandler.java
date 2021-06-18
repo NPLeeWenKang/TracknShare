@@ -56,7 +56,7 @@ public class AuthHandler {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("AUTH" , "createUserWithEmail:success");
                             FirebaseUser currentUser =  mAuth.getCurrentUser();
-                            UserDBHandler db = new UserDBHandler();
+                            UserDBHandler db = new UserDBHandler(context);
                             User u =new User(currentUser.getUid(),username,email);
                             db.AddUser(u);
 

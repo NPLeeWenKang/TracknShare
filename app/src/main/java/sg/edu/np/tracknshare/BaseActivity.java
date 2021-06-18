@@ -17,6 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import sg.edu.np.tracknshare.fragments.LoginFragment;
 import sg.edu.np.tracknshare.fragments.PostFragment;
 import sg.edu.np.tracknshare.fragments.ProfileFragment;
+import sg.edu.np.tracknshare.fragments.SearchFragment;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -28,7 +29,7 @@ public class BaseActivity extends AppCompatActivity {
         FragmentManager fManager = getSupportFragmentManager();
         FragmentTransaction fTransaction = fManager.beginTransaction();
         Fragment postFrag = new PostFragment();
-        Fragment loginFrag = new LoginFragment(BaseActivity.this);
+        Fragment searchFrag = new SearchFragment(this);
         Fragment profileFrag = new ProfileFragment();
 
         fTransaction.replace(R.id.flFragment, postFrag);
@@ -44,7 +45,6 @@ public class BaseActivity extends AppCompatActivity {
                 FragmentTransaction fTransaction = fManager.beginTransaction();
                 fTransaction.addToBackStack(null);
                 fTransaction.setTransition(FragmentTransaction.TRANSIT_NONE);
-                fTransaction.replace(R.id.flFragment, loginFrag);
                 fTransaction.commit();
                 Log.d("NAVBAR", "onClick: ");
             }
@@ -61,7 +61,15 @@ public class BaseActivity extends AppCompatActivity {
                 if (item.toString().equals("home")){
                     fTransaction.replace(R.id.flFragment, postFrag);
                     fTransaction.commit();
-                }else if (item.toString().equals("profile")){
+                }else if (item.toString().equals("search")){
+                    fTransaction.replace(R.id.flFragment, searchFrag);
+                    fTransaction.commit();
+                }
+                else if (item.toString().equals("runs")){
+                    fTransaction.replace(R.id.flFragment, profileFrag);
+                    fTransaction.commit();
+                }
+                else if (item.toString().equals("profile")){
                     fTransaction.replace(R.id.flFragment, profileFrag);
                     fTransaction.commit();
                 }
