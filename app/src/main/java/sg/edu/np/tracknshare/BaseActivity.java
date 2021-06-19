@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -33,7 +34,6 @@ public class BaseActivity extends AppCompatActivity {
         Fragment profileFrag = new ProfileFragment();
 
         fTransaction.replace(R.id.flFragment, postFrag);
-        fTransaction.addToBackStack(null);
         fTransaction.setTransition(FragmentTransaction.TRANSIT_NONE);
         fTransaction.commit();
 
@@ -43,7 +43,6 @@ public class BaseActivity extends AppCompatActivity {
             public void onClick(View view) {
                 FragmentManager fManager = getSupportFragmentManager();
                 FragmentTransaction fTransaction = fManager.beginTransaction();
-                fTransaction.addToBackStack(null);
                 fTransaction.setTransition(FragmentTransaction.TRANSIT_NONE);
                 fTransaction.commit();
                 Log.d("NAVBAR", "onClick: ");
@@ -56,7 +55,6 @@ public class BaseActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 FragmentManager fManager = getSupportFragmentManager();
                 FragmentTransaction fTransaction = fManager.beginTransaction();
-                fTransaction.addToBackStack(null);
                 fTransaction.setTransition(FragmentTransaction.TRANSIT_NONE);
                 if (item.toString().equals("home")){
                     fTransaction.replace(R.id.flFragment, postFrag);
@@ -76,5 +74,21 @@ public class BaseActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        int seletedItemId = bottomNavigationView.getSelectedItemId();
+        if (R.id.home != seletedItemId) {
+            setHomeItem(BaseActivity.this);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    public static void setHomeItem(Activity activity) {
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                activity.findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.home);
     }
 }
