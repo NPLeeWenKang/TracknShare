@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -41,8 +42,30 @@ public class SplashCreateActivity extends AppCompatActivity {
                 auth.CreateEmailPasswordAccount(email.getText().toString(),password.getText().toString(),username.getText().toString());
             }
         });
-
-
+        email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!email.hasFocus() && !password.hasFocus() && !username.hasFocus()) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!email.hasFocus() && !password.hasFocus() && !username.hasFocus()) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+        username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!email.hasFocus() && !password.hasFocus() && !username.hasFocus()) {
+                    hideKeyboard(v);
+                }
+            }
+        });
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -54,5 +77,9 @@ public class SplashCreateActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
