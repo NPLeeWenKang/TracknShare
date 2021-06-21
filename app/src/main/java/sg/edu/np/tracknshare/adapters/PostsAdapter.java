@@ -1,4 +1,4 @@
-package sg.edu.np.tracknsharepractise;
+package sg.edu.np.tracknshare.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,7 +27,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
     boolean isSelected;//for toggling of likes upon click eventHandler
     /*    int likes; //to store likes of each viewHolder post
         int tapCount; //separate eventHandler scenario for tapping on img post*/
-    Post p;
+//    Post p;
     public PostsAdapter(Context c,ArrayList<Post>d ){
         context = c;
         data = d;
@@ -43,7 +43,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
-        p = data.get(position);
+        Post p = data.get(position);
         holder.Username.setText(p.getPostUsername());
         holder.PostDate.setText(p.getPostDate());
         holder.Likes.setText(""+p.getLikes());
@@ -104,7 +104,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
         holder.ViewComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EnterCommentView();
+                EnterCommentView(p);
             }
         });
     }
@@ -124,13 +124,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
     public int getItemCount() {
         return data.size();
     }
-    public void EnterCommentView(){
+
+    public void EnterCommentView(Post p){
         Intent intent = new Intent(context, CommentsActivity.class);
         intent.putExtra("Username",p.getPostUsername());
         intent.putExtra("Postdate",p.getPostDate());
         intent.putExtra("PostLikes",p.getLikes());
         intent.putExtra("PostCaption",p.getCaption());
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //to allow activity transition from adapter class
+        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //to allow activity transition from adapter class
         context.startActivity(intent);
 
     }

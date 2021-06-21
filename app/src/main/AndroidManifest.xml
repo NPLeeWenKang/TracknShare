@@ -12,6 +12,7 @@
         <activity android:name=".SplashDescriptionActivity" android:screenOrientation="portrait"/>
         <activity android:name=".SplashCreateActivity" android:screenOrientation="portrait"/>
         <activity android:name=".SplashLoginActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".CommentsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".SplashActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
