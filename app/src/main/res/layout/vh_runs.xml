@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="630dp">
+
+    <ImageView
+        android:id="@+id/run_image"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/header_distance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/running_splash" />
+
+    <TextView
+        android:id="@+id/header_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:clickable="false"
+        android:padding="2dp"
+        android:text="Distance(km)"
+        android:textIsSelectable="false"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:drawableTint="@color/orange"
+        app:layout_constraintStart_toStartOf="@+id/run_image"
+        app:layout_constraintTop_toBottomOf="@+id/run_image" />
+
+    <TextView
+        android:id="@+id/run_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/header_distance"
+        app:layout_constraintTop_toBottomOf="@+id/header_distance" />
+
+    <TextView
+        android:id="@+id/header_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:text="Date"
+        android:textIsSelectable="false"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/header_pace"
+        app:layout_constraintTop_toTopOf="@+id/header_distance" />
+
+    <TextView
+        android:id="@+id/run_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/header_date"
+        app:layout_constraintTop_toBottomOf="@+id/header_date" />
+
+    <TextView
+        android:id="@+id/header_timing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:padding="2dp"
+        android:text="Timing"
+        android:textIsSelectable="false"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/header_calories"
+        app:layout_constraintTop_toTopOf="@+id/header_calories" />
+
+    <TextView
+        android:id="@+id/run_timing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/header_timing"
+        app:layout_constraintTop_toBottomOf="@+id/header_timing" />
+
+    <TextView
+        android:id="@+id/header_calories"
+        android:layout_width="121dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:padding="2dp"
+        android:text="Calories burned(kcal)"
+        android:textIsSelectable="false"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/header_distance"
+        app:layout_constraintTop_toBottomOf="@+id/run_distance" />
+
+    <TextView
+        android:id="@+id/run_calories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/header_calories"
+        app:layout_constraintTop_toBottomOf="@+id/header_calories" />
+
+    <TextView
+        android:id="@+id/header_pace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:padding="2dp"
+        android:text="Pace"
+        android:textAllCaps="false"
+        android:textIsSelectable="false"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/header_timing"
+        app:layout_constraintTop_toTopOf="@+id/header_timing" />
+
+    <TextView
+        android:id="@+id/run_pace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/header_pace"
+        app:layout_constraintTop_toBottomOf="@+id/header_pace" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="#CD3E3E"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@+id/run_image"
+        app:layout_constraintEnd_toEndOf="@+id/run_image"
+        app:srcCompat="@drawable/writing" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
