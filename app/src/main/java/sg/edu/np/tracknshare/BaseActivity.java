@@ -54,7 +54,6 @@ public class BaseActivity extends AppCompatActivity {
         fTransaction.replace(R.id.flFragment, postFrag);
         fTransaction.setTransition(FragmentTransaction.TRANSIT_NONE);
         fTransaction.commit();
-
         NavigationView nav = findViewById(R.id.nav);
         nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -64,8 +63,10 @@ public class BaseActivity extends AppCompatActivity {
                 BottomNavigationView bottomNavigationView = (BaseActivity.this).findViewById(R.id.bottomNavigationView);
                 if (item.getItemId() == R.id.homeNavItem){
                     bottomNavigationView.setSelectedItemId(R.id.homeNavItem);
+
                 }else if (item.getItemId() == R.id.searchNavItem){
                     bottomNavigationView.setSelectedItemId(R.id.searchNavItem);
+
                 }
                 else if (item.getItemId() == R.id.runsNavItem){
                     bottomNavigationView.setSelectedItemId(R.id.runsNavItem);

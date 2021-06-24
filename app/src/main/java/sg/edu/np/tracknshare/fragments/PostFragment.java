@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import sg.edu.np.tracknshare.BaseActivity;
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.adapters.PostFragmentsAdapter;
 import sg.edu.np.tracknshare.adapters.ViewPagerAdapter;
@@ -62,7 +63,7 @@ public class PostFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentManager fm =getActivity().getSupportFragmentManager();
         postFragmentsAdapter = new PostFragmentsAdapter(fm,getLifecycle());
         viewPager2 = view.findViewById(R.id.post_pager);
         viewPager2.setAdapter(postFragmentsAdapter);
@@ -70,6 +71,14 @@ public class PostFragment extends Fragment {
         new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+/*
+                switch (position){
+                    case 0:
+                        tab.setText("general");
+                    case 1:
+                        tab.setText("friends");
+                }
+*/
             }
         }).attach();
 
