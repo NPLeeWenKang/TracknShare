@@ -2,13 +2,23 @@ package sg.edu.np.tracknshare.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+
 import sg.edu.np.tracknshare.R;
+import sg.edu.np.tracknshare.adapters.RunsAdapter;
+import sg.edu.np.tracknshare.models.Runs;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,19 +48,11 @@ public class RunsFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment RunsFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static RunsFragment newInstance(String param1, String param2) {
-        RunsFragment fragment = new RunsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle("My Runs");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -64,4 +66,32 @@ public class RunsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_runs, container, false);
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ArrayList<Runs> runs = generateRuns();
+        RecyclerView rv = view.findViewById(R.id.rv_runs);
+        RunsAdapter runsAdapter = new RunsAdapter(getActivity().getApplicationContext(),runs);
+        LinearLayoutManager lm = new LinearLayoutManager(getActivity().getApplicationContext());
+        rv.setLayoutManager(lm);
+        rv.setAdapter(runsAdapter);
+    }
+
+    public ArrayList<Runs> generateRuns(){
+        ArrayList<Runs> runs = new ArrayList<Runs>();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        Calendar c = Calendar.getInstance();
+
+        for(int i = 1;i<=20;i++){
+            Runs r = new Runs();
+            r.setRunId(i);
+            r.setRunDate(sdf.format(c.getTime()));
+            r.setRunDistance(i*5.00);
+            r.setRunCalories(234);
+            r.setRunDuration(1500000);
+            r.setRunPace();
+            runs.add(r);
+        }
+        return runs;
+    }
 }
