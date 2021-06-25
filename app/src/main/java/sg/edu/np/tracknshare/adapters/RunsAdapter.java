@@ -31,15 +31,15 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RunsViewHolder holder, int position) {
-        Drawable post_icon = context.getResources().getDrawable(R.drawable.writing);//post icon for every run
-        Runs r = runs.get(position);
-        holder.MapImage.setImageResource(R.drawable.running_splash);
-        holder.Run_Date.setText(r.getRunDate());
-        holder.Run_distance.setText(""+r.getRunDistance());
-        holder.Run_calories.setText(""+r.getRunCalories());
-        holder.Run_timing.setText(""+r.getRunDuration());
-        holder.Run_pace.setText(String.format("%,.2f",r.getRunPace()));
-        holder.Post_Button.setImageDrawable(post_icon);
+//        Drawable post_icon = context.getResources().getDrawable(R.drawable.writing);//post icon for every run
+//        Runs r = runs.get(position);
+//        holder.MapImage.setImageResource(R.drawable.running_splash);
+//        holder.Run_Date.setText(r.getRunDate());
+//        holder.Run_distance.setText(""+r.getRunDistance());
+//        holder.Run_calories.setText(""+r.getRunCalories());
+//        holder.Run_timing.setText(""+r.getRunDuration());
+//        holder.Run_pace.setText(String.format("%,.2f",r.getRunPace()));
+//        holder.Post_Button.setImageDrawable(post_icon);
     }
 
     @Override

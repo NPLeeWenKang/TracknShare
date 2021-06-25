@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,9 +38,6 @@ public class PostFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    TabLayout tabLayout;
-    ViewPager2 viewPager2;
-    PostFragmentsAdapter postFragmentsAdapter;
     public PostFragment() {
         // Required empty public constructor
     }
@@ -62,23 +60,26 @@ public class PostFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.d("FRAGMANAGER", "FRAGMANAGER");
         super.onViewCreated(view, savedInstanceState);
-        FragmentManager fm =getActivity().getSupportFragmentManager();
-        postFragmentsAdapter = new PostFragmentsAdapter(fm,getLifecycle());
-        viewPager2 = view.findViewById(R.id.post_pager);
+        PostFragmentsAdapter postFragmentsAdapter = new PostFragmentsAdapter(getChildFragmentManager(),getLifecycle());
+        ViewPager2 viewPager2 = view.findViewById(R.id.post_pager);
         viewPager2.setAdapter(postFragmentsAdapter);
-        tabLayout = view.findViewById(R.id.feedTabLayout);
+        viewPager2.setSaveEnabled(false);
+        TabLayout tabLayout = view.findViewById(R.id.feedTabLayout);
         new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-/*
-                switch (position){
-                    case 0:
-                        tab.setText("general");
-                    case 1:
-                        tab.setText("friends");
-                }
-*/
+                //Log.d("FRAGMANAGER", "FRAGMANAGER"+position);
+//                Log.d("FRAGMANAGER", "FRAGMANAGER"+(position==1));
+//                switch (position){
+//                    case 0:
+//                        tab.setText("general");
+//                    case 1:
+//
+//                        tab.setText("friends");
+//                }
+
             }
         }).attach();
 

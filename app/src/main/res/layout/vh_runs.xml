@@ -130,16 +130,17 @@
         app:layout_constraintStart_toStartOf="@+id/header_pace"
         app:layout_constraintTop_toBottomOf="@+id/header_pace" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/post"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="#CD3E3E"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="@+id/run_image"
-        app:layout_constraintEnd_toEndOf="@+id/run_image"
-        app:srcCompat="@drawable/writing" />
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/post"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="8dp"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:background="#CD3E3E"-->
+<!--        android:clickable="true"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/run_image"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/run_image"-->
+<!--        app:srcCompat="@drawable/writing" />-->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
