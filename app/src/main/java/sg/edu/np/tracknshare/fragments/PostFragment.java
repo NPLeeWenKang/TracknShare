@@ -67,22 +67,14 @@ public class PostFragment extends Fragment {
         viewPager2.setAdapter(postFragmentsAdapter);
         viewPager2.setSaveEnabled(false);
         TabLayout tabLayout = view.findViewById(R.id.feedTabLayout);
+
         new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                //Log.d("FRAGMANAGER", "FRAGMANAGER"+position);
-//                Log.d("FRAGMANAGER", "FRAGMANAGER"+(position==1));
-//                switch (position){
-//                    case 0:
-//                        tab.setText("general");
-//                    case 1:
-//
-//                        tab.setText("friends");
-//                }
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) { }
 
-            }
         }).attach();
-
+        tabLayout.getTabAt(0).setText("general");
+        tabLayout.getTabAt(1).setText("friends");
     }
 
 
