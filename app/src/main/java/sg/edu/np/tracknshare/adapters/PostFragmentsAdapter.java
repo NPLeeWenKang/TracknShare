@@ -1,5 +1,7 @@
 package sg.edu.np.tracknshare.adapters;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -17,6 +19,7 @@ public class PostFragmentsAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
+        Log.d("FRAGMANAGER", "FRAGMANAGER123");
         switch(position)
         {
             case 0:
