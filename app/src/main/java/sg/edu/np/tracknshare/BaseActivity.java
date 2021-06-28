@@ -8,8 +8,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -20,13 +22,17 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.List;
+
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
 import sg.edu.np.tracknshare.fragments.PostFragment;
 import sg.edu.np.tracknshare.fragments.ProfileFragment;
 import sg.edu.np.tracknshare.fragments.RunsFragment;
 import sg.edu.np.tracknshare.fragments.SearchFragment;
 import sg.edu.np.tracknshare.handlers.AuthHandler;
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity  implements EasyPermissions.PermissionCallbacks{
     public ActionBarDrawerToggle toggle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +53,7 @@ public class BaseActivity extends AppCompatActivity {
         Fragment searchFrag = new SearchFragment(this);
         Fragment runsFrag = new RunsFragment();
         Fragment profileFrag = new ProfileFragment();
-        Fragment startRunFrag = new StartRunFragment();
+        Fragment startRunFrag = new StartRunFragment(this);
 
         fTransaction.replace(R.id.flFragment, postFrag);
         fTransaction.setTransition(FragmentTransaction.TRANSIT_NONE);
@@ -175,5 +181,51 @@ public class BaseActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+        Log.d("PERMISSIONZZZ", "onPermissionsGranted: ");
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+        Log.d("PERMISSIONZZZ", "onPermissionsDenied: ");
+        TrackingUtility tU = new TrackingUtility();
+        if (EasyPermissions.somePermissionPermanentlyDenied(BaseActivity.this, perms)){
+            new AppSettingsDialog.Builder(BaseActivity.this).build().show();
+        }else{
+            requestPermissions();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode,permissions,grantResults,BaseActivity.this);
+    }
+    private void requestPermissions(){
+        TrackingUtility tU = new TrackingUtility();
+        if(tU.HasPermissions(BaseActivity.this)){
+            return;
+        }
+        if (Build.VERSION.SDK_INT<Build.VERSION_CODES.Q){
+            EasyPermissions.requestPermissions(
+                    BaseActivity.this,
+                    "You have to accept permissions",
+                    0,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACTIVITY_RECOGNITION
+            );
+        }else{
+            EasyPermissions.requestPermissions(
+                    BaseActivity.this,
+                    "You have to accept permissions",
+                    0,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            );
+        }
     }
 }
