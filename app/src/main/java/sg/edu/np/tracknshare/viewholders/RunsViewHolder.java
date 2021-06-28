@@ -25,7 +25,7 @@ public class RunsViewHolder extends RecyclerView.ViewHolder {
     public TextView Run_pace;
     public TextView Header_calories;
     public TextView Run_calories;
-    public FloatingActionButton Post_Button;
+    public ImageView Post_Button;
     public RunsViewHolder(@NonNull View itemView) {
         super(itemView);
         view = itemView;

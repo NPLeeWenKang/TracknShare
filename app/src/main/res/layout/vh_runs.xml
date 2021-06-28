@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="630dp">
+    android:layout_height="710dp"
+    android:background="#C3FFFFFF">
 
     <ImageView
         android:id="@+id/run_image"
@@ -18,14 +19,14 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25"
         app:srcCompat="@drawable/running_splash" />
 
     <TextView
         android:id="@+id/header_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="13dp"
         android:clickable="false"
         android:padding="2dp"
         android:text="Distance(km)"
@@ -33,8 +34,8 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:drawableTint="@color/orange"
-        app:layout_constraintStart_toStartOf="@+id/run_image"
-        app:layout_constraintTop_toBottomOf="@+id/run_image" />
+        app:layout_constraintStart_toStartOf="@+id/run_date"
+        app:layout_constraintTop_toBottomOf="@+id/run_date" />
 
     <TextView
         android:id="@+id/run_distance"
@@ -48,15 +49,15 @@
         android:id="@+id/header_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:padding="2dp"
         android:text="Date"
         android:textIsSelectable="false"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/header_pace"
-        app:layout_constraintTop_toTopOf="@+id/header_distance" />
+        app:layout_constraintStart_toStartOf="@+id/run_image"
+        app:layout_constraintTop_toBottomOf="@+id/run_image" />
 
     <TextView
         android:id="@+id/run_date"
@@ -70,14 +71,14 @@
         android:id="@+id/header_timing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:padding="2dp"
         android:text="Timing"
         android:textIsSelectable="false"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/header_calories"
-        app:layout_constraintTop_toTopOf="@+id/header_calories" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/header_distance"
+        app:layout_constraintTop_toTopOf="@+id/header_distance" />
 
     <TextView
         android:id="@+id/run_timing"
@@ -89,16 +90,16 @@
 
     <TextView
         android:id="@+id/header_calories"
-        android:layout_width="121dp"
+        android:layout_width="127dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="55dp"
         android:padding="2dp"
         android:text="Calories burned(kcal)"
         android:textIsSelectable="false"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/header_distance"
-        app:layout_constraintTop_toBottomOf="@+id/run_distance" />
+        app:layout_constraintTop_toBottomOf="@+id/header_distance" />
 
     <TextView
         android:id="@+id/run_calories"
@@ -112,15 +113,14 @@
         android:id="@+id/header_pace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:padding="2dp"
         android:text="Pace"
         android:textAllCaps="false"
         android:textIsSelectable="false"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/header_timing"
-        app:layout_constraintTop_toTopOf="@+id/header_timing" />
+        app:layout_constraintStart_toStartOf="@+id/header_timing"
+        app:layout_constraintTop_toTopOf="@+id/header_calories" />
 
     <TextView
         android:id="@+id/run_pace"
@@ -130,16 +130,13 @@
         app:layout_constraintStart_toStartOf="@+id/header_pace"
         app:layout_constraintTop_toBottomOf="@+id/header_pace" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <ImageView
         android:id="@+id/post"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="#CD3E3E"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="@+id/run_image"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="@+id/run_image"
-        app:srcCompat="@drawable/writing" />
+        app:layout_constraintTop_toTopOf="@+id/header_date"
+        app:srcCompat="@drawable/share" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
