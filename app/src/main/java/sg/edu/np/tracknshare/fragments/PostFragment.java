@@ -67,21 +67,15 @@ public class PostFragment extends Fragment {
         postFragmentsAdapter = new PostFragmentsAdapter(fm,getLifecycle());
         viewPager2 = view.findViewById(R.id.post_pager);
         viewPager2.setAdapter(postFragmentsAdapter);
+        viewPager2.setSaveEnabled(false);
         tabLayout = view.findViewById(R.id.feedTabLayout);
         new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-/*
-                switch (position){
-                    case 0:
-                        tab.setText("general");
-                    case 1:
-                        tab.setText("friends");
-                }
-*/
+                if (position == 0) { tab.setText("general"); } //tab --> index 0
+                else{ tab.setText("friends"); } //tab --> index 1
             }
         }).attach();
-
     }
 
 
