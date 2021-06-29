@@ -1,6 +1,8 @@
 package sg.edu.np.tracknshare.adapters;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.FragmentManagerNonConfig;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,11 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import sg.edu.np.tracknshare.BaseActivity;
+import sg.edu.np.tracknshare.CreatePostActivity;
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.models.Runs;
 import sg.edu.np.tracknshare.viewholders.RunsViewHolder;
@@ -44,7 +51,6 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RunsViewHolder holder, int position) {
-        Drawable post_icon = context.getResources().getDrawable(R.drawable.share);//post icon for every run
         Runs r = runs.get(position);
         holder.MapImage.setImageResource(R.drawable.running_splash);
         holder.Run_Date.setText(r.getRunDate());
@@ -52,7 +58,7 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder> {
         holder.Run_calories.setText(""+r.getRunCalories());
         holder.Run_timing.setText(""+r.getRunDuration());
         holder.Run_pace.setText(String.format("%,.2f",r.getRunPace()));
-        holder.Post_Button.setImageDrawable(post_icon);
+        holder.Post_Button.setImageDrawable(context.getResources().getDrawable(R.drawable.share));
         holder.Post_Button.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -92,12 +98,17 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder> {
                                 for (String option:selectedSharingOptions) {
                                     if(option.equals(sharingOptions[0])){ // index 0 --> "Share to TracknShare app"
                                         Log.d("HELO","jeff");
-                                        //Intent i = new Intent(context, PostActivity.class);
 /*
-                                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //to allow activity transition from adapter class
-                                        context.startActivity(i);
+                                        Fragment fragment = new CreatePostFragment();
+                                        FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
+                                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                        fragmentTransaction.replace(R.id.drawLayout,fragment);
+                                        fragmentTransaction.commit();
 */
 
+                                        Intent intent = new Intent(context, CreatePostActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        context.startActivity(intent);
                                     }
                                     else{
                                         //call sharesheet API

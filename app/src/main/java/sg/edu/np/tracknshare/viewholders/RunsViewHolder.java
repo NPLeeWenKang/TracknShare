@@ -40,6 +40,6 @@ public class RunsViewHolder extends RecyclerView.ViewHolder {
         Run_pace = itemView.findViewById(R.id.run_pace);
         Header_calories = itemView.findViewById(R.id.header_calories);
         Run_calories = itemView.findViewById(R.id.run_calories);
-        //Post_Button = itemView.findViewById(R.id.post);
+        Post_Button = itemView.findViewById(R.id.post);
     }
 }
