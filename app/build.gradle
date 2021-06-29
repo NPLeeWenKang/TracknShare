@@ -32,6 +32,7 @@ android {
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation platform('com.google.firebase:firebase-bom:28.0.1')
