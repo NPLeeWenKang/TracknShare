@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import sg.edu.np.tracknshare.CommentsActivity;
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.models.Post;
+import sg.edu.np.tracknshare.models.Runs;
 import sg.edu.np.tracknshare.viewholders.PostViewHolder;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
@@ -102,9 +103,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
         });
 */
         holder.ViewComments.setOnClickListener(new View.OnClickListener() {
+            Runs r = new Runs();// to be modified with DB handlers
             @Override
             public void onClick(View v) {
-                EnterCommentView(p);
+                EnterCommentView(p,r);
             }
         });
     }
@@ -125,12 +127,17 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
         return data.size();
     }
 
-    public void EnterCommentView(Post p){
+    public void EnterCommentView(Post p, Runs r){
         Intent intent = new Intent(context, CommentsActivity.class);
         intent.putExtra("Username",p.getPostUsername());
         intent.putExtra("Postdate",p.getPostDate());
         intent.putExtra("PostLikes",p.getLikes());
         intent.putExtra("PostCaption",p.getCaption());
+        intent.putExtra("RunDistance",r.getRunDistance());
+        intent.putExtra("RunDuration",r.getRunDuration());
+        intent.putExtra("RunCalories",r.getRunCalories());
+        intent.putExtra("RunPace",r.getRunPace());
+        intent.putExtra("RunDate",r.getRunDate());
         //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //to allow activity transition from adapter class
         context.startActivity(intent);
 
