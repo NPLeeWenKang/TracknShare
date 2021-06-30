@@ -17,6 +17,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.adapters.PostFragmentsAdapter;
 import sg.edu.np.tracknshare.adapters.ProfileFragmentAdapter;
+import sg.edu.np.tracknshare.handlers.AuthHandler;
+import sg.edu.np.tracknshare.handlers.UserDBHandler;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,6 +77,9 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        UserDBHandler db = new UserDBHandler(view.getContext());
+        AuthHandler auth = new AuthHandler(view.getContext());
+        db.GetUserDetails(auth.GetCurrentUser().getUid(), view.getContext());
         ProfileFragmentAdapter profileFragmentAdapter = new ProfileFragmentAdapter(getChildFragmentManager(),getLifecycle());
         ViewPager2 viewPager2 = view.findViewById(R.id.profilePager);
         viewPager2.setAdapter(profileFragmentAdapter);

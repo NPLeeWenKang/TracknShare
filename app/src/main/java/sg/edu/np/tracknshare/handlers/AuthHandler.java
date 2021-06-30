@@ -47,6 +47,10 @@ public class AuthHandler {
             return true;
         }
     }
+    public FirebaseUser GetCurrentUser(){
+        FirebaseUser currentUser =  mAuth.getCurrentUser();
+        return currentUser;
+    }
     public void CreateEmailPasswordAccount(String email, String password, String username){
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
@@ -57,7 +61,7 @@ public class AuthHandler {
                             Log.d("AUTH" , "createUserWithEmail:success");
                             FirebaseUser currentUser =  mAuth.getCurrentUser();
                             UserDBHandler db = new UserDBHandler(context);
-                            User u =new User(currentUser.getUid(),username,email);
+                            User u =new User(currentUser.getUid(),username,email,null,null);
                             db.AddUser(u);
 
                             Intent intent = new Intent(context, BaseActivity.class);
