@@ -21,6 +21,9 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import sg.edu.np.tracknshare.BaseActivity;
 import sg.edu.np.tracknshare.models.User;
 
@@ -61,7 +64,7 @@ public class AuthHandler {
                             Log.d("AUTH" , "createUserWithEmail:success");
                             FirebaseUser currentUser =  mAuth.getCurrentUser();
                             UserDBHandler db = new UserDBHandler(context);
-                            User u =new User(currentUser.getUid(),username,email,null,null);
+                            User u =new User(currentUser.getUid(),username,email,new SimpleDateFormat("dd MMM yyyy").format(Calendar.getInstance().getTime()),null);
                             db.AddUser(u);
 
                             Intent intent = new Intent(context, BaseActivity.class);
