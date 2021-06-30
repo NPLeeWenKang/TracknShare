@@ -17,6 +17,5 @@ public class SearchItemViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         view = itemView;
         username = itemView.findViewById(R.id.username);
-        isFollowed = itemView.findViewById(R.id.isfollowed);
     }
 }
