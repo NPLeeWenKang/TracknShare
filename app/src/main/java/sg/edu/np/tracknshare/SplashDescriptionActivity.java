@@ -15,7 +15,7 @@ public class SplashDescriptionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_description);
 
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         ViewPager2 viewPager2 = findViewById(R.id.viewpager2);

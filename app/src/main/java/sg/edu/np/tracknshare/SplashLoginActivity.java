@@ -22,7 +22,7 @@ public class SplashLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_login);
 
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         AuthHandler auth = new AuthHandler(this);
