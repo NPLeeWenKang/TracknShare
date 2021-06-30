@@ -3,6 +3,7 @@ package sg.edu.np.tracknshare;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -11,8 +12,11 @@ import androidx.fragment.app.FragmentTransaction;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -40,6 +44,8 @@ public class BaseActivity extends AppCompatActivity  implements EasyPermissions.
         setContentView(R.layout.activity_base);
 
         // Initiating navigation drawer
+        Toolbar toolBar = findViewById(R.id.toolBar);
+        setSupportActionBar(toolBar);
         toggle = new ActionBarDrawerToggle(this, findViewById(R.id.drawLayout), R.string.open, R.string.close);
         DrawerLayout dL = findViewById(R.id.drawLayout);
         dL.addDrawerListener(toggle);

@@ -61,7 +61,7 @@ public class SearchFragment extends Fragment {
         searchBar.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
-
+                Log.d("ONKEY", "onKey: "+searchBar.getText().toString());
                 if (!searchBar.getText().toString().equals("")){
 
                     if (keyEvent.getAction() == KeyEvent.ACTION_UP||i == KeyEvent.KEYCODE_DEL){
