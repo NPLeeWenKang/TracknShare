@@ -9,14 +9,14 @@ public class User {
     private String Id;
     private String UserName;
     private String Email;
-    private java.util.Date AccountCreationDate;
+    private String AccountCreationDate;
     private ArrayList<String> FollowingId;
 
-    public Date getAccountCreationDate() {
+    public String getAccountCreationDate() {
         return AccountCreationDate;
     }
 
-    public void setAccountCreationDate(Date accountCreationDate) {
+    public void setAccountCreationDate(String accountCreationDate) {
         AccountCreationDate = accountCreationDate;
     }
 
@@ -52,9 +52,11 @@ public class User {
         Email = email;
     }
 
-    public User(String id, String userName, String email) {
+    public User(String id, String userName, String email, String accountCreationDate, ArrayList<String> followingId) {
         Id = id;
         UserName = userName;
         Email = email;
+        AccountCreationDate = accountCreationDate;
+        FollowingId = followingId;
     }
 }

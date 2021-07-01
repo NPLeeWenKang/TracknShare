@@ -21,6 +21,9 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import sg.edu.np.tracknshare.BaseActivity;
 import sg.edu.np.tracknshare.models.User;
 
@@ -47,6 +50,10 @@ public class AuthHandler {
             return true;
         }
     }
+    public FirebaseUser GetCurrentUser(){
+        FirebaseUser currentUser =  mAuth.getCurrentUser();
+        return currentUser;
+    }
     public void CreateEmailPasswordAccount(String email, String password, String username){
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
@@ -57,7 +64,7 @@ public class AuthHandler {
                             Log.d("AUTH" , "createUserWithEmail:success");
                             FirebaseUser currentUser =  mAuth.getCurrentUser();
                             UserDBHandler db = new UserDBHandler(context);
-                            User u =new User(currentUser.getUid(),username,email);
+                            User u =new User(currentUser.getUid(),username,email,new SimpleDateFormat("dd MMM yyyy").format(Calendar.getInstance().getTime()),null);
                             db.AddUser(u);
 
                             Intent intent = new Intent(context, BaseActivity.class);
