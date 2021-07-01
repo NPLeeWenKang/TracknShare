@@ -75,6 +75,7 @@ public class PostFragment extends Fragment {
         }).attach();
         tabLayout.getTabAt(0).setText("general");
         tabLayout.getTabAt(1).setText("friends");
+        Log.d("Testing","Hello");
     }
 
 
