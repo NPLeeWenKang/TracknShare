@@ -44,14 +44,7 @@ public class StartRunFragment extends Fragment{
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Button start = ((Activity)view.getContext()).findViewById(R.id.start);
-        start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "Click", Toast.LENGTH_SHORT).show();
-                requestPermissions();
-            }
-        });
+
     }
     private void requestPermissions(){
         TrackingUtility tU = new TrackingUtility();

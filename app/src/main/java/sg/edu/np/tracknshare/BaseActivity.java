@@ -129,11 +129,12 @@ public class BaseActivity extends AppCompatActivity  implements EasyPermissions.
             @Override
             public void onClick(View view) {
                 bottomNavigationView.getMenu().setGroupCheckable(0, false,false);
-                FragmentManager fManager = getSupportFragmentManager();
+                /*FragmentManager fManager = getSupportFragmentManager();
                 FragmentTransaction fTransaction = fManager.beginTransaction();
                 fTransaction.setTransition(FragmentTransaction.TRANSIT_NONE);
                 fTransaction.replace(R.id.flFragment, startRunFrag, "StartRun_Frag");
-                fTransaction.commit();
+                fTransaction.commit();*/
+                startActivity(new Intent(BaseActivity.this, StartRunActivity.class));
             }
         });
     }
