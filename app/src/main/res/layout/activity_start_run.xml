@@ -6,4 +6,48 @@
     android:layout_height="match_parent"
     tools:context=".StartRunActivity">
 
+    <fragment
+        android:id="@+id/startRunFragment"
+        android:name="sg.edu.np.tracknshare.StartRunFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <fragment
+        android:id="@+id/map"
+        android:name="sg.edu.np.tracknshare.MapsFragment"
+        android:layout_width="342dp"
+        android:layout_height="592dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/startRun"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startRunFragment" />
+
+    <Button
+        android:id="@+id/stopRun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop Run"
+        app:layout_constraintBottom_toBottomOf="@+id/startRun"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/startRun" />
+
+    <Button
+        android:id="@+id/startRun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Start Run"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/stopRun"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

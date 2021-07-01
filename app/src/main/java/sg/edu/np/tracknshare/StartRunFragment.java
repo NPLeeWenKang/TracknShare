@@ -15,7 +15,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -29,6 +33,7 @@ public class StartRunFragment extends Fragment{
         context = c;
     }
 
+    public StartRunFragment(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,13 +44,13 @@ public class StartRunFragment extends Fragment{
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        TextView txt = ((Activity) context).findViewById(R.id.startRunButton);
-        txt.setOnClickListener(new View.OnClickListener(){
+        Button start = ((Activity)view.getContext()).findViewById(R.id.start);
+        start.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+                Toast.makeText(context, "Click", Toast.LENGTH_SHORT).show();
                 requestPermissions();
             }
-
         });
     }
     private void requestPermissions(){
