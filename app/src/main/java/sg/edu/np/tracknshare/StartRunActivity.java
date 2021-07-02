@@ -44,6 +44,7 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sendCommandToService(Constants.ACTION_START_OR_RESUME_SERVICE);
                 running = true;
                 runTimer();
                 Toast.makeText(StartRunActivity.this, "Start Run!", Toast.LENGTH_SHORT).show();
@@ -52,6 +53,7 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
         stopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sendCommandToService(Constants.ACTION_STOP_SERVICE);
                 running = false;
                 Toast.makeText(StartRunActivity.this, "Stopped Run!", Toast.LENGTH_SHORT).show();
             }
@@ -102,6 +104,12 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         EasyPermissions.onRequestPermissionsResult(requestCode,permissions,grantResults,StartRunActivity.this);
+    }
+    //Send commands to Service class
+    public void sendCommandToService(String action){
+        Intent intent = new Intent(StartRunActivity.this, TrackingService.class);
+        intent.setAction(action);
+        StartRunActivity.this.startService(intent);
     }
     //Timer Codes
     private void runTimer(){
