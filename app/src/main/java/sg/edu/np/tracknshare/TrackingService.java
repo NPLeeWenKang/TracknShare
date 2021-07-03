@@ -25,6 +25,9 @@ import com.google.android.gms.location.LocationResult;
 
 import java.util.List;
 
+//This class tracks the location in the background using FusedLocationProviderClient
+//It runs as a foreground service until the user clicks on the stop run button.
+
 public class TrackingService extends Service {
 
     boolean running = false;
@@ -36,7 +39,6 @@ public class TrackingService extends Service {
             List<Location> locationList = locationResult.getLocations();
             for(int i = 0; i < locationList.size(); i++){
                 Location location = locationList.get(i);
-         /*       dbHandler.addUser(location.getLatitude(),location.getLongitude());*/
                 Log.d("LOCATIONSERVICE", location.getLatitude() + ", " + location.getLongitude());
             }
         }
