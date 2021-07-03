@@ -4,10 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -21,9 +21,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +35,9 @@ import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 import sg.edu.np.tracknshare.handlers.AuthHandler;
 import sg.edu.np.tracknshare.handlers.RunDBHandler;
+import sg.edu.np.tracknshare.handlers.StorageHandler;
 import sg.edu.np.tracknshare.handlers.TrackingDBHandler;
-import sg.edu.np.tracknshare.models.LatLng;
+import sg.edu.np.tracknshare.models.MyLatLng;
 import sg.edu.np.tracknshare.models.Run;
 
 //This class is the main activity where the following are done
@@ -85,6 +88,34 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
 
                 Run r = new Run(auth.GetCurrentUser().getUid(), "",null,1,getDistance(),1,1,trackingDB.getAllPoints());
                 runsDB.AddRun(r);
+
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+                ArrayList<MyLatLng> rList = trackingDB.getAllPoints();
+                for (int i = 0; i < rList.size() - 1; i++) {
+                    LatLng latLng = new LatLng(rList.get(i).latitude, rList.get(i).longitude);// in this line put you lat and long
+                    builder.include(latLng);  //add latlng to builder
+                }
+
+                LatLngBounds bounds = builder.build();
+
+                int padding = 0; // offset from edges of the map in pixels
+                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+
+                MapsFragment.map.moveCamera(cu);
+
+                GoogleMap.SnapshotReadyCallback callback = new GoogleMap.SnapshotReadyCallback() {
+                    Bitmap bitmap;
+
+                    @Override
+                    public void onSnapshotReady(Bitmap snapshot) {
+                        bitmap = snapshot;
+                        StorageHandler storageHandler = new StorageHandler();
+                        storageHandler.UploadRunImage(bitmap);
+                    }
+                };
+
+                MapsFragment.map.snapshot(callback);
             }
         });
     }
@@ -230,17 +261,17 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
     }
     public double getDistance(){
         TrackingDBHandler trackingDB = new TrackingDBHandler(this);
-        ArrayList<LatLng> pointsList = trackingDB.getAllPoints();
+        ArrayList<MyLatLng> pointsList = trackingDB.getAllPoints();
         double totalDistance = 0;
         for (int i = 0; i < pointsList.size() - 1; i++) {
-            LatLng src = pointsList.get(i);
-            LatLng dest = pointsList.get(i + 1);
+            MyLatLng src = pointsList.get(i);
+            MyLatLng dest = pointsList.get(i + 1);
             // mMap is the Map Object
             totalDistance += convertToKm(src, dest);
         }
         return totalDistance;
     }
-    public double convertToKm(LatLng p1, LatLng p2){
+    public double convertToKm(MyLatLng p1, MyLatLng p2){
         // Uses havasine formula to get distance
         // https://cloud.google.com/blog/products/maps-platform/how-calculate-distances-map-maps-javascript-api
 

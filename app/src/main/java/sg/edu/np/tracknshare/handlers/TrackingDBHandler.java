@@ -8,9 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Random;
 
-import sg.edu.np.tracknshare.models.LatLng;
+import sg.edu.np.tracknshare.models.MyLatLng;
 
 public class TrackingDBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
@@ -61,16 +60,16 @@ public class TrackingDBHandler extends SQLiteOpenHelper {
         db.insert(TABLE_USERS, null, values);
         db.close();
     }
-    public ArrayList<LatLng> getAllPoints(){
+    public ArrayList<MyLatLng> getAllPoints(){
         String query = "SELECT * FROM "+ TABLE_USERS;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-        ArrayList<LatLng> pList = new ArrayList<>();
+        ArrayList<MyLatLng> pList = new ArrayList<>();
         if (cursor.moveToFirst()){
             do{
                 Log.e("Location", cursor.getString(0)+"-"+cursor.getString(1)+"-"+cursor.getString(2));
-                pList.add(new LatLng(Double.parseDouble(cursor.getString(1)),Double.parseDouble(cursor.getString(2))));
+                pList.add(new MyLatLng(Double.parseDouble(cursor.getString(1)),Double.parseDouble(cursor.getString(2))));
             }while(cursor.moveToNext());
         }
         cursor.close();

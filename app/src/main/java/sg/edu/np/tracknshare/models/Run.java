@@ -1,6 +1,5 @@
 package sg.edu.np.tracknshare.models;
 
-import java.sql.Time;
 import java.util.ArrayList;
 
 public class Run {
@@ -11,7 +10,7 @@ public class Run {
     private double RunDistance;
     private double RunCalories;
     private double RunPace;
-    private ArrayList<LatLng> points;
+    private ArrayList<MyLatLng> points;
 
     public String getUserId() {
         return UserId;
@@ -71,15 +70,15 @@ public class Run {
 
     }
 
-    public ArrayList<LatLng> getPoints() {
+    public ArrayList<MyLatLng> getPoints() {
         return points;
     }
 
-    public void setPoints(ArrayList<LatLng> points) {
+    public void setPoints(ArrayList<MyLatLng> points) {
         this.points = points;
     }
 
-    public Run(String userId, String runId, String runDate, long runDuration, double runDistance, double runCalories, double runPace, ArrayList<LatLng> points) {
+    public Run(String userId, String runId, String runDate, long runDuration, double runDistance, double runCalories, double runPace, ArrayList<MyLatLng> points) {
         UserId = userId;
         RunId = runId;
         RunDate = runDate;

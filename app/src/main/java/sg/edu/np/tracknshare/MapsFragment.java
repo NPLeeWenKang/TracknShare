@@ -31,7 +31,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 public class MapsFragment extends Fragment {
-
+    public static GoogleMap map;
     LatLng updateLatLng = new LatLng(0, 0);
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -46,6 +46,7 @@ public class MapsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
+            map = googleMap;
             getCurrentLocation(googleMap);
         }
     };
