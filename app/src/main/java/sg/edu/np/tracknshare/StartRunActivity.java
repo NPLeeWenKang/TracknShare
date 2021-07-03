@@ -21,11 +21,18 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.List;
 import java.util.Locale;
 
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
+import sg.edu.np.tracknshare.handlers.AuthHandler;
+import sg.edu.np.tracknshare.handlers.RunDBHandler;
+import sg.edu.np.tracknshare.handlers.TrackingDBHandler;
+import sg.edu.np.tracknshare.models.Run;
 
 //This class is the main activity where the following are done
 //Step Counting - records steps per run and saves it to the local DB
@@ -46,6 +53,10 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
         setContentView(R.layout.activity_start_run);
         Log.e("Started Main Activity", "Done");
         requestPermissions();
+
+        AuthHandler auth = new AuthHandler(this);
+        RunDBHandler runsDB = new RunDBHandler(this);
+        TrackingDBHandler trackingDB = new TrackingDBHandler(this);
 
         loadData();
         Button startBtn = findViewById(R.id.startRun);
@@ -68,6 +79,9 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
                 running = false;
                 Toast.makeText(StartRunActivity.this, "Stopped Run!", Toast.LENGTH_SHORT).show();
                 saveData();
+
+                Run r = new Run(auth.GetCurrentUser().getUid(), "1",null,1,1,1,1,trackingDB.getAllPoints());
+                runsDB.AddRun(r);
             }
         });
     }
@@ -211,4 +225,5 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
             }
         });
     }
+
 }

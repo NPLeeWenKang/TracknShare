@@ -18,7 +18,7 @@ import java.util.Calendar;
 
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.adapters.RunsAdapter;
-import sg.edu.np.tracknshare.models.Runs;
+import sg.edu.np.tracknshare.models.Run;
 
 public class RunsFragment extends Fragment {
 
@@ -38,7 +38,7 @@ public class RunsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ArrayList<Runs> runs = generateRuns();
+        ArrayList<Run> runs = generateRuns();
         RecyclerView rv = view.findViewById(R.id.rv_runs);
         RunsAdapter runsAdapter = new RunsAdapter(getActivity().getApplicationContext(),runs,getActivity());
         LinearLayoutManager lm = new LinearLayoutManager(getActivity().getApplicationContext());
@@ -46,14 +46,14 @@ public class RunsFragment extends Fragment {
         rv.setAdapter(runsAdapter);
     }
 
-    public ArrayList<Runs> generateRuns(){
-        ArrayList<Runs> runs = new ArrayList<Runs>();
+    public ArrayList<Run> generateRuns(){
+        ArrayList<Run> runs = new ArrayList<Run>();
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         Calendar c = Calendar.getInstance();
 
         for(int i = 1;i<=20;i++){
-            Runs r = new Runs();
-            r.setRunId(i);
+            Run r = new Run();
+            r.setRunId(""+i);
             r.setRunDate(sdf.format(c.getTime()));
             r.setRunDistance(i*5.00);
             r.setRunCalories(234);

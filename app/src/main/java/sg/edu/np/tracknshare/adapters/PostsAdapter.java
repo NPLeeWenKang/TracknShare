@@ -1,16 +1,12 @@
 package sg.edu.np.tracknshare.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,7 +15,7 @@ import java.util.ArrayList;
 import sg.edu.np.tracknshare.CommentsActivity;
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.models.Post;
-import sg.edu.np.tracknshare.models.Runs;
+import sg.edu.np.tracknshare.models.Run;
 import sg.edu.np.tracknshare.viewholders.PostViewHolder;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
@@ -103,7 +99,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
         });
 */
         holder.ViewComments.setOnClickListener(new View.OnClickListener() {
-            Runs r = new Runs();// to be modified with DB handlers
+            Run r = new Run();// to be modified with DB handlers
             @Override
             public void onClick(View v) {
                 EnterCommentView(p,r);
@@ -127,7 +123,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
         return data.size();
     }
 
-    public void EnterCommentView(Post p, Runs r){
+    public void EnterCommentView(Post p, Run r){
         Intent intent = new Intent(context, CommentsActivity.class);
         intent.putExtra("Username",p.getPostUsername());
         intent.putExtra("Postdate",p.getPostDate());

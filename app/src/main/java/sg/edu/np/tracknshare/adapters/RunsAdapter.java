@@ -1,43 +1,36 @@
 package sg.edu.np.tracknshare.adapters;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.FragmentManagerNonConfig;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import sg.edu.np.tracknshare.BaseActivity;
 import sg.edu.np.tracknshare.CreatePostActivity;
 import sg.edu.np.tracknshare.R;
-import sg.edu.np.tracknshare.models.Runs;
+import sg.edu.np.tracknshare.models.Run;
 import sg.edu.np.tracknshare.viewholders.RunsViewHolder;
 
 public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder> {
     FragmentActivity fragmentActivity; //getActivity() object passed from RunFragment to builder AlertDialog
     Context context;
-    ArrayList<Runs> runs;
+    ArrayList<Run> runs;
     ArrayList<String> selectedSharingOptions;
     /*sharing options will be added to this list
    as list cannot be returned in AlertDialog.builder method*/
 
     String[] sharingOptions = new String[]{"Share to TracknShare app","Share to other apps"};
     //default options in alertDialog
-    public RunsAdapter(Context c,ArrayList<Runs> runsArrayList,FragmentActivity fActivity){
+    public RunsAdapter(Context c, ArrayList<Run> runsArrayList, FragmentActivity fActivity){
         context = c;
         runs = runsArrayList;
         fragmentActivity = fActivity;
@@ -51,7 +44,7 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RunsViewHolder holder, int position) {
-        Runs r = runs.get(position);
+        Run r = runs.get(position);
         holder.MapImage.setImageResource(R.drawable.running_splash);
         holder.Run_Date.setText(r.getRunDate());
         holder.Run_distance.setText(""+r.getRunDistance());

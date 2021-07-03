@@ -25,11 +25,13 @@ import com.google.android.gms.location.LocationResult;
 
 import java.util.List;
 
+import sg.edu.np.tracknshare.handlers.TrackingDBHandler;
+
 //This class tracks the location in the background using FusedLocationProviderClient
 //It runs as a foreground service until the user clicks on the stop run button.
 
 public class TrackingService extends Service {
-
+    TrackingDBHandler db = new TrackingDBHandler(this);
     boolean running = false;
     FusedLocationProviderClient client;
     LocationCallback locationCallback = new LocationCallback() {
@@ -39,6 +41,9 @@ public class TrackingService extends Service {
             List<Location> locationList = locationResult.getLocations();
             for(int i = 0; i < locationList.size(); i++){
                 Location location = locationList.get(i);
+
+                db.addRun(location.getLatitude(),location.getLongitude());
+
                 Log.d("LOCATIONSERVICE", location.getLatitude() + ", " + location.getLongitude());
             }
         }
@@ -104,6 +109,9 @@ public class TrackingService extends Service {
         locationRequest.setInterval(5000);
         locationRequest.setFastestInterval(2000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        db.delelteAll();
+
         client.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
     }
 }
