@@ -3,8 +3,6 @@ package sg.edu.np.tracknshare.models;
 import java.sql.Time;
 import java.util.ArrayList;
 
-import com.google.android.gms.maps.model.LatLng;
-
 public class Run {
     private String UserId;
     private String RunId;

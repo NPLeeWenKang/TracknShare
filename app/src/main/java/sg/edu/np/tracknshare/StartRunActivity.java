@@ -23,7 +23,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
@@ -35,6 +34,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 import sg.edu.np.tracknshare.handlers.AuthHandler;
 import sg.edu.np.tracknshare.handlers.RunDBHandler;
 import sg.edu.np.tracknshare.handlers.TrackingDBHandler;
+import sg.edu.np.tracknshare.models.LatLng;
 import sg.edu.np.tracknshare.models.Run;
 
 //This class is the main activity where the following are done

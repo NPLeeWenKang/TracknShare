@@ -1,5 +1,6 @@
 package sg.edu.np.tracknshare.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,10 +19,13 @@ import java.util.Calendar;
 
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.adapters.RunsAdapter;
+import sg.edu.np.tracknshare.handlers.AuthHandler;
+import sg.edu.np.tracknshare.handlers.RunDBHandler;
 import sg.edu.np.tracknshare.models.Run;
+import sg.edu.np.tracknshare.models.User;
 
 public class RunsFragment extends Fragment {
-
+    private ArrayList<Run> rList = new ArrayList<>();
     private String mParam2;
 
     public RunsFragment() {
@@ -38,12 +42,16 @@ public class RunsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ArrayList<Run> runs = generateRuns();
+
         RecyclerView rv = view.findViewById(R.id.rv_runs);
-        RunsAdapter runsAdapter = new RunsAdapter(getActivity().getApplicationContext(),runs,getActivity());
+        RunsAdapter runsAdapter = new RunsAdapter(getActivity().getApplicationContext(),rList,getActivity());
         LinearLayoutManager lm = new LinearLayoutManager(getActivity().getApplicationContext());
         rv.setLayoutManager(lm);
         rv.setAdapter(runsAdapter);
+
+        RunDBHandler runDB = new RunDBHandler(view.getContext());
+        AuthHandler auth = new AuthHandler(view.getContext());
+        runDB.GetRuns(auth.GetCurrentUser().getUid(), rList, runsAdapter);
     }
 
     public ArrayList<Run> generateRuns(){
