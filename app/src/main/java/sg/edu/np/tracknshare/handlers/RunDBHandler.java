@@ -36,6 +36,7 @@ public class RunDBHandler {
     public void AddRun(Run r){
         Calendar calendar = Calendar.getInstance();
         long timeMilli = calendar.getTimeInMillis();
+        r.setRunId(""+timeMilli);
         DatabaseReference dbRef = database.getReference("/runs");
         dbRef.child(""+timeMilli).setValue(r);
     }

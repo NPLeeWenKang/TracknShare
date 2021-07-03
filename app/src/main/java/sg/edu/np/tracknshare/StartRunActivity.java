@@ -22,8 +22,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -80,7 +83,7 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
                 Toast.makeText(StartRunActivity.this, "Stopped Run!", Toast.LENGTH_SHORT).show();
                 saveData();
 
-                Run r = new Run(auth.GetCurrentUser().getUid(), "1",null,1,1,1,1,trackingDB.getAllPoints());
+                Run r = new Run(auth.GetCurrentUser().getUid(), "",null,1,getDistance(),1,1,trackingDB.getAllPoints());
                 runsDB.AddRun(r);
             }
         });
@@ -224,6 +227,32 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
                 return true;
             }
         });
+    }
+    public double getDistance(){
+        TrackingDBHandler trackingDB = new TrackingDBHandler(this);
+        ArrayList<LatLng> pointsList = trackingDB.getAllPoints();
+        double totalDistance = 0;
+        for (int i = 0; i < pointsList.size() - 1; i++) {
+            LatLng src = pointsList.get(i);
+            LatLng dest = pointsList.get(i + 1);
+            // mMap is the Map Object
+            totalDistance += convertToKm(src, dest);
+        }
+        return totalDistance;
+    }
+    public double convertToKm(LatLng p1, LatLng p2){
+        // Uses havasine formula to get distance
+        // https://cloud.google.com/blog/products/maps-platform/how-calculate-distances-map-maps-javascript-api
+
+        int earthRadius = 6371;
+        double rLat1 = p1.latitude * (Math.PI / 100);
+        double rLat2 = p2.latitude * (Math.PI / 100);
+
+        double diffLat = rLat1 - rLat2;
+        double diffLng = (p1.longitude - p2.longitude) * (Math.PI / 100);
+        double distance = 2 * earthRadius * Math.asin(Math.sqrt(Math.sin(diffLat / 2) * Math.sin(diffLat / 2) + Math.cos(rLat1) * Math.cos(rLat2) * Math.sin(diffLng / 2) * Math.sin(diffLng / 2)));
+
+        return distance;
     }
 
 }
