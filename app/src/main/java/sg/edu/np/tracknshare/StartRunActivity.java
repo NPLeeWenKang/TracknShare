@@ -1,10 +1,12 @@
 package sg.edu.np.tracknshare;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -12,6 +14,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -52,7 +55,13 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
     int previousTotalSteps = 0;
     int totalSteps = 0;
     int currentSteps;
-
+    public boolean isMapEnabled(Context c){
+        LocationManager manager = (LocationManager) getSystemService(c.LOCATION_SERVICE);
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            return false;
+        }
+        return true;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +76,37 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
         loadData();
         Button startBtn = findViewById(R.id.startRun);
         Button stopBtn = findViewById(R.id.stopRun);
+
+        if (!isMapEnabled(this)){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("GPS is turned off. Please enable GPS.")
+                    .setCancelable(false)
+                    .setPositiveButton("Retry", null)
+                    .setNegativeButton("Cancel", null);
+            AlertDialog dialog = builder.create();
+            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialogInterface) {
+                    Button posButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                    posButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if(isMapEnabled(StartRunActivity.this)){
+                                dialog.dismiss();
+                            }
+                        }
+                    });
+                    Button negButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+                    negButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            finish();
+                        }
+                    });
+                }
+            });
+            dialog.show();
+        }
 
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +165,7 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
             return;
         }
         if (Build.VERSION.SDK_INT<Build.VERSION_CODES.Q){
+            Log.d("PERMS", "requestPermissions: 1");
             EasyPermissions.requestPermissions(
                     StartRunActivity.this,
                     "You have to accept permissions",
@@ -152,6 +193,7 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
 
     @Override
     public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+        Log.d("PERMS", "requestPermissions: 2");
         TrackingUtility tU = new TrackingUtility();
         if (EasyPermissions.somePermissionPermanentlyDenied(StartRunActivity.this, perms)){
             new AppSettingsDialog.Builder(StartRunActivity.this).build().show();
@@ -163,6 +205,7 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.d("PERMS", "requestPermissions: 3");
         EasyPermissions.onRequestPermissionsResult(requestCode,permissions,grantResults,StartRunActivity.this);
     }
     //Send commands to Service class
