@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import sg.edu.np.tracknshare.BaseActivity;
 import sg.edu.np.tracknshare.CreatePostActivity;
 import sg.edu.np.tracknshare.R;
+import sg.edu.np.tracknshare.fragments.CreatePostFragment;
 import sg.edu.np.tracknshare.models.Runs;
 import sg.edu.np.tracknshare.viewholders.RunsViewHolder;
 
@@ -98,17 +99,17 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder> {
                                 for (String option:selectedSharingOptions) {
                                     if(option.equals(sharingOptions[0])){ // index 0 --> "Share to TracknShare app"
                                         Log.d("HELO","jeff");
-/*
                                         Fragment fragment = new CreatePostFragment();
                                         FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
                                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                         fragmentTransaction.replace(R.id.drawLayout,fragment);
                                         fragmentTransaction.commit();
-*/
 
+/*
                                         Intent intent = new Intent(context, CreatePostActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         context.startActivity(intent);
+*/
                                     }
                                     else{
                                         //call sharesheet API

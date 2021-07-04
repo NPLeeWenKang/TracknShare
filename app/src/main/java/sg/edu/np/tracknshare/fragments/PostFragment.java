@@ -42,13 +42,6 @@ public class PostFragment extends Fragment {
         // Required empty public constructor
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,7 +68,7 @@ public class PostFragment extends Fragment {
         }).attach();
         tabLayout.getTabAt(0).setText("general");
         tabLayout.getTabAt(1).setText("friends");
-        Log.d("Testing","Hello");
+
     }
 
 
