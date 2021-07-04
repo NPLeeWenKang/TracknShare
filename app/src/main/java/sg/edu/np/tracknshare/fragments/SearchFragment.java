@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -58,32 +60,53 @@ public class SearchFragment extends Fragment {
         recyclerView.setAdapter(mAdapter);
 
         EditText searchBar = view.findViewById(R.id.searchBar);
-        searchBar.setOnKeyListener(new View.OnKeyListener() {
+//        searchBar.setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+//                Log.d("ONKEY", "onKey: "+searchBar.getText().toString());
+//                if (!searchBar.getText().toString().equals("")){
+//                    if (keyEvent.getAction() == KeyEvent.ACTION_UP||i == KeyEvent.KEYCODE_DEL){
+//                        String name = searchBar.getText().toString();
+//                        if (i == KeyEvent.KEYCODE_DEL){
+//                            name = name.substring(0,name.length() - 1)+ "";
+//                        }
+//                        if (!name.equals("")) {
+//                            db.SearchUser(name, uList, mAdapter);
+//                        } else {
+//                            uList.clear();
+//                            mAdapter.notifyDataSetChanged();
+//                        }
+//                    } else{
+//                        uList.clear();
+//                        mAdapter.notifyDataSetChanged();
+//                    }
+//                }else{
+//                    uList.clear();
+//                    mAdapter.notifyDataSetChanged();
+//                }
+//                return false;
+//            }
+//        });
+        searchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                Log.d("ONKEY", "onKey: "+searchBar.getText().toString());
-                if (!searchBar.getText().toString().equals("")){
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
-                    if (keyEvent.getAction() == KeyEvent.ACTION_UP||i == KeyEvent.KEYCODE_DEL){
-                        String name = searchBar.getText().toString();
-                        if (i == KeyEvent.KEYCODE_DEL){
-                            name = name.substring(0,name.length() - 1)+ "";
-                        }
-                        if (!name.equals("")) {
-                            db.SearchUser(name, uList, mAdapter);
-                        } else {
-                            uList.clear();
-                            mAdapter.notifyDataSetChanged();
-                        }
-                    } else{
-                        uList.clear();
-                        mAdapter.notifyDataSetChanged();
-                    }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String str = editable.toString();
+                if (!str.equals("")){
+                    Log.d("ONKEY", "afterTextChanged: "+str);
+                    db.SearchUser(str, uList, mAdapter);
+//                            uList.clear();
+//                            mAdapter.notifyDataSetChanged();
+
                 }else{
                     uList.clear();
                     mAdapter.notifyDataSetChanged();
                 }
-                return false;
             }
         });
 
