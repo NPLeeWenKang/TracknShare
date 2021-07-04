@@ -1,20 +1,30 @@
 package sg.edu.np.tracknshare.models;
 
-import java.sql.Time;
+import java.util.ArrayList;
 
-public class Runs {
-    private int RunId;
+public class Run {
+    private String UserId;
+    private String RunId;
     private String RunDate; //to be formatted with SimpleDateFormatter class
     private long RunDuration; //timing calculated in milliseconds
     private double RunDistance;
     private double RunCalories;
     private double RunPace;
+    private ArrayList<MyLatLng> points;
 
-    public int getRunId() {
+    public String getUserId() {
+        return UserId;
+    }
+
+    public void setUserId(String userId) {
+        UserId = userId;
+    }
+
+    public String getRunId() {
         return RunId;
     }
 
-    public void setRunId(int runId) {
+    public void setRunId(String runId) {
         RunId = runId;
     }
 
@@ -59,4 +69,25 @@ public class Runs {
         //(RunDuration/1000/60) --> milliseconds to minutes
 
     }
+
+    public ArrayList<MyLatLng> getPoints() {
+        return points;
+    }
+
+    public void setPoints(ArrayList<MyLatLng> points) {
+        this.points = points;
+    }
+
+    public Run(String userId, String runId, String runDate, long runDuration, double runDistance, double runCalories, double runPace, ArrayList<MyLatLng> points) {
+        UserId = userId;
+        RunId = runId;
+        RunDate = runDate;
+        RunDuration = runDuration;
+        RunDistance = runDistance;
+        RunCalories = runCalories;
+        RunPace = runPace;
+        this.points = points;
+    }
+
+    public Run() { }
 }
