@@ -125,8 +125,10 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
                 running = false;
                 Toast.makeText(StartRunActivity.this, "Stopped Run!", Toast.LENGTH_SHORT).show();
                 saveData();
+                StorageHandler storageHandler = new StorageHandler();
 
-                Run r = new Run(auth.GetCurrentUser().getUid(), "",null,1,getDistance(),1,1,trackingDB.getAllPoints());
+                long id = storageHandler.GenerateId();
+                Run r = new Run(auth.GetCurrentUser().getUid(), "",""+id,null,1,getDistance(),1,1,trackingDB.getAllPoints());
                 runsDB.AddRun(r);
 
                 LatLngBounds.Builder builder = new LatLngBounds.Builder();
@@ -150,8 +152,7 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
                     @Override
                     public void onSnapshotReady(Bitmap snapshot) {
                         bitmap = snapshot;
-                        StorageHandler storageHandler = new StorageHandler();
-                        storageHandler.UploadRunImage(bitmap);
+                        storageHandler.UploadRunImage(id, bitmap);
                     }
                 };
 

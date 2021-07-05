@@ -25,6 +25,7 @@ import sg.edu.np.tracknshare.BaseActivity;
 import sg.edu.np.tracknshare.CreatePostActivity;
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.fragments.CreatePostFragment;
+import sg.edu.np.tracknshare.handlers.StorageHandler;
 import sg.edu.np.tracknshare.models.Run;
 import sg.edu.np.tracknshare.viewholders.RunsViewHolder;
 
@@ -53,7 +54,8 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RunsViewHolder holder, int position) {
         Run r = runs.get(position);
-        holder.MapImage.setImageResource(R.drawable.running_splash);
+        StorageHandler storageHandler = new StorageHandler();
+        storageHandler.LoadFileToApp(r.getImageId(), context, holder.MapImage);
         holder.Run_Date.setText(r.getRunDate());
         holder.Run_distance.setText(""+r.getRunDistance());
         holder.Run_calories.setText(""+r.getRunCalories());
