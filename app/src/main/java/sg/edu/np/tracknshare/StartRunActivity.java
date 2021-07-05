@@ -239,6 +239,7 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
             }
         });
     }
+
     //StepCounter codes
     public void stepCounter(){
         SensorEventListener sensorEventListener = new SensorEventListener() {

@@ -59,7 +59,6 @@ public class BaseActivity extends AppCompatActivity  implements EasyPermissions.
         Fragment searchFrag = new SearchFragment(this);
         Fragment runsFrag = new RunsFragment();
         Fragment profileFrag = new ProfileFragment();
-        Fragment startRunFrag = new StartRunFragment(this);
 
         fTransaction.replace(R.id.flFragment, postFrag);
         fTransaction.setTransition(FragmentTransaction.TRANSIT_NONE);
