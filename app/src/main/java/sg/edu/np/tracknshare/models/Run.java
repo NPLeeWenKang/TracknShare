@@ -6,11 +6,20 @@ public class Run {
     private String UserId;
     private String RunId;
     private String RunDate; //to be formatted with SimpleDateFormatter class
+    private String ImageId;
     private long RunDuration; //timing calculated in milliseconds
     private double RunDistance;
     private double RunCalories;
     private double RunPace;
     private ArrayList<MyLatLng> points;
+
+    public String getImageId() {
+        return ImageId;
+    }
+
+    public void setImageId(String imageId) {
+        ImageId = imageId;
+    }
 
     public String getUserId() {
         return UserId;
@@ -78,10 +87,11 @@ public class Run {
         this.points = points;
     }
 
-    public Run(String userId, String runId, String runDate, long runDuration, double runDistance, double runCalories, double runPace, ArrayList<MyLatLng> points) {
+    public Run(String userId, String runId, String imageId, String runDate, long runDuration, double runDistance, double runCalories, double runPace, ArrayList<MyLatLng> points) {
         UserId = userId;
         RunId = runId;
         RunDate = runDate;
+        ImageId = imageId;
         RunDuration = runDuration;
         RunDistance = runDistance;
         RunCalories = runCalories;

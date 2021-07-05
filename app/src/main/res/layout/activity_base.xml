@@ -60,7 +60,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/imageView11"
+                    android:id="@+id/settings"
                     android:layout_width="20dp"
                     android:layout_height="0dp"
                     android:layout_marginEnd="15dp"
@@ -70,7 +70,9 @@
                     app:layout_constraintDimensionRatio="h,1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/search" />
+                    app:srcCompat="@drawable/search"
+                    android:clickable="true"
+                    android:elevation="21dp"/>
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolBar"

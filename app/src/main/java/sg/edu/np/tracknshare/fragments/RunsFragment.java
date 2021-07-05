@@ -44,7 +44,7 @@ public class RunsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         RecyclerView rv = view.findViewById(R.id.rv_runs);
-        RunsAdapter runsAdapter = new RunsAdapter(getActivity().getApplicationContext(),rList,getActivity());
+        RunsAdapter runsAdapter = new RunsAdapter(view.getContext(),rList,getActivity());
         LinearLayoutManager lm = new LinearLayoutManager(getActivity().getApplicationContext());
         rv.setLayoutManager(lm);
         rv.setAdapter(runsAdapter);
