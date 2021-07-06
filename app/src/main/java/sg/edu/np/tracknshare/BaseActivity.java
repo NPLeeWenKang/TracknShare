@@ -125,6 +125,7 @@ public class BaseActivity extends AppCompatActivity  implements EasyPermissions.
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("SETTINGS", "onClick: Settings");
                 Intent intent = new Intent(BaseActivity.this, SettingsActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
