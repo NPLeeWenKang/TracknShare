@@ -121,7 +121,7 @@ public class BaseActivity extends AppCompatActivity  implements EasyPermissions.
             }
         });
 
-        ImageView settingsBtn = findViewById(R.id.settings);
+        ImageView settingsBtn = findViewById(R.id.save_profile);
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

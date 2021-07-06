@@ -115,7 +115,19 @@ public class AuthHandler {
                     }
                 });
     }
-
+    public void UpdatePassword(String newPassword){
+        FirebaseUser currentUser =  mAuth.getCurrentUser();
+        currentUser.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.d("UPDATEPASSWORD", "User password updated.");
+                } else {
+                    Log.d("UPDATEPASSWORD", "FAIL "+task.getException());
+                }
+            }
+        });
+    }
     public void SignOut(){
         mAuth.signOut();
     }

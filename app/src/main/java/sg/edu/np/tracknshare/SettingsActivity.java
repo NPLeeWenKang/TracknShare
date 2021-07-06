@@ -36,7 +36,9 @@ public class SettingsActivity extends AppCompatActivity {
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent browserIntent = new Intent(SettingsActivity.this, ChangePasswordActivity.class);
+                startActivity(browserIntent);
+                overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
             }
         });
         ConstraintLayout viewPrivacy = findViewById(R.id.view_privacy);
