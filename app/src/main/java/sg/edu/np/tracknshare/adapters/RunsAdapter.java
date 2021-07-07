@@ -25,20 +25,20 @@ import sg.edu.np.tracknshare.BaseActivity;
 import sg.edu.np.tracknshare.CreatePostActivity;
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.fragments.CreatePostFragment;
-import sg.edu.np.tracknshare.models.Runs;
+import sg.edu.np.tracknshare.models.Run;
 import sg.edu.np.tracknshare.viewholders.RunsViewHolder;
 
 public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder> {
     FragmentActivity fragmentActivity; //getActivity() object passed from RunFragment to builder AlertDialog
     Context context;
-    ArrayList<Runs> runs;
+    ArrayList<Run> runs;
     ArrayList<String> selectedSharingOptions;
     /*sharing options will be added to this list
    as list cannot be returned in AlertDialog.builder method*/
 
     String[] sharingOptions = new String[]{"Share to TracknShare app","Share to other apps"};
     //default options in alertDialog
-    public RunsAdapter(Context c,ArrayList<Runs> runsArrayList,FragmentActivity fActivity){
+    public RunsAdapter(Context c,ArrayList<Run> runsArrayList,FragmentActivity fActivity){
         context = c;
         runs = runsArrayList;
         fragmentActivity = fActivity;
@@ -52,7 +52,7 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RunsViewHolder holder, int position) {
-        Runs r = runs.get(position);
+        Run r = runs.get(position);
         holder.MapImage.setImageResource(R.drawable.running_splash);
         holder.Run_Date.setText(r.getRunDate());
         holder.Run_distance.setText(""+r.getRunDistance());
@@ -94,25 +94,28 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder> {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         if(selectedSharingOptions.size() > 0){
-                            Log.d("HELO","ghd");
+
                             if(!selectedSharingOptions.isEmpty()){
+                                int shareCount = 0;
                                 for (String option:selectedSharingOptions) {
                                     if(option.equals(sharingOptions[0])){ // index 0 --> "Share to TracknShare app"
-                                        Log.d("HELO","jeff");
                                         Fragment fragment = new CreatePostFragment();
                                         FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
                                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                         fragmentTransaction.replace(R.id.drawLayout,fragment);
                                         fragmentTransaction.commit();
+                                        shareCount = 1;
 
-/*
-                                        Intent intent = new Intent(context, CreatePostActivity.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        context.startActivity(intent);
-*/
                                     }
                                     else{
-                                        //call sharesheet API
+                                        if(shareCount == 1){
+                                            //delay sharesheet API callback after creating in-app post -> Caption from post will be saved to sharedPref
+
+                                        }
+                                        else{
+                                            //call sharesheet API directly : manually type his own caption
+                                        }
+
                                     }
                                 }
                             }
