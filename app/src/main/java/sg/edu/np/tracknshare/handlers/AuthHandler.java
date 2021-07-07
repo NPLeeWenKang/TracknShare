@@ -128,6 +128,22 @@ public class AuthHandler {
             }
         });
     }
+    public void SendResetEmail(){
+        FirebaseUser currentUser =  mAuth.getCurrentUser();
+        String emailAddress = currentUser.getEmail() ;
+
+        mAuth.sendPasswordResetEmail(emailAddress)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("EMAIL", "Email sent.");
+                        } else{
+                            Log.d("EMAIL", ""+task.getException());
+                        }
+                    }
+                });
+    }
     public void SignOut(){
         mAuth.signOut();
     }

@@ -1,15 +1,21 @@
 package sg.edu.np.tracknshare;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+import sg.edu.np.tracknshare.handlers.AuthHandler;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -36,9 +42,35 @@ public class SettingsActivity extends AppCompatActivity {
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent browserIntent = new Intent(SettingsActivity.this, ChangePasswordActivity.class);
-                startActivity(browserIntent);
-                overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
+                AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+                builder.setMessage("Are you sure?")
+                        .setCancelable(false)
+                        .setPositiveButton("Reset Password", null)
+                        .setNegativeButton("Cancel", null);
+                AlertDialog dialog = builder.create();
+                dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialogInterface) {
+                        Button posButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                        posButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                AuthHandler auth = new AuthHandler(SettingsActivity.this);
+                                auth.SendResetEmail();
+                                Toast.makeText(SettingsActivity.this, "Email Sent", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+                        });
+                        Button negButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+                        negButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                            }
+                        });
+                    }
+                });
+                dialog.show();
             }
         });
         ConstraintLayout viewPrivacy = findViewById(R.id.view_privacy);
