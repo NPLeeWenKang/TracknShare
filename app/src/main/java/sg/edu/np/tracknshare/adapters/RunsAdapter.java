@@ -25,6 +25,7 @@ import sg.edu.np.tracknshare.BaseActivity;
 import sg.edu.np.tracknshare.CreatePostActivity;
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.fragments.CreatePostFragment;
+import sg.edu.np.tracknshare.handlers.StorageHandler;
 import sg.edu.np.tracknshare.models.Run;
 import sg.edu.np.tracknshare.viewholders.RunsViewHolder;
 
@@ -53,7 +54,8 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RunsViewHolder holder, int position) {
         Run r = runs.get(position);
-        holder.MapImage.setImageResource(R.drawable.running_splash);
+        StorageHandler storageHandler = new StorageHandler();
+        storageHandler.LoadFileToApp(r.getImageId(), context, holder.MapImage);
         holder.Run_Date.setText(r.getRunDate());
         holder.Run_distance.setText(""+r.getRunDistance());
         holder.Run_calories.setText(""+r.getRunCalories());
@@ -94,28 +96,25 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder> {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         if(selectedSharingOptions.size() > 0){
-
+                            Log.d("HELO","ghd");
                             if(!selectedSharingOptions.isEmpty()){
-                                int shareCount = 0;
                                 for (String option:selectedSharingOptions) {
                                     if(option.equals(sharingOptions[0])){ // index 0 --> "Share to TracknShare app"
+                                        Log.d("HELO","jeff");
                                         Fragment fragment = new CreatePostFragment();
                                         FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
                                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                         fragmentTransaction.replace(R.id.drawLayout,fragment);
                                         fragmentTransaction.commit();
-                                        shareCount = 1;
 
+/*
+                                        Intent intent = new Intent(context, CreatePostActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        context.startActivity(intent);
+*/
                                     }
                                     else{
-                                        if(shareCount == 1){
-                                            //delay sharesheet API callback after creating in-app post -> Caption from post will be saved to sharedPref
-
-                                        }
-                                        else{
-                                            //call sharesheet API directly : manually type his own caption
-                                        }
-
+                                        //call sharesheet API
                                     }
                                 }
                             }

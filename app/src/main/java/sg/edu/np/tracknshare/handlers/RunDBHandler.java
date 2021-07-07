@@ -35,6 +35,7 @@ public class RunDBHandler {
         context = c;
     }
     public void AddRun(Run r){
+        Log.d("GENERATEID", "AddRun: "+r.getImageId());
         Calendar calendar = Calendar.getInstance();
         long timeMilli = calendar.getTimeInMillis();
         r.setRunId(""+timeMilli);

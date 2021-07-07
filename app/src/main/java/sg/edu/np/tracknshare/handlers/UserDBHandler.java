@@ -48,11 +48,12 @@ public class UserDBHandler {
                             u.setFriendsId(null);
                             uList.add(u);
                         }
-                        Log.d("KEYCODE", "onKey: UPDATE");
+                        Log.d("KEYCODE", "onKey: UPDATE "+username);
                         Log.d("firebase", String.valueOf(task.getResult().getValue()));
                         mAdapter.notifyDataSetChanged();
+                    }else{
+                        mAdapter.notifyDataSetChanged();
                     }
-
                 }
                 else {
                     Log.d("firebase", "Error getting data", task.getException());

@@ -72,7 +72,7 @@ public class TrackingService extends Service {
     private PendingIntent getMainActivityPendingIntent(){
         Intent intent = new Intent(TrackingService.this, StartRunActivity.class);
         intent.setAction(Constants.ACTION_SHOW_TRACKING_FRAGMENT);
-        PendingIntent pendingIntent = PendingIntent.getActivity(TrackingService.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         return pendingIntent;
     }
 
