@@ -55,6 +55,7 @@ public class TrackingService extends Service {
             String action = intent.getAction();
             if(action.equals(Constants.ACTION_START_OR_RESUME_SERVICE)){
                 running = true;
+                db.delelteAll();
                 startLocationTracking();
                 startForegroundService();
                 Log.e("SERVICE", "STARTED SERVICE");
@@ -109,8 +110,6 @@ public class TrackingService extends Service {
         locationRequest.setInterval(5000);
         locationRequest.setFastestInterval(2000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        db.delelteAll();
 
         client.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
     }

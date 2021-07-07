@@ -33,8 +33,8 @@ public class TrackingDBHandler extends SQLiteOpenHelper {
         String CREATE_USERS_TABLE = "CREATE TABLE " + TABLE_USERS
                 + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + COLUMN_LAT + " DOUBLE,"
-                + COLUMN_LONG + " DOUBLE"
+                + COLUMN_LAT + " REAL,"
+                + COLUMN_LONG + " REAL"
                 + ")";
 
         db.execSQL(CREATE_USERS_TABLE);
@@ -45,13 +45,16 @@ public class TrackingDBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
     public void delelteAll(){
-        Log.e("Location", "delete");
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_USERS, null, null);
         db.close();
+
+        Log.e("Location", "delete");
+        ArrayList<MyLatLng> pList = getAllPoints();
+        Log.e("Location", "delete "+pList.size());
     }
     public void addRun(double lat, double longd) {
-        Log.e("Location", "add");
+        Log.e("Location", "add"+lat+"-"+longd);
         ContentValues values = new ContentValues();
         values.put(COLUMN_LAT, lat);
         values.put(COLUMN_LONG, longd);
@@ -68,9 +71,10 @@ public class TrackingDBHandler extends SQLiteOpenHelper {
         ArrayList<MyLatLng> pList = new ArrayList<>();
         if (cursor.moveToFirst()){
             do{
-                Log.e("Location", cursor.getString(0)+"-"+cursor.getString(1)+"-"+cursor.getString(2));
-                pList.add(new MyLatLng(Double.parseDouble(cursor.getString(1)),Double.parseDouble(cursor.getString(2))));
+                Log.e("Location", cursor.getString(0)+"-"+cursor.getDouble(1)+"-"+cursor.getDouble(2));
+                pList.add(new MyLatLng(cursor.getDouble(1), cursor.getDouble(2)));
             }while(cursor.moveToNext());
+            pList.remove(0);
         }
         cursor.close();
         db.close();
