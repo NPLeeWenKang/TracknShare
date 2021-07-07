@@ -34,7 +34,9 @@ public class SettingsActivity extends AppCompatActivity {
         changeProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(SettingsActivity.this, ChangeProfileActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
             }
         });
         ConstraintLayout changePassword = findViewById(R.id.change_password);
