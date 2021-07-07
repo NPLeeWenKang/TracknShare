@@ -11,6 +11,7 @@
     <color name="purple">#9800FF</color>
     <color name="text">#FF000000</color>
     <color name="primaryColor">#5c6bc0</color>
+    <color name = "lime">#08c440</color>
     <color name="rust">#D97054</color>
     <color name="drab">#324755</color>
     <color name="sage">#97bcbf</color>
