@@ -109,7 +109,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/splash_button"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
         android:background="@color/rust"
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -28,7 +28,6 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(toolBar);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Account Creation");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         ConstraintLayout changeProfile = findViewById(R.id.change_profile);
