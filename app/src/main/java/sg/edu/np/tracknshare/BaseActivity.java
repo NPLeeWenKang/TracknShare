@@ -11,6 +11,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,10 +38,17 @@ import sg.edu.np.tracknshare.handlers.AuthHandler;
 
 public class BaseActivity extends AppCompatActivity  implements EasyPermissions.PermissionCallbacks{
     public ActionBarDrawerToggle toggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
+
+        TrackingUtility tU = new TrackingUtility();
+        if (tU.isMyServiceRunning(TrackingService.class, this)){
+            Intent intent = new Intent(this, StartRunActivity.class);
+            startActivity(intent);
+        }
 
         // Initiating navigation drawer
         Toolbar toolBar = findViewById(R.id.toolBar);

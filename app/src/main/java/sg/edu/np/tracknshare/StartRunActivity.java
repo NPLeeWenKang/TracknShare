@@ -1,5 +1,7 @@
 package sg.edu.np.tracknshare;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,9 +17,11 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -47,7 +51,7 @@ import sg.edu.np.tracknshare.models.Run;
 //Step Counting - records steps per run and saves it to the local DB
 //Timer - The timer runs when the user starts the run and stops when the user clicks stop run.
 
-public class StartRunActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks{
+public class StartRunActivity extends AppCompatActivity{
 
     private SensorManager sensorManager = null;
     int seconds = 0;
@@ -55,6 +59,7 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
     int previousTotalSteps = 0;
     int totalSteps = 0;
     int currentSteps;
+    private AlertDialog dialog;
     public boolean isMapEnabled(Context c){
         LocationManager manager = (LocationManager) getSystemService(c.LOCATION_SERVICE);
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
@@ -67,7 +72,14 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_run);
         Log.e("Started Main Activity", "Done");
-        requestPermissions();
+        //requestPermissions();
+
+        TrackingUtility tU = new TrackingUtility();
+        Log.d("PERMS", "HasPerms1: "+tU.HasPerms(this));
+        if (!tU.HasPerms(this)){
+            createDialogForPermission();
+        }
+
 
         AuthHandler auth = new AuthHandler(this);
         RunDBHandler runsDB = new RunDBHandler(this);
@@ -107,11 +119,16 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
             dialog.show();
         }
 
+        if (!tU.isMyServiceRunning(TrackingService.class, StartRunActivity.this)){
+            startBtn.setText("Start");
+        } else{
+            startBtn.setText("Stop");
+        }
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("STARRUN", "onClick: "+startBtn.getText().toString());
-                if (startBtn.getText().toString().equals("Start")){
+                if (!tU.isMyServiceRunning(TrackingService.class, StartRunActivity.this)){
                     startBtn.setText("Stop");
                     sendCommandToService(Constants.ACTION_START_OR_RESUME_SERVICE);
                     running = true;
@@ -189,54 +206,52 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
             }
         });
     }
-    private void requestPermissions(){
-        TrackingUtility tU = new TrackingUtility();
-        if(tU.HasPermissions(StartRunActivity.this)){
-            return;
-        }
-        if (Build.VERSION.SDK_INT<Build.VERSION_CODES.Q){
-            Log.d("PERMS", "requestPermissions: 1");
-            EasyPermissions.requestPermissions(
-                    StartRunActivity.this,
-                    "You have to accept permissions",
-                    0,
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACTIVITY_RECOGNITION
-            );
-        }else{
-            EasyPermissions.requestPermissions(
-                    StartRunActivity.this,
-                    "You have to accept permissions",
-                    0,
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
-            );
-        }
-    }
 
     @Override
-    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
-        Log.d("PERMS", "requestPermissions: 2");
-        TrackingUtility tU = new TrackingUtility();
-        if (EasyPermissions.somePermissionPermanentlyDenied(StartRunActivity.this, perms)){
-            new AppSettingsDialog.Builder(StartRunActivity.this).build().show();
-        }else{
-            requestPermissions();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.d("PERMS", "requestPermissions: 3");
-        EasyPermissions.onRequestPermissionsResult(requestCode,permissions,grantResults,StartRunActivity.this);
+        TrackingUtility tU = new TrackingUtility();
+        if (tU.HasPerms(StartRunActivity.this)){
+            dialog.dismiss();
+        } else if (tU.PermsDeniedPermemently(StartRunActivity.this)){
+            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            Uri uri = Uri.fromParts("package", getPackageName(), null);
+            intent.setData(uri);
+            startActivity(intent);
+        }
+    }
+    public void createDialogForPermission(){
+        Log.d("PERMS", "CREAYE");
+        TrackingUtility tU = new TrackingUtility();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(StartRunActivity.this);
+        builder.setTitle("Location permissions needed.")
+                .setMessage("Click \"Accept\" to allow location permissions.")
+                .setCancelable(false)
+                .setPositiveButton("Accept", null)
+                .setNegativeButton("Cancel", null);
+        dialog = builder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button posButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                posButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        tU.requestPermission(StartRunActivity.this);
+                    }
+                });
+                Button negButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+                negButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        finish();
+                    }
+                });
+            }
+        });
+        dialog.show();
     }
     //Send commands to Service class
     public void sendCommandToService(String action){
