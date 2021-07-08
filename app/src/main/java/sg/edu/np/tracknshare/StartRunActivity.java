@@ -75,7 +75,6 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
 
         loadData();
         Button startBtn = findViewById(R.id.startRun);
-        Button stopBtn = findViewById(R.id.stopRun);
 
         if (!isMapEnabled(this)){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -111,52 +110,82 @@ public class StartRunActivity extends AppCompatActivity implements EasyPermissio
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendCommandToService(Constants.ACTION_START_OR_RESUME_SERVICE);
-                running = true;
-                runTimer();
-                stepCounter();
-                Toast.makeText(StartRunActivity.this, "Start Run!", Toast.LENGTH_SHORT).show();
-            }
-        });
-        stopBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendCommandToService(Constants.ACTION_STOP_SERVICE);
-                running = false;
-                Toast.makeText(StartRunActivity.this, "Stopped Run!", Toast.LENGTH_SHORT).show();
-                saveData();
-                StorageHandler storageHandler = new StorageHandler();
+                Log.d("STARRUN", "onClick: "+startBtn.getText().toString());
+                if (startBtn.getText().toString().equals("Start")){
+                    startBtn.setText("Stop");
+                    sendCommandToService(Constants.ACTION_START_OR_RESUME_SERVICE);
+                    running = true;
+                    runTimer();
+                    stepCounter();
+                    Toast.makeText(StartRunActivity.this, "Start Run!", Toast.LENGTH_SHORT).show();
+                } else{
+                    sendCommandToService(Constants.ACTION_STOP_SERVICE);
+                    running = false;
+                    Toast.makeText(StartRunActivity.this, "Stopped Run!", Toast.LENGTH_SHORT).show();
+                    saveData();
 
-                long id = storageHandler.GenerateId();
-                Run r = new Run(auth.GetCurrentUser().getUid(), "",""+id,null,1,getDistance(),1,1,trackingDB.getAllPoints());
-                runsDB.AddRun(r);
-
-                LatLngBounds.Builder builder = new LatLngBounds.Builder();
-
-                ArrayList<MyLatLng> rList = trackingDB.getAllPoints();
-                for (int i = 0; i < rList.size() - 1; i++) {
-                    LatLng latLng = new LatLng(rList.get(i).latitude, rList.get(i).longitude);// in this line put you lat and long
-                    builder.include(latLng);  //add latlng to builder
+                    AlertDialog.Builder builder = new AlertDialog.Builder(StartRunActivity.this);
+                    builder.setMessage("Are you sure you want to stop?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", null)
+                            .setNegativeButton("No", null);
+                    AlertDialog dialog = builder.create();
+                    dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                        @Override
+                        public void onShow(DialogInterface dialogInterface) {
+                            Button posButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                            posButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    dialog.dismiss();
+                                    Intent intent = new Intent(StartRunActivity.this, CreateRunActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+                            Button negButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+                            negButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    dialog.dismiss();
+                                }
+                            });
+                        }
+                    });
+                    dialog.show();
+//                    StorageHandler storageHandler = new StorageHandler();
+//
+//                    long id = storageHandler.GenerateId();
+//                    Run r = new Run(auth.GetCurrentUser().getUid(), "",""+id,null,1,getDistance(),1,1,trackingDB.getAllPoints());
+//                    runsDB.AddRun(r);
+//
+//                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
+//
+//                    ArrayList<MyLatLng> rList = trackingDB.getAllPoints();
+//                    for (int i = 0; i < rList.size() - 1; i++) {
+//                        LatLng latLng = new LatLng(rList.get(i).latitude, rList.get(i).longitude);// in this line put you lat and long
+//                        builder.include(latLng);  //add latlng to builder
+//                    }
+//
+//                    LatLngBounds bounds = builder.build();
+//
+//                    int padding = 0; // offset from edges of the map in pixels
+//                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+//
+//                    MapsFragment.map.moveCamera(cu);
+//
+//                    GoogleMap.SnapshotReadyCallback callback = new GoogleMap.SnapshotReadyCallback() {
+//                        Bitmap bitmap;
+//
+//                        @Override
+//                        public void onSnapshotReady(Bitmap snapshot) {
+//                            bitmap = snapshot;
+//                            storageHandler.UploadRunImage(id, bitmap);
+//                        }
+//                    };
+//
+//                    MapsFragment.map.snapshot(callback);
                 }
 
-                LatLngBounds bounds = builder.build();
-
-                int padding = 0; // offset from edges of the map in pixels
-                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-
-                MapsFragment.map.moveCamera(cu);
-
-                GoogleMap.SnapshotReadyCallback callback = new GoogleMap.SnapshotReadyCallback() {
-                    Bitmap bitmap;
-
-                    @Override
-                    public void onSnapshotReady(Bitmap snapshot) {
-                        bitmap = snapshot;
-                        storageHandler.UploadRunImage(id, bitmap);
-                    }
-                };
-
-                MapsFragment.map.snapshot(callback);
             }
         });
     }

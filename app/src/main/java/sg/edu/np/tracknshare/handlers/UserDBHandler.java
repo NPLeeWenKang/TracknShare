@@ -73,14 +73,16 @@ public class UserDBHandler {
                         User u = ds.getValue(User.class);
                         u.setFriendsId(null);
                         TextView name = ((Activity) context).findViewById(R.id.profileName);
-                        name.setText(u.getUserName());
-                        TextView accountCreationDate = ((Activity) context).findViewById(R.id.accountCreationDate);
-                        if (accountCreationDate == null){
-                            accountCreationDate.setText("No date recoreded.");
-                        }else{
-                            accountCreationDate.setText(u.getAccountCreationDate());
+                        if (name != null){
+                            name.setText(u.getUserName());
+                            TextView accountCreationDate = ((Activity) context).findViewById(R.id.accountCreationDate);
+                            if (accountCreationDate == null){
+                                accountCreationDate.setText("No date recoreded.");
+                            }else{
+                                accountCreationDate.setText(u.getAccountCreationDate());
+                            }
+                            Log.d("FIREBASE123", "Error getting data"+ u.getUserName());
                         }
-                        Log.d("FIREBASE123", "Error getting data"+ u.getUserName());
                     }
                 }
                 else {

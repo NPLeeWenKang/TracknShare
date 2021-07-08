@@ -27,7 +27,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:title=" " />
+                app:title="Settings"
+                app:titleTextColor="@color/white"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -58,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:text="Change Profile Details"
+            android:text="Edit Profile Details"
             app:layout_constraintBottom_toBottomOf="@+id/imageView13"
             app:layout_constraintStart_toEndOf="@+id/imageView13"
             app:layout_constraintTop_toTopOf="@+id/imageView13" />
@@ -88,7 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:text="Change Password"
+            android:text="Request Password Reset Email"
             app:layout_constraintBottom_toBottomOf="@+id/imageView13"
             app:layout_constraintStart_toEndOf="@+id/imageView13"
             app:layout_constraintTop_toTopOf="@+id/imageView13" />

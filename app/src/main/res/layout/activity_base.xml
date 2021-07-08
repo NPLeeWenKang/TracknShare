@@ -61,18 +61,22 @@
 
                 <ImageView
                     android:id="@+id/save_profile"
-                    android:layout_width="20dp"
+                    android:layout_width="40dp"
                     android:layout_height="0dp"
-                    android:layout_marginEnd="15dp"
+                    android:layout_marginEnd="5dp"
                     android:backgroundTint="@color/white"
-                    app:tint="@color/white"
+                    android:clickable="true"
+                    android:elevation="21dp"
+                    android:paddingStart="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="h,1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/search"
-                    android:clickable="true"
-                    android:elevation="21dp"/>
+                    app:srcCompat="@drawable/settings"
+                    app:tint="@color/white" />
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolBar"

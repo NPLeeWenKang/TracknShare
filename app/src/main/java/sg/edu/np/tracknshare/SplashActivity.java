@@ -44,6 +44,7 @@ public class SplashActivity extends AppCompatActivity {
                 editor.putBoolean("firstTimeLogin",false);
                 editor.apply();
                 startActivity(intent);
+                overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
             }
         });
     }
