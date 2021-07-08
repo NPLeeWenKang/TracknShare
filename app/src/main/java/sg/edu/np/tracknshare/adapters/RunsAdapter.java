@@ -3,10 +3,16 @@ package sg.edu.np.tracknshare.adapters;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.FragmentManagerNonConfig;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +25,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.storage.StorageReference;
+
 import java.util.ArrayList;
 
 import sg.edu.np.tracknshare.BaseActivity;
@@ -29,7 +37,7 @@ import sg.edu.np.tracknshare.handlers.StorageHandler;
 import sg.edu.np.tracknshare.models.Run;
 import sg.edu.np.tracknshare.viewholders.RunsViewHolder;
 
-public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder> {
+public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder>  {
     FragmentActivity fragmentActivity; //getActivity() object passed from RunFragment to builder AlertDialog
     Context context;
     ArrayList<Run> runs;
@@ -107,14 +115,17 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder> {
                                         fragmentTransaction.replace(R.id.drawLayout,fragment);
                                         fragmentTransaction.commit();
 
-/*
-                                        Intent intent = new Intent(context, CreatePostActivity.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        context.startActivity(intent);
-*/
                                     }
                                     else{
+//                                        String uri = getUri(r.getImageId());
                                         //call sharesheet API
+                                        SharedPreferences sharedPref =context.getSharedPreferences("ImageFile",Context.MODE_PRIVATE);
+                                        String imageUri = sharedPref.getString("name","");
+                                        Intent shareIntent = new Intent();
+                                        shareIntent.setAction(Intent.ACTION_SEND);
+                                        shareIntent.setType("image/jpeg");
+                                        shareIntent.putExtra(Intent.EXTRA_STREAM,imageUri);
+                                        context.startActivity(Intent.createChooser(shareIntent,"Post Image"));
                                     }
                                 }
                             }

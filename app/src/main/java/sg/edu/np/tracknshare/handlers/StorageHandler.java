@@ -1,6 +1,7 @@
 package sg.edu.np.tracknshare.handlers;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
@@ -30,6 +31,9 @@ public class StorageHandler {
     public void LoadFileToApp(String imageId, Context c, ImageView imageRef){
         Log.d("GENERATEID", "LoadFileToApp: "+imageId);
         StorageReference imagesRef = storageRef.child("images/"+imageId);
+        SharedPreferences.Editor editor = c.getSharedPreferences("ImageFile",Context.MODE_PRIVATE).edit();
+        editor.putString("name",imagesRef.getDownloadUrl().toString());
+        editor.apply();
         imagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
         {
             @Override
@@ -38,9 +42,18 @@ public class StorageHandler {
                 Glide.with(c)
                         .load(downloadUrl.toString())
                         .into(imageRef);
+
             }
         });
+
     }
+/*
+    public String getUri(String ImageId){
+        String uri = imagesRef.toString();
+        return uri;
+    }
+*/
+
     public long GenerateId(){
         Calendar calendar = Calendar.getInstance();
         long timeMilli = calendar.getTimeInMillis();
