@@ -24,6 +24,10 @@ import com.google.firebase.database.core.view.Change;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import sg.edu.np.tracknshare.handlers.AuthHandler;
+import sg.edu.np.tracknshare.handlers.UserDBHandler;
+import sg.edu.np.tracknshare.models.User;
+
 public class ChangeProfileActivity extends AppCompatActivity {
 
     @Override
@@ -36,6 +40,8 @@ public class ChangeProfileActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        loadData();
 
         ImageView imageView = findViewById(R.id.add_profile_image);
         ActivityResultLauncher<Intent> myActivityResultLauncher = registerForActivityResult(
@@ -69,7 +75,15 @@ public class ChangeProfileActivity extends AppCompatActivity {
                 myActivityResultLauncher.launch(intent);
             }
         });
-
+        ImageView settingsBtn = findViewById(R.id.save_profile);
+        settingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("SETTINGS", "onClick: Settings");
+                finish();
+                overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
+            }
+        });
     }
 
     @Override
@@ -89,5 +103,11 @@ public class ChangeProfileActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.end_enter, R.anim.end_exit);
+    }
+    public void loadData(){
+        AuthHandler auth = new AuthHandler(ChangeProfileActivity.this);
+        UserDBHandler db = new UserDBHandler(ChangeProfileActivity.this);
+
+        db.GetUserDetailsIntoSettings(auth.GetCurrentUser().getUid(), ChangeProfileActivity.this);
     }
 }

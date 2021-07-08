@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -90,5 +91,36 @@ public class UserDBHandler {
                 }
             }
         });
+    }
+
+    public void GetUserDetailsIntoSettings(String id, Context context){
+        Log.d("FIREBASE123", "GetUserDetails: "+id);
+        DatabaseReference dbRef = database.getReference("/user");
+        dbRef.child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().exists()){
+                        DataSnapshot ds = task.getResult();
+                        User u = ds.getValue(User.class);
+                        u.setFriendsId(null);
+                        EditText name = ((Activity) context).findViewById(R.id.edit_username);
+                        EditText description = ((Activity) context).findViewById(R.id.edit_description);
+                        if (name != null && description != null){
+                            name.setText(u.getUserName());
+                            description.setText(u.getEmail());
+                            Log.d("FIREBASE123", "Error getting data"+ u.getUserName());
+                        }
+                    }
+                }
+                else {
+                    Log.d("FIREBASE123", "Error getting data", task.getException());
+                }
+            }
+        });
+    }
+    public void UpdateUserDetails(User u){
+        DatabaseReference dbRef = database.getReference("/user");
+        dbRef.child(u.getId()).setValue(u);
     }
 }
