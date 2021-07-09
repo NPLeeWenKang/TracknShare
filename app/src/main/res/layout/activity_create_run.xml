@@ -83,8 +83,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Pace"
-        app:layout_constraintStart_toStartOf="@+id/textView20"
-        app:layout_constraintTop_toBottomOf="@+id/textView20" />
+        app:layout_constraintStart_toStartOf="@+id/create_run_time"
+        app:layout_constraintTop_toBottomOf="@+id/create_run_time" />
 
     <TextView
         android:id="@+id/textView16"
@@ -92,8 +92,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Distance"
-        app:layout_constraintStart_toStartOf="@+id/textView19"
-        app:layout_constraintTop_toBottomOf="@+id/textView19" />
+        app:layout_constraintStart_toStartOf="@+id/create_run_date"
+        app:layout_constraintTop_toBottomOf="@+id/create_run_date" />
 
     <TextView
         android:id="@+id/textView17"
@@ -110,11 +110,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Calories burnt"
-        app:layout_constraintStart_toStartOf="@+id/textView21"
-        app:layout_constraintTop_toBottomOf="@+id/textView21" />
+        app:layout_constraintStart_toStartOf="@+id/create_run_distance"
+        app:layout_constraintTop_toBottomOf="@+id/create_run_distance" />
 
     <TextView
-        android:id="@+id/textView19"
+        android:id="@+id/create_run_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -122,7 +122,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
     <TextView
-        android:id="@+id/textView20"
+        android:id="@+id/create_run_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -130,7 +130,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
     <TextView
-        android:id="@+id/textView21"
+        android:id="@+id/create_run_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -138,7 +138,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
     <TextView
-        android:id="@+id/textView22"
+        android:id="@+id/create_run_pace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -146,7 +146,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
     <TextView
-        android:id="@+id/textView23"
+        android:id="@+id/create_run_calories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"

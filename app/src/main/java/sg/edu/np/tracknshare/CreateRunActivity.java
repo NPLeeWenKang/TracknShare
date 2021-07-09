@@ -17,6 +17,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -45,17 +46,28 @@ public class CreateRunActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        TextView dateText = findViewById(R.id.create_run_date);
+        TextView timeText = findViewById(R.id.create_run_time);
+        TextView distanceText = findViewById(R.id.create_run_distance);
+        TextView paceText = findViewById(R.id.create_run_pace);
+        TextView caloriesText = findViewById(R.id.create_run_calories);
+
+        dateText.setText("NULL");
+        timeText.setText("NULL");
+        distanceText.setText(String.format("%.4f", getDistance()));
+        paceText.setText("NULL");
+        caloriesText.setText("NULL");
+
         ImageView settingsBtn = findViewById(R.id.save_profile);
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                takeSnapShot();
+                performSave();
             }
         });
 
     }
-    public void takeSnapShot(){
+    public void performSave(){
         StorageHandler storageHandler = new StorageHandler();
         AuthHandler auth = new AuthHandler(CreateRunActivity.this);
         TrackingDBHandler trackingDB = new TrackingDBHandler(CreateRunActivity.this);

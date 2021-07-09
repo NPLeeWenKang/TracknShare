@@ -51,7 +51,7 @@ public class RunDBHandler {
                     if (task.getResult().exists()){
                         for (DataSnapshot ds : task.getResult().getChildren()){
                             Run r = ds.getValue(Run.class);
-                            rList.add(r);
+                            rList.add(0, r);
                         }
                         Log.d("KEYCODE", "onKey: UPDATE");
                         Log.d("firebase", String.valueOf(task.getResult().getValue()));
