@@ -1,14 +1,11 @@
 package sg.edu.np.tracknshare.viewholders;
 
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import sg.edu.np.tracknshare.R;
 
@@ -25,7 +22,8 @@ public class RunsViewHolder extends RecyclerView.ViewHolder {
     public TextView Run_pace;
     public TextView Header_calories;
     public TextView Run_calories;
-    public ImageView Post_Button;
+    public ImageView Share_button;
+    public ImageView post_button;
     public RunsViewHolder(@NonNull View itemView) {
         super(itemView);
         view = itemView;
@@ -40,6 +38,7 @@ public class RunsViewHolder extends RecyclerView.ViewHolder {
         Run_pace = itemView.findViewById(R.id.run_pace);
         Header_calories = itemView.findViewById(R.id.header_calories);
         Run_calories = itemView.findViewById(R.id.run_calories);
-        Post_Button = itemView.findViewById(R.id.post);
+        Share_button = itemView.findViewById(R.id.share);
+        post_button = itemView.findViewById(R.id.post_logo);
     }
 }

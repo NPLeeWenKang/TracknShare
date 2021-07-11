@@ -125,37 +125,34 @@
         app:layout_constraintTop_toBottomOf="@+id/header_pace" />
 
     <ImageView
-        android:id="@+id/post"
+        android:id="@+id/share"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="@+id/run_image"
-        app:layout_constraintTop_toTopOf="@+id/textView19"
+        app:layout_constraintTop_toTopOf="@+id/post_title"
         app:srcCompat="@drawable/share" />
 
     <TextView
-        android:id="@+id/textView19"
+        android:id="@+id/post_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:paddingTop="7dp"
+        android:paddingTop="8dp"
         android:paddingEnd="2dp"
-        android:paddingBottom="7dp"
+        android:paddingBottom="8dp"
         android:text="post"
         android:textAllCaps="true"
         android:textSize="15sp"
-        app:layout_constraintStart_toEndOf="@+id/header_date"
+        app:layout_constraintEnd_toStartOf="@+id/post_logo"
         app:layout_constraintTop_toTopOf="@+id/header_date" />
 
     <ImageView
-        android:id="@+id/post_title"
+        android:id="@+id/post_logo"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@id/textView19"
-        app:layout_constraintStart_toEndOf="@+id/textView19"
-        app:layout_constraintTop_toTopOf="@+id/textView19"
-        app:layout_constraintVertical_bias="0.266"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toStartOf="@+id/share"
+        app:layout_constraintTop_toTopOf="@+id/post_title"
         app:srcCompat="@drawable/writing" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
