@@ -90,7 +90,7 @@ public class TrackingService extends Service {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(TrackingService.this, Constants.NOTIFICATION_CHANNEL_ID)
                     .setAutoCancel(false)
                     .setOngoing(true)
-                    .setSmallIcon(R.drawable.common_google_signin_btn_icon_disabled)
+                    .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle("Live coordinates of current location")
                     .setContentText("Location is received in the background.")
                     .setContentIntent(getMainActivityPendingIntent());
@@ -110,7 +110,6 @@ public class TrackingService extends Service {
         locationRequest.setInterval(5000);
         locationRequest.setFastestInterval(2000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
         client.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
     }
 }
