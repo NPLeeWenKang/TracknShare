@@ -3,20 +3,20 @@ package sg.edu.np.tracknshare.adapters;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.FragmentManagerNonConfig;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.provider.MediaStore;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -26,7 +26,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.storage.StorageReference;
-
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import sg.edu.np.tracknshare.BaseActivity;
@@ -114,18 +118,13 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder>  {
                                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                         fragmentTransaction.replace(R.id.drawLayout,fragment);
                                         fragmentTransaction.commit();
-
                                     }
                                     else{
 //                                        String uri = getUri(r.getImageId());
-                                        //call sharesheet API
+
                                         SharedPreferences sharedPref =context.getSharedPreferences("ImageFile",Context.MODE_PRIVATE);
-                                        String imageUri = sharedPref.getString("name","");
-                                        Intent shareIntent = new Intent();
-                                        shareIntent.setAction(Intent.ACTION_SEND);
-                                        shareIntent.setType("image/jpeg");
-                                        shareIntent.putExtra(Intent.EXTRA_STREAM,imageUri);
-                                        context.startActivity(Intent.createChooser(shareIntent,"Post Image"));
+                                        String imageUri = sharedPref.getString("uri","");
+                                        shareRunImage(imageUri);//call sharesheet API
                                     }
                                 }
                             }
@@ -140,7 +139,51 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder>  {
             }
         });
     }
+    private void shareRunImage(String uri){
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().build()); //set external app-sharing permissions
+        Picasso.get().load(uri).into(new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_STREAM,getBitmapFromView(bitmap));
+                shareIntent.setType("image/*");
+                context.startActivity(Intent.createChooser(shareIntent,"Send"));
+            }
 
+            @Override
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) { }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) { }
+        });
+
+    }
+//    public static URI encodeURL(String url) throws MalformedURLException, URISyntaxException
+//    {
+//        URI uriFormatted = null;
+//
+//        URL urlLink = new URL(url);
+//        uriFormatted = new URI("http", urlLink.getHost(), urlLink.getPath(), urlLink.getQuery(), urlLink.getRef());
+//
+//        return uriFormatted;
+//    }
+    private Uri getBitmapFromView(Bitmap bmp){
+        Uri bitmapUri = null;
+        try{
+            File file = new File(context.getExternalCacheDir(),String.valueOf(System.currentTimeMillis())+".jpg");
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG,90,fileOutputStream);
+            fileOutputStream.close();
+            bitmapUri = Uri.fromFile(file);
+
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        Log.d("ERROR",bitmapUri.toString());
+        return bitmapUri;
+    }
     @Override
     public int getItemCount() {
         return runs.size();

@@ -31,9 +31,6 @@ public class StorageHandler {
     public void LoadFileToApp(String imageId, Context c, ImageView imageRef){
         Log.d("GENERATEID", "LoadFileToApp: "+imageId);
         StorageReference imagesRef = storageRef.child("images/"+imageId);
-        SharedPreferences.Editor editor = c.getSharedPreferences("ImageFile",Context.MODE_PRIVATE).edit();
-        editor.putString("name",imagesRef.getDownloadUrl().toString());
-        editor.apply();
         imagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
         {
             @Override
@@ -42,18 +39,15 @@ public class StorageHandler {
                 Glide.with(c)
                         .load(downloadUrl.toString())
                         .into(imageRef);
-
+                //Send image URI for sharesheet
+                SharedPreferences.Editor editor = c.getSharedPreferences("ImageFile",Context.MODE_PRIVATE).edit();
+                Log.d("uri",downloadUrl.toString());
+                editor.putString("uri",downloadUrl.toString());
+                editor.apply();
             }
         });
 
     }
-/*
-    public String getUri(String ImageId){
-        String uri = imagesRef.toString();
-        return uri;
-    }
-*/
-
     public long GenerateId(){
         Calendar calendar = Calendar.getInstance();
         long timeMilli = calendar.getTimeInMillis();
