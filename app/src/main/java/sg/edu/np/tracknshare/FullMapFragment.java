@@ -53,38 +53,33 @@ public class FullMapFragment extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
 
-            googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-                @Override
-                public void onMapLoaded() {
-                    Log.e("MAPFULL", "onMapLoaded: ");
-                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
-
-                    TrackingDBHandler trackingDB = new TrackingDBHandler(c);
-                    ArrayList<MyLatLng> llList = trackingDB.getAllPoints();
-                    for (int i = 0; i <= llList.size() - 1; i++) {
-                        LatLng latLng = new LatLng(llList.get(i).latitude, llList.get(i).longitude);// in this line put you lat and long
-                        builder.include(latLng);  //add latlng to builder
-                    }
-                    LatLngBounds bounds = builder.build();
-
-                    int padding = 150; // offset from edges of the map in pixels
-                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-
-                    googleMap.moveCamera(cu);
-
-                    googleMap.getUiSettings().setAllGesturesEnabled(false);
-
-                    googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-
-                        public boolean onMarkerClick(Marker marker) {
-                            return true;
-                        }
-                    });
-                    setPoints(googleMap, llList);
-                }
-            });
             map = googleMap;
             //getCurrentLocation(googleMap);
+            Log.e("MAPFULL", "onMapLoaded: ");
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+            TrackingDBHandler trackingDB = new TrackingDBHandler(c);
+            ArrayList<MyLatLng> llList = trackingDB.getAllPoints();
+            for (int i = 0; i <= llList.size() - 1; i++) {
+                LatLng latLng = new LatLng(llList.get(i).latitude, llList.get(i).longitude);// in this line put you lat and long
+                builder.include(latLng);  //add latlng to builder
+            }
+            LatLngBounds bounds = builder.build();
+
+            int padding = 150; // offset from edges of the map in pixels
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+
+            googleMap.moveCamera(cu);
+
+            googleMap.getUiSettings().setAllGesturesEnabled(false);
+
+            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+                public boolean onMarkerClick(Marker marker) {
+                    return true;
+                }
+            });
+            setPoints(googleMap, llList);
         }
 
     };

@@ -34,9 +34,10 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
+
     <fragment
         android:id="@+id/fullMap"
-        android:name="sg.edu.np.tracknshare.FullMapFragment"
+        android:name="sg.edu.np.tracknshare.MapsFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

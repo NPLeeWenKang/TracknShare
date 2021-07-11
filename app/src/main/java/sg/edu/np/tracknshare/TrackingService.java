@@ -110,7 +110,6 @@ public class TrackingService extends Service {
         locationRequest.setInterval(5000);
         locationRequest.setFastestInterval(2000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
         client.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
     }
 }
