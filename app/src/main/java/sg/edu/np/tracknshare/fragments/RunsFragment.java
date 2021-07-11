@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,11 +23,9 @@ import sg.edu.np.tracknshare.adapters.RunsAdapter;
 import sg.edu.np.tracknshare.handlers.AuthHandler;
 import sg.edu.np.tracknshare.handlers.RunDBHandler;
 import sg.edu.np.tracknshare.models.Run;
-import sg.edu.np.tracknshare.models.User;
 
 public class RunsFragment extends Fragment {
     private ArrayList<Run> rList = new ArrayList<>();
-    private String mParam2;
 
     public RunsFragment() {
         // Required empty public constructor
@@ -42,7 +41,6 @@ public class RunsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         RecyclerView rv = view.findViewById(R.id.rv_runs);
         RunsAdapter runsAdapter = new RunsAdapter(view.getContext(),rList,getActivity());
         LinearLayoutManager lm = new LinearLayoutManager(getActivity().getApplicationContext());
@@ -70,5 +68,16 @@ public class RunsFragment extends Fragment {
             runs.add(r);
         }
         return runs;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        View v = getActivity().findViewById(R.id.coordinatorlayout);
+        Snackbar snackbar = Snackbar.make(v,"Successfully posted your run.",Snackbar.LENGTH_LONG)
+
+                .setAnchorView(R.id.fab);
+        snackbar.show();
+
     }
 }

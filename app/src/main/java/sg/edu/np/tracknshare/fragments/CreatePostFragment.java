@@ -33,10 +33,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import sg.edu.np.tracknshare.R;
+import sg.edu.np.tracknshare.adapters.RunsAdapter;
 
 import androidx.annotation.RequiresApi;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 // * A simple {@link Fragment} subclass.
 // * Use the {@link CreatePostFragment#newInstance} factory method to
@@ -60,8 +62,7 @@ public class CreatePostFragment extends DialogFragment {
     }
 
 
-
-@Override
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -78,7 +79,8 @@ public class CreatePostFragment extends DialogFragment {
         createButton = view.findViewById(R.id.floatingActionButton);
         createButton.hide();
         toolbar.setNavigationOnClickListener(v ->{
-            boolean result = leaveDialog();
+            //boolean result = leaveDialog(); //disable alert for now
+            boolean result = true;
             if(result) {//close full screen dialog only if yes is 'clicked'
                 dismiss();
             }
@@ -132,6 +134,8 @@ public class CreatePostFragment extends DialogFragment {
 
             private void sendPost() {
                 //TODO :function to add post to firebase
+
+                dismiss();
             }
 
             @Override
