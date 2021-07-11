@@ -36,11 +36,8 @@ public class RunDBHandler {
     }
     public void AddRun(Run r){
         Log.d("GENERATEID", "AddRun: "+r.getImageId());
-        Calendar calendar = Calendar.getInstance();
-        long timeMilli = calendar.getTimeInMillis();
-        r.setRunId(""+timeMilli);
         DatabaseReference dbRef = database.getReference("/runs");
-        dbRef.child(""+timeMilli).setValue(r);
+        dbRef.child(""+r.getRunId()).setValue(r);
     }
     public void GetRuns(String id, ArrayList<Run> rList, RunsAdapter mAdapter){
         DatabaseReference dbRef = database.getReference("/runs");
@@ -52,7 +49,7 @@ public class RunDBHandler {
                     if (task.getResult().exists()){
                         for (DataSnapshot ds : task.getResult().getChildren()){
                             Run r = ds.getValue(Run.class);
-                            rList.add(r);
+                            rList.add(0, r);
                         }
                         Log.d("KEYCODE", "onKey: UPDATE");
                         Log.d("firebase", String.valueOf(task.getResult().getValue()));

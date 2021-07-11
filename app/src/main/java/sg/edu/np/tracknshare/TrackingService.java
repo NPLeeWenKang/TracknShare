@@ -106,7 +106,7 @@ public class TrackingService extends Service {
     @SuppressLint("MissingPermission")
     public void startLocationTracking(){
         client = new FusedLocationProviderClient(this);
-        LocationRequest locationRequest = new LocationRequest();
+        LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setInterval(5000);
         locationRequest.setFastestInterval(2000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);

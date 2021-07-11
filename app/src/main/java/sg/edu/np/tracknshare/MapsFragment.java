@@ -30,6 +30,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -60,24 +61,28 @@ public class MapsFragment extends Fragment {
 
                     TrackingDBHandler trackingDB = new TrackingDBHandler(c);
                     ArrayList<MyLatLng> llList = trackingDB.getAllPoints();
-                    for (int i = 0; i < llList.size() - 1; i++) {
+                    for (int i = 0; i <= llList.size() - 1; i++) {
                         LatLng latLng = new LatLng(llList.get(i).latitude, llList.get(i).longitude);// in this line put you lat and long
                         builder.include(latLng);  //add latlng to builder
                     }
-
                     LatLngBounds bounds = builder.build();
 
-                    int padding = 50; // offset from edges of the map in pixels
+                    int padding = 150; // offset from edges of the map in pixels
                     CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
 
                     googleMap.moveCamera(cu);
-                    //googleMap.getUiSettings().setAllGesturesEnabled(false);
 
+                    googleMap.getUiSettings().setAllGesturesEnabled(false);
+
+                    googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+                        public boolean onMarkerClick(Marker marker) {
+                            return true;
+                        }
+                    });
                     setPoints(googleMap, llList);
                 }
             });
-
-
             map = googleMap;
             //getCurrentLocation(googleMap);
         }
@@ -102,59 +107,17 @@ public class MapsFragment extends Fragment {
             mapFragment.getMapAsync(callback);
         }
     }
-    @SuppressLint("MissingPermission")
-    public void getCurrentLocation(GoogleMap googleMap){
-        FusedLocationProviderClient fusedLocationProviderClient = new FusedLocationProviderClient(getActivity());
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
-            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    if (location != null) {
-                        LatLng currentLatLng= new LatLng(location.getLatitude(), location.getLongitude());
-                        Log.e("Location 1 found", ""+currentLatLng.latitude+ ", " + currentLatLng.longitude);
-                        updateLatLng = currentLatLng;
-                        googleMap.setMyLocationEnabled(true);
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentLatLng));
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 13));
-                        googleMap.getUiSettings().setAllGesturesEnabled(false);
 
-                        CameraPosition cameraPosition = new CameraPosition.Builder()
-                                .target(new LatLng(location.getLatitude(), location.getLongitude()))      // Sets the center of the map to location user
-                                .zoom(17)                   // Sets the zoom
-                                .tilt(0)                   // Sets the tilt of the camera to 30 degrees
-                                .build();                   // Creates a CameraPosition from the builder
-                        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                    } else {
-                        LocationRequest locationRequest = new LocationRequest()
-                                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                                .setInterval(10000)
-                                .setFastestInterval(1000);
-                        LocationCallback locationCallback = new LocationCallback(){
-                            @Override
-                            public void onLocationResult(LocationResult locationResult) {
-                                Location location1 = locationResult.getLastLocation();
-                                LatLng latLng = new LatLng(location1.getLatitude(), location1.getLongitude());
-                                updateLatLng = latLng;
-                                Log.e("Location 2 found", ""+latLng.latitude+ ", " + latLng.longitude);
-                            }
-                        };
-                        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
-                    }
-                }
-            });
-        }
-        else{
-            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        }
-    }
     public void setPoints(GoogleMap googleMap, ArrayList<MyLatLng> llList){
-        TrackingDBHandler db = new TrackingDBHandler(getActivity());
-        for (int i = 0; i < llList.size() - 2; i++) {
+        googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(llList.get(0).latitude, llList.get(0).longitude))
+                .title("Start"));
+        googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(llList.get(llList.size()-1).latitude, llList.get(llList.size()-1).longitude))
+                .title("End"));
+        for (int i = 0; i <= llList.size() - 2; i++) {
             MyLatLng src = llList.get(i);
             MyLatLng dest = llList.get(i + 1);
-            Log.e("Location", "new point"+i);
             // mMap is the Map Object
             googleMap.addPolyline(new PolylineOptions()
                     .add(

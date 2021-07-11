@@ -65,10 +65,10 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder>  {
         StorageHandler storageHandler = new StorageHandler();
         storageHandler.LoadFileToApp(r.getImageId(), context, holder.MapImage);
         holder.Run_Date.setText(r.getRunDate());
-        holder.Run_distance.setText(""+r.getRunDistance());
+        holder.Run_distance.setText(String.format("%.4f", r.getRunDistance()));
         holder.Run_calories.setText(""+r.getRunCalories());
         holder.Run_timing.setText(""+r.getRunDuration());
-        holder.Run_pace.setText(String.format("%,.2f",r.getRunPace()));
+        holder.Run_pace.setText(""+r.getRunPace());
         holder.Post_Button.setImageDrawable(context.getResources().getDrawable(R.drawable.share));
         holder.Post_Button.setOnClickListener(new View.OnClickListener() {
 

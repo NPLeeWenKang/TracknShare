@@ -94,7 +94,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView13">
 
         <EditText
-            android:id="@+id/reset_password"
+            android:id="@+id/edit_username"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -113,10 +113,10 @@
             android:layout_marginStart="10dp"
             android:text="Description"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reset_password" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_username" />
 
         <EditText
-            android:id="@+id/reset_createpassword"
+            android:id="@+id/edit_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
