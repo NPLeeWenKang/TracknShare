@@ -120,11 +120,16 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder>  {
                                         fragmentTransaction.commit();
                                     }
                                     else{
-//                                        String uri = getUri(r.getImageId());
+                                        BitmapDrawable bitmapDrawable = ((BitmapDrawable) holder.MapImage.getDrawable());
+                                        Bitmap bitmap = bitmapDrawable.getBitmap();
 
-                                        SharedPreferences sharedPref =context.getSharedPreferences("ImageFile",Context.MODE_PRIVATE);
-                                        String imageUri = sharedPref.getString("uri","");
-                                        shareRunImage(imageUri);//call sharesheet API
+                                        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().build()); //set external app-sharing permissions
+                                        Intent shareIntent = new Intent();
+                                        shareIntent.setAction(Intent.ACTION_SEND);
+                                        shareIntent.putExtra(Intent.EXTRA_STREAM,getBitmapFromView(bitmap));
+                                        shareIntent.setType("image/*");
+                                        context.startActivity(Intent.createChooser(shareIntent,"Send"));
+
                                     }
                                 }
                             }
@@ -141,22 +146,27 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder>  {
     }
     private void shareRunImage(String uri){
         StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().build()); //set external app-sharing permissions
-        Picasso.get().load(uri).into(new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                Intent shareIntent = new Intent();
-                shareIntent.setAction(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_STREAM,getBitmapFromView(bitmap));
-                shareIntent.setType("image/*");
-                context.startActivity(Intent.createChooser(shareIntent,"Send"));
-            }
-
-            @Override
-            public void onBitmapFailed(Exception e, Drawable errorDrawable) { }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) { }
-        });
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
+        shareIntent.setType("image/*");
+        context.startActivity(Intent.createChooser(shareIntent,"Send"));
+//        Picasso.get().load(uri).into(new Target() {
+//            @Override
+//            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+//                Intent shareIntent = new Intent();
+//                shareIntent.setAction(Intent.ACTION_SEND);
+//                shareIntent.putExtra(Intent.EXTRA_STREAM,getBitmapFromView(bitmap));
+//                shareIntent.setType("image/*");
+//                context.startActivity(Intent.createChooser(shareIntent,"Send"));
+//            }
+//
+//            @Override
+//            public void onBitmapFailed(Exception e, Drawable errorDrawable) { }
+//
+//            @Override
+//            public void onPrepareLoad(Drawable placeHolderDrawable) { }
+//        });
 
     }
 //    public static URI encodeURL(String url) throws MalformedURLException, URISyntaxException
