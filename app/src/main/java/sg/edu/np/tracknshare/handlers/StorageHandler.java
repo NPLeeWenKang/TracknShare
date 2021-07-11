@@ -39,11 +39,6 @@ public class StorageHandler {
                 Glide.with(c)
                         .load(downloadUrl.toString())
                         .into(imageRef);
-                //Send image URI for sharesheet
-                SharedPreferences.Editor editor = c.getSharedPreferences("ImageFile",Context.MODE_PRIVATE).edit();
-                Log.d("uri",downloadUrl.toString());
-                editor.putString("uri",downloadUrl.toString());
-                editor.apply();
             }
         });
 
