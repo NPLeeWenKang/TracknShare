@@ -36,10 +36,8 @@ public class RunDBHandler {
     }
     public void AddRun(Run r){
         Log.d("GENERATEID", "AddRun: "+r.getImageId());
-        Calendar calendar = Calendar.getInstance();
-        long timeMilli = calendar.getTimeInMillis();
         DatabaseReference dbRef = database.getReference("/runs");
-        dbRef.child(""+timeMilli).setValue(r);
+        dbRef.child(""+r.getRunId()).setValue(r);
     }
     public void GetRuns(String id, ArrayList<Run> rList, RunsAdapter mAdapter){
         DatabaseReference dbRef = database.getReference("/runs");

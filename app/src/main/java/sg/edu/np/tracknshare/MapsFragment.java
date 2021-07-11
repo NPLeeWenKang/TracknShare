@@ -72,7 +72,7 @@ public class MapsFragment extends Fragment {
 
                     googleMap.moveCamera(cu);
 
-//                    googleMap.getUiSettings().setAllGesturesEnabled(false);
+                    googleMap.getUiSettings().setAllGesturesEnabled(false);
 
                     googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 
