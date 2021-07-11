@@ -46,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
         android:padding="2dp"
         android:text="Date"
         android:textIsSelectable="false"
@@ -130,7 +130,32 @@
         android:layout_height="35dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="@+id/run_image"
-        app:layout_constraintTop_toTopOf="@+id/header_date"
+        app:layout_constraintTop_toTopOf="@+id/textView19"
         app:srcCompat="@drawable/share" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:paddingTop="7dp"
+        android:paddingEnd="2dp"
+        android:paddingBottom="7dp"
+        android:text="post"
+        android:textAllCaps="true"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@+id/header_date"
+        app:layout_constraintTop_toTopOf="@+id/header_date" />
+
+    <ImageView
+        android:id="@+id/post_title"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/textView19"
+        app:layout_constraintStart_toEndOf="@+id/textView19"
+        app:layout_constraintTop_toTopOf="@+id/textView19"
+        app:layout_constraintVertical_bias="0.266"
+        app:srcCompat="@drawable/writing" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
