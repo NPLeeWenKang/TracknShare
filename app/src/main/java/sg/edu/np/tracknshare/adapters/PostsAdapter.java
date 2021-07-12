@@ -14,20 +14,23 @@ import java.util.ArrayList;
 
 import sg.edu.np.tracknshare.CommentsActivity;
 import sg.edu.np.tracknshare.R;
+import sg.edu.np.tracknshare.handlers.StorageHandler;
 import sg.edu.np.tracknshare.models.Post;
 import sg.edu.np.tracknshare.models.Run;
+import sg.edu.np.tracknshare.models.User;
+import sg.edu.np.tracknshare.models.UserPostViewModel;
 import sg.edu.np.tracknshare.viewholders.PostViewHolder;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
     Context context ;
-    ArrayList<Post> data;
+    ArrayList<UserPostViewModel> data;
     boolean isSelected;//for toggling of likes upon click eventHandler
     /*    int likes; //to store likes of each viewHolder post
         int tapCount; //separate eventHandler scenario for tapping on img post*/
 //    Post p;
-    public PostsAdapter(Context c,ArrayList<Post>d ){
+    public PostsAdapter(Context c,ArrayList<UserPostViewModel> up ){
         context = c;
-        data = d;
+        data = up;
     }
 
     @NonNull
@@ -40,14 +43,18 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
-        Post p = data.get(position);
-        holder.Username.setText(p.getPostUsername());
-        holder.PostDate.setText(p.getPostDate());
+        Post p = data.get(position).getPost();
+        User u = data.get(position).getUser();
+        holder.Username.setText(u.getUserName());
+        holder.PostDate.setText(""+p.getPostDate());
         holder.Likes.setText(""+p.getLikes());
         holder.PostCaption.setText(p.getCaption());
         holder.UserImg.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_avatar));
         holder.CommentsIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_comment));
         holder.LikesIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_heart));
+
+        StorageHandler storageHandler = new StorageHandler();
+        storageHandler.LoadFileToApp(p.getRunId(), context, holder.PostImg);
 
         isSelected = false;
         int red = Color.RED;
@@ -79,7 +86,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
 
 
         });
-        holder.PostImg.setImageDrawable(context.getResources().getDrawable(R.drawable.mahshuk));
 /*
         holder.PostImg.setOnClickListener(new View.OnClickListener() {
             int tapCount = 0;
@@ -102,7 +108,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
             Run r = new Run();// to be modified with DB handlers
             @Override
             public void onClick(View v) {
-                EnterCommentView(p,r);
+//                EnterCommentView(p,r);
             }
         });
     }
@@ -123,21 +129,21 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
         return data.size();
     }
 
-    public void EnterCommentView(Post p, Run r){
-        Intent intent = new Intent(context, CommentsActivity.class);
-        intent.putExtra("Username",p.getPostUsername());
-        intent.putExtra("Postdate",p.getPostDate());
-        intent.putExtra("PostLikes",p.getLikes());
-        intent.putExtra("PostCaption",p.getCaption());
-        intent.putExtra("RunDistance",r.getRunDistance());
-        intent.putExtra("RunDuration",r.getRunDuration());
-        intent.putExtra("RunCalories",r.getRunCalories());
-        intent.putExtra("RunPace",r.getRunPace());
-        intent.putExtra("RunDate",r.getRunDate());
-        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //to allow activity transition from adapter class
-        context.startActivity(intent);
-
-    }
+//    public void EnterCommentView(Post p, Run r){
+//        Intent intent = new Intent(context, CommentsActivity.class);
+//        intent.putExtra("Username", );
+//        intent.putExtra("Postdate",p.getPostDate());
+//        intent.putExtra("PostLikes",p.getLikes());
+//        intent.putExtra("PostCaption",p.getCaption());
+//        intent.putExtra("RunDistance",r.getRunDistance());
+//        intent.putExtra("RunDuration",r.getRunDuration());
+//        intent.putExtra("RunCalories",r.getRunCalories());
+//        intent.putExtra("RunPace",r.getRunPace());
+//        intent.putExtra("RunDate",r.getRunDate());
+//        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //to allow activity transition from adapter class
+//        context.startActivity(intent);
+//
+//    }
 
 
 }

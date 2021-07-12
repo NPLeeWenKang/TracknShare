@@ -1,78 +1,53 @@
 package sg.edu.np.tracknshare.models;
 
-import java.util.Date;
-
 public class Post {
+    private String UserId;
+    private String PostId;
+    private String RunId;
+    private long PostDate;
+    private int Likes;
+    private String Caption;
 
-    //    Attribute setter,getter for PostId
-    private int PostId;
-
-    public void setPostId(int postId) {
+    public void setPostId(String postId) {
         PostId = postId;
     }
-
-    public int getPostId() {
+    public String getPostId() {
         return PostId;
     }
 
-    //    Attribute setter,getter for PostUsername
-
-    private String PostUsername;
-
-    public void setPostUsername(String postUsername) {
-        PostUsername = postUsername;
-    }
-
-    public String getPostUsername() {
-        return PostUsername;
-    }
-
-//    Attribute setter,getter for PostDate
-
-    private String PostDate;
-
-    public void setPostDate(String postDate) {
-//        Date date = new Date(postDate);
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-//
-//        PostDate = sdf.format(date);
-        PostDate = postDate;
-    }
-
-    public String getPostDate() {
+    public void setPostDate(long postDate) { PostDate = postDate; }
+    public long getPostDate() {
         return PostDate;
     }
-
-//    Attribute setter,getter for Likes
-
-    private int Likes;
 
     public void setLikes(int likes) {
         Likes = likes;
     }
-
     public int getLikes() {
         return Likes;
     }
 
-//    Attribute setter,getter for Caption
-
-    private String Caption;
-
     public void setCaption(String caption) {
         Caption = caption;
     }
-
     public String getCaption() {
         return Caption;
     }
-    private User User;
 
-    public void setUser(User u){
-        User = u;
+    public String getUserId() { return UserId; }
+    public void setUserId(String userId) { UserId = userId; }
+
+    public String getRunId() { return RunId; }
+    public void setRunId(String runId) { RunId = runId; }
+
+    public Post(String userId, String postId, String runId, long postDate, int likes, String caption) {
+        UserId = userId;
+        PostId = postId;
+        RunId = runId;
+        PostDate = postDate;
+        Likes = likes;
+        Caption = caption;
     }
-    public User getUser(){
-        return User;
-    }
+    public Post(){}
 }
 
