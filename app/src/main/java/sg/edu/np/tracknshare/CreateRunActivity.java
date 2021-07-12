@@ -37,6 +37,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 import sg.edu.np.tracknshare.handlers.AuthHandler;
 import sg.edu.np.tracknshare.handlers.RunDBHandler;
@@ -190,9 +191,12 @@ public class CreateRunActivity extends AppCompatActivity {
         return distance;
     }
     public long getTimeInS(){
-        SharedPreferences sharedPreferences = getSharedPreferences("steps", Context.MODE_PRIVATE);
-        long savedData = sharedPreferences.getLong("key2", 0);
-        return savedData;
+        SharedPreferences sharedPreferences = getSharedPreferences("tracking", Context.MODE_PRIVATE);
+        long initialTime = sharedPreferences.getLong("initialTime", 0);
+        long finalTime = sharedPreferences.getLong("finalTime", 0);
+        long diffTime = (finalTime - initialTime);
+        long diffInSec = TimeUnit.MILLISECONDS.toSeconds(diffTime);
+        return diffInSec;
     }
     public double getPace(){
         double distance = getDistance() * 1000;

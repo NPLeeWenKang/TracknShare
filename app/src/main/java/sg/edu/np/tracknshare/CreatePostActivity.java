@@ -1,5 +1,6 @@
 package sg.edu.np.tracknshare;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -9,56 +10,51 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+
+import sg.edu.np.tracknshare.handlers.RunDBHandler;
+import sg.edu.np.tracknshare.handlers.StorageHandler;
+import sg.edu.np.tracknshare.models.Run;
 
 
 public class CreatePostActivity extends AppCompatActivity {
-    Dialog createPostDialog;
-    EditText caption;
-    Button post;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        createPostDialog =  new Dialog(this,R.style.Widget_MaterialComponents_Toolbar);
-        createPostDialog.setContentView(R.layout.activity_create_post);
-        createPostDialog.show();
-/*
-        caption = findViewById(R.id.caption_editText);
-        post = findViewById(R.id.create_post);
-        if(caption.getText().toString().isEmpty()){
-            post.setClickable(false); //disable post if there's no caption
-        }
+        setContentView(R.layout.activity_create_post);
 
-        post.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("HELLO","YO");
-            }
-        });
-*/
+        Toolbar toolBar = findViewById(R.id.toolBar);
+        setSupportActionBar(toolBar);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        Intent receivingEnd = getIntent();
+        String runId = receivingEnd.getStringExtra("runId");
+
+        ImageView img = findViewById(R.id.create_post_img);
+
+        Log.d("CREATEPOST", "onCreate: "+img.getWidth());
+
+        StorageHandler storageDB = new StorageHandler();
+        storageDB.LoadFileToApp(runId, this, img);
+
+
+
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
 
-    public void showClosingAlert(View view) { //onclick callback referenced in xml markup
-        AlertDialog.Builder builder = new AlertDialog.Builder(CreatePostActivity.this);
-        builder.setCancelable(true);
-        builder.setTitle("Warning!");
-        builder.setMessage("Cancel New Post?");
-        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                Intent intent = new Intent(CreatePostActivity.this,BaseActivity.class);
-            }
-        });
-        AlertDialog alert = builder.create();
-        alert.show();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

@@ -27,6 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import sg.edu.np.tracknshare.CreatePostActivity;
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.fragments.CreatePostFragment;
 import sg.edu.np.tracknshare.handlers.StorageHandler;
@@ -69,14 +70,9 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder>  {
             public void onClick(View v) {
                 // "Share internally to TracknShare app"
                 Log.d("HELO","jeff");
-                Fragment fragment = new CreatePostFragment();
-                FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.drawLayout,fragment);
-                fragmentTransaction.commit();
-                Bundle args = new Bundle();
-                args.putString("Drawable",holder.MapImage.getDrawable().toString());
-                fragment.setArguments(args);
+                Intent intent = new Intent(v.getContext(), CreatePostActivity.class);
+                intent.putExtra("runId", r.getImageId());
+                context.startActivity(intent);
             }
         });
         holder.Share_button.setOnClickListener(new View.OnClickListener() {

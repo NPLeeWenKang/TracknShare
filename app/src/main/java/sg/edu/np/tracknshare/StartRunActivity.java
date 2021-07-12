@@ -58,10 +58,8 @@ import sg.edu.np.tracknshare.models.Run;
 public class StartRunActivity extends AppCompatActivity{
 
     Handler handler = new Handler(Looper.getMainLooper());
-    Date date1;
-    Date date2;
     private SensorManager sensorManager = null;
-    int seconds = 0;
+    long seconds = 0;
     boolean running = false;
     int previousTotalSteps = 0;
     int totalSteps = 0;
@@ -80,6 +78,11 @@ public class StartRunActivity extends AppCompatActivity{
         setContentView(R.layout.activity_start_run);
         Log.e("Started Main Activity", "Done");
         //requestPermissions();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         TrackingUtility tU = new TrackingUtility();
         Log.d("PERMS", "HasPerms1: "+tU.HasPerms(this));
@@ -93,6 +96,7 @@ public class StartRunActivity extends AppCompatActivity{
 
         loadData();
         Button startBtn = findViewById(R.id.startRun);
+        TextView timer = findViewById(R.id.timer);
 
         if (!isMapEnabled(this)){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -127,8 +131,26 @@ public class StartRunActivity extends AppCompatActivity{
 
         if (!tU.isMyServiceRunning(TrackingService.class, StartRunActivity.this)){
             startBtn.setText("Start");
+            timer.setText("0:00:00");
         } else{
             startBtn.setText("Stop");
+
+            SharedPreferences sharedPreferences = getSharedPreferences("tracking", Context.MODE_PRIVATE);
+            long initialTime = sharedPreferences.getLong("initialTime", 0);
+            long diffTime = (Calendar.getInstance().getTimeInMillis() - initialTime);
+            long diffInSec = TimeUnit.MILLISECONDS.toSeconds(diffTime);
+            long hours = diffInSec / 3600;
+            long minutes = (diffInSec % 3600) / 60;
+            long secs = diffInSec % 60;
+            String time = String.format(Locale.getDefault(),
+                    "%d:%02d:%02d",
+                    hours, minutes, secs);
+            timer.setText(time);
+
+            seconds = diffInSec;
+            running = true;
+            runTimer();
+
         }
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,26 +160,20 @@ public class StartRunActivity extends AppCompatActivity{
                     startBtn.setText("Stop");
                     sendCommandToService(Constants.ACTION_START_OR_RESUME_SERVICE);
                     running = true;
-                    date1 = Calendar.getInstance().getTime();
+
+                    long initialMS = Calendar.getInstance().getTimeInMillis();
+                    SharedPreferences sharedPreferences = getSharedPreferences("tracking", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putLong("initialTime", initialMS);
+                    editor.apply();
+
                     runTimer();
                     stepCounter();
                     Toast.makeText(StartRunActivity.this, "Start Run!", Toast.LENGTH_SHORT).show();
                 } else{
-                    sendCommandToService(Constants.ACTION_STOP_SERVICE);
-                    running = false;
-                    date2 = Calendar.getInstance().getTime();
-                    long diffInMs = date2.getTime() - date1.getTime();
-                    long diffInS = TimeUnit.MILLISECONDS.toSeconds(diffInMs);
-                    SharedPreferences sharedPreferences = getSharedPreferences("steps", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putLong("key2", diffInS);
-                    editor.apply();
-                    Toast.makeText(StartRunActivity.this, "Stopped Run!", Toast.LENGTH_SHORT).show();
-                    saveData();
-
                     AlertDialog.Builder builder = new AlertDialog.Builder(StartRunActivity.this);
                     builder.setMessage("Are you sure you want to stop?")
-                            .setCancelable(false)
+                            .setCancelable(true)
                             .setPositiveButton("Yes", null)
                             .setNegativeButton("No", null);
                     AlertDialog dialog = builder.create();
@@ -169,6 +185,27 @@ public class StartRunActivity extends AppCompatActivity{
                                 @Override
                                 public void onClick(View view) {
                                     dialog.dismiss();
+
+                                    handler.removeCallbacksAndMessages(null);
+
+                                    sendCommandToService(Constants.ACTION_STOP_SERVICE);
+                                    running = false;
+
+                                    long finalMS = Calendar.getInstance().getTimeInMillis();
+                                    SharedPreferences sharedPreferences = getSharedPreferences("tracking", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putLong("finalTime", finalMS);
+                                    editor.apply();
+
+                                    long initialTime = sharedPreferences.getLong("initialTime", 0);
+                                    long finalTime = sharedPreferences.getLong("finalTime", 0);
+                                    long diffTime = (finalTime - initialTime);
+                                    long diffInSec = TimeUnit.MILLISECONDS.toSeconds(diffTime);
+
+                                    Log.e("FINAL", "onClick: " +diffInSec);
+                                    Toast.makeText(StartRunActivity.this, "Stopped Run!", Toast.LENGTH_SHORT).show();
+                                    saveData();
+
                                     Intent intent = new Intent(StartRunActivity.this, CreateRunActivity.class);
                                     startActivity(intent);
                                 }
@@ -183,38 +220,6 @@ public class StartRunActivity extends AppCompatActivity{
                         }
                     });
                     dialog.show();
-//                    StorageHandler storageHandler = new StorageHandler();
-//
-//                    long id = storageHandler.GenerateId();
-//                    Run r = new Run(auth.GetCurrentUser().getUid(), "",""+id,null,1,getDistance(),1,1,trackingDB.getAllPoints());
-//                    runsDB.AddRun(r);
-//
-//                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
-//
-//                    ArrayList<MyLatLng> rList = trackingDB.getAllPoints();
-//                    for (int i = 0; i < rList.size() - 1; i++) {
-//                        LatLng latLng = new LatLng(rList.get(i).latitude, rList.get(i).longitude);// in this line put you lat and long
-//                        builder.include(latLng);  //add latlng to builder
-//                    }
-//
-//                    LatLngBounds bounds = builder.build();
-//
-//                    int padding = 0; // offset from edges of the map in pixels
-//                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-//
-//                    MapsFragment.map.moveCamera(cu);
-//
-//                    GoogleMap.SnapshotReadyCallback callback = new GoogleMap.SnapshotReadyCallback() {
-//                        Bitmap bitmap;
-//
-//                        @Override
-//                        public void onSnapshotReady(Bitmap snapshot) {
-//                            bitmap = snapshot;
-//                            storageHandler.UploadRunImage(id, bitmap);
-//                        }
-//                    };
-//
-//                    MapsFragment.map.snapshot(callback);
                 }
 
             }
@@ -279,9 +284,9 @@ public class StartRunActivity extends AppCompatActivity{
         handler.post(new Runnable() {
             @Override
             public void run() {
-                int hours = seconds / 3600;
-                int minutes = (seconds % 3600) / 60;
-                int secs = seconds % 60;
+                long hours = seconds / 3600;
+                long minutes = (seconds % 3600) / 60;
+                long secs = seconds % 60;
                 String time = String.format(Locale.getDefault(),
                         "%d:%02d:%02d",
                         hours, minutes, secs);
@@ -291,12 +296,16 @@ public class StartRunActivity extends AppCompatActivity{
                     Log.e("STOPWATCH", ""+time);
                     //Implement the setting the same time to the textview when the app is restarted..... :)
                 }
-                else{
-                    handler.removeCallbacks(this::run);
-                }
+                Log.e("STOPWATCH", ""+time);
                 handler.postDelayed(this, 1000);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
     }
 
     //StepCounter codes
