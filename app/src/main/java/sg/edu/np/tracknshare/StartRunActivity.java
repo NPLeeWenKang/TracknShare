@@ -21,6 +21,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -35,6 +36,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -53,6 +56,8 @@ import sg.edu.np.tracknshare.models.Run;
 
 public class StartRunActivity extends AppCompatActivity{
 
+    Date date1;
+    Date date2;
     private SensorManager sensorManager = null;
     int seconds = 0;
     boolean running = false;
@@ -262,7 +267,7 @@ public class StartRunActivity extends AppCompatActivity{
     //Timer Codes
     private void runTimer(){
         TextView timer = findViewById(R.id.timer);
-        Handler handler = new Handler();
+        Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
             @Override
             public void run() {
