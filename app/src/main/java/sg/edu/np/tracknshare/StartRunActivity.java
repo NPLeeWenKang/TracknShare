@@ -148,6 +148,10 @@ public class StartRunActivity extends AppCompatActivity{
                     date2 = Calendar.getInstance().getTime();
                     long diffInMs = date2.getTime() - date1.getTime();
                     long diffInS = TimeUnit.MILLISECONDS.toSeconds(diffInMs);
+                    SharedPreferences sharedPreferences = getSharedPreferences("steps", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putLong("key2", diffInS);
+                    editor.apply();
                     Toast.makeText(StartRunActivity.this, "Stopped Run!", Toast.LENGTH_SHORT).show();
                     saveData();
 

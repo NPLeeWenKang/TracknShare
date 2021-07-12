@@ -12,8 +12,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -74,7 +76,7 @@ public class CreateRunActivity extends AppCompatActivity {
         System.out.println(dateFormat.format(timeMilli));
 
         dateText.setText(dateFormat.format(timeMilli));
-        timeText.setText("NULL");
+        timeText.setText("" + getTimeInS() + " seconds");
         distanceText.setText(String.format("%.4f", getDistance()));
         paceText.setText("NULL");
         caloriesText.setText("NULL");
@@ -186,5 +188,10 @@ public class CreateRunActivity extends AppCompatActivity {
         double distance = 2 * earthRadius * Math.asin(Math.sqrt(Math.sin(diffLat / 2) * Math.sin(diffLat / 2) + Math.cos(rLat1) * Math.cos(rLat2) * Math.sin(diffLng / 2) * Math.sin(diffLng / 2)));
 
         return distance;
+    }
+    public long getTimeInS(){
+        SharedPreferences sharedPreferences = getSharedPreferences("steps", Context.MODE_PRIVATE);
+        long savedData = sharedPreferences.getLong("key2", 0);
+        return savedData;
     }
 }
