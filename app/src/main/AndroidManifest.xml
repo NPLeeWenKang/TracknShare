@@ -62,7 +62,6 @@
         <activity
             android:name=".BaseActivity"
             android:screenOrientation="portrait" />
-
         <service
             android:name=".TrackingService"
             android:enabled="true" />

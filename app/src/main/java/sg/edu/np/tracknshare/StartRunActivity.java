@@ -57,6 +57,7 @@ import sg.edu.np.tracknshare.models.Run;
 
 public class StartRunActivity extends AppCompatActivity{
 
+    Handler handler = new Handler(Looper.getMainLooper());
     Date date1;
     Date date2;
     private SensorManager sensorManager = null;
@@ -271,7 +272,6 @@ public class StartRunActivity extends AppCompatActivity{
     //Timer Codes
     private void runTimer(){
         TextView timer = findViewById(R.id.timer);
-        Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -285,6 +285,7 @@ public class StartRunActivity extends AppCompatActivity{
                     seconds++;
                     timer.setText(time);
                     Log.e("STOPWATCH", ""+time);
+                    //Implement the setting the same time to the textview when the app is restarted..... :)
                 }
                 else{
                     handler.removeCallbacks(this::run);
