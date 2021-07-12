@@ -40,6 +40,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -84,7 +85,6 @@ public class StartRunActivity extends AppCompatActivity{
         if (!tU.HasPerms(this)){
             createDialogForPermission();
         }
-
 
         AuthHandler auth = new AuthHandler(this);
         RunDBHandler runsDB = new RunDBHandler(this);
@@ -137,12 +137,16 @@ public class StartRunActivity extends AppCompatActivity{
                     startBtn.setText("Stop");
                     sendCommandToService(Constants.ACTION_START_OR_RESUME_SERVICE);
                     running = true;
+                    date1 = Calendar.getInstance().getTime();
                     runTimer();
                     stepCounter();
                     Toast.makeText(StartRunActivity.this, "Start Run!", Toast.LENGTH_SHORT).show();
                 } else{
                     sendCommandToService(Constants.ACTION_STOP_SERVICE);
                     running = false;
+                    date2 = Calendar.getInstance().getTime();
+                    long diffInMs = date2.getTime() - date1.getTime();
+                    long diffInS = TimeUnit.MILLISECONDS.toSeconds(diffInMs);
                     Toast.makeText(StartRunActivity.this, "Stopped Run!", Toast.LENGTH_SHORT).show();
                     saveData();
 
