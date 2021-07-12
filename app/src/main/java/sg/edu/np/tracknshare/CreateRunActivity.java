@@ -77,8 +77,8 @@ public class CreateRunActivity extends AppCompatActivity {
 
         dateText.setText(dateFormat.format(timeMilli));
         timeText.setText("" + getTimeInS() + " seconds");
-        distanceText.setText(String.format("%.4f", getDistance()));
-        paceText.setText("NULL");
+        distanceText.setText(String.format("%.4f", getDistance()) + "km");
+        paceText.setText("" + String.format("%.2f", getPace()) + " m/s");
         caloriesText.setText("NULL");
 
         ImageView settingsBtn = findViewById(R.id.save_profile);
@@ -193,5 +193,11 @@ public class CreateRunActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("steps", Context.MODE_PRIVATE);
         long savedData = sharedPreferences.getLong("key2", 0);
         return savedData;
+    }
+    public double getPace(){
+        double distance = getDistance() * 1000;
+        long time = getTimeInS();
+        double speed = distance / time; //simple formula to calculate pace...
+        return speed;
     }
 }
