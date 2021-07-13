@@ -3,8 +3,10 @@ package sg.edu.np.tracknshare;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.Manifest;
 import android.content.Context;
@@ -24,11 +26,13 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -77,7 +81,12 @@ public class StartRunActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_run);
         Log.e("Started Main Activity", "Done");
-        //requestPermissions();
+
+        Toolbar toolBar = findViewById(R.id.toolBar);
+        setSupportActionBar(toolBar);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -97,6 +106,7 @@ public class StartRunActivity extends AppCompatActivity{
         loadData();
         Button startBtn = findViewById(R.id.startRun);
         TextView timer = findViewById(R.id.timer);
+        LottieAnimationView anime = findViewById(R.id.animation_view);
 
         if (!isMapEnabled(this)){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -132,8 +142,11 @@ public class StartRunActivity extends AppCompatActivity{
         if (!tU.isMyServiceRunning(TrackingService.class, StartRunActivity.this)){
             startBtn.setText("Start");
             timer.setText("0:00:00");
+            anime.pauseAnimation();
         } else{
             startBtn.setText("Stop");
+
+            anime.playAnimation();
 
             SharedPreferences sharedPreferences = getSharedPreferences("tracking", Context.MODE_PRIVATE);
             long initialTime = sharedPreferences.getLong("initialTime", 0);
@@ -160,6 +173,8 @@ public class StartRunActivity extends AppCompatActivity{
                     startBtn.setText("Stop");
                     sendCommandToService(Constants.ACTION_START_OR_RESUME_SERVICE);
                     running = true;
+
+                    anime.playAnimation();
 
                     long initialMS = Calendar.getInstance().getTimeInMillis();
                     SharedPreferences sharedPreferences = getSharedPreferences("tracking", Context.MODE_PRIVATE);
@@ -307,7 +322,63 @@ public class StartRunActivity extends AppCompatActivity{
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
     }
+    @Override
+    public void onBackPressed() {
+        TrackingUtility tU = new TrackingUtility();
+        if (tU.isMyServiceRunning(TrackingService.class, StartRunActivity.this)){
+            displayBackConfirmation();
+        } else{
+            super.onBackPressed();
+        }
+    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        TrackingUtility tU = new TrackingUtility();
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (tU.isMyServiceRunning(TrackingService.class, StartRunActivity.this)){
+                    displayBackConfirmation();
+                }else{
+                    finish();
+                }
+                return true;
 
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void displayBackConfirmation(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Run is still in progress. Are you sure?")
+                .setCancelable(true)
+                .setPositiveButton("Yes", null)
+                .setNegativeButton("No", null);
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button posButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                posButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        sendCommandToService(Constants.ACTION_STOP_SERVICE);
+                        running = false;
+                        handler.removeCallbacksAndMessages(null);
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
+                Button negButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+                negButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+        dialog.show();
+    }
     //StepCounter codes
     public void stepCounter(){
         SensorEventListener sensorEventListener = new SensorEventListener() {

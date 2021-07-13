@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -59,6 +60,16 @@ public class PostFragment extends Fragment {
         ViewPager2 viewPager2 = view.findViewById(R.id.post_pager);
         viewPager2.setAdapter(postFragmentsAdapter);
         viewPager2.setSaveEnabled(false);
+
+        Field mFling;
+        try {
+            Field rvField = ViewPager2.class.getDeclaredField("mFling");
+            rvField.setAccessible(true);
+            rvField.set(viewPager2, 30);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
         TabLayout tabLayout = view.findViewById(R.id.feedTabLayout);
 
         new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
