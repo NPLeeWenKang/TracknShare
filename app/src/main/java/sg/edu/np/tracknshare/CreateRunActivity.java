@@ -71,10 +71,9 @@ public class CreateRunActivity extends AppCompatActivity {
 
         Calendar calendar = Calendar.getInstance();
         long timeMilli = calendar.getTimeInMillis();
-        Run r = new Run(auth.GetCurrentUser().getUid(), ""+timeMilli,""+timeMilli,null,1,getDistance(),1,1,trackingDB.getAllPoints());
+        Run r = new Run(auth.GetCurrentUser().getUid(), ""+timeMilli,""+timeMilli,timeMilli,getTimeInS(),getDistance(),1,getPace(),trackingDB.getAllPoints());
 
         DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy h:ma");
-        System.out.println(dateFormat.format(timeMilli));
 
         dateText.setText(dateFormat.format(timeMilli));
         timeText.setText("" + getTimeInS() + " seconds");
@@ -87,6 +86,7 @@ public class CreateRunActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 performSave();
+                finish();
             }
         });
         TextView mapClickable = findViewById(R.id.mapClickable);
@@ -150,7 +150,7 @@ public class CreateRunActivity extends AppCompatActivity {
         RunDBHandler runsDB = new RunDBHandler(CreateRunActivity.this);
 
         long id = storageHandler.GenerateId();
-        Run r = new Run(auth.GetCurrentUser().getUid(), ""+id,""+id,null,1,getDistance(),1,1,trackingDB.getAllPoints());
+        Run r = new Run(auth.GetCurrentUser().getUid(), ""+id,""+id,id,getTimeInS(),getDistance(),1,getPace(),trackingDB.getAllPoints());
         runsDB.AddRun(r);
 
         GoogleMap.SnapshotReadyCallback callback = new GoogleMap.SnapshotReadyCallback() {

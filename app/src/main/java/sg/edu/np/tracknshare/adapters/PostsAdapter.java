@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import sg.edu.np.tracknshare.CommentsActivity;
@@ -45,8 +47,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post p = data.get(position).getPost();
         User u = data.get(position).getUser();
+        DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy h:ma");
         holder.Username.setText(u.getUserName());
-        holder.PostDate.setText(""+p.getPostDate());
+        holder.PostDate.setText(dateFormat.format(p.getPostDate()));
         holder.Likes.setText(""+p.getLikes());
         holder.PostCaption.setText(p.getCaption());
         holder.UserImg.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_avatar));

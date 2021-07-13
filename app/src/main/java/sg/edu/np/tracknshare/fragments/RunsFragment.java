@@ -52,23 +52,6 @@ public class RunsFragment extends Fragment {
         runDB.GetRuns(auth.GetCurrentUser().getUid(), rList, runsAdapter);
     }
 
-    public ArrayList<Run> generateRuns(){
-        ArrayList<Run> runs = new ArrayList<Run>();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        Calendar c = Calendar.getInstance();
-
-        for(int i = 1;i<=20;i++){
-            Run r = new Run();
-            r.setRunId(""+i);
-            r.setRunDate(sdf.format(c.getTime()));
-            r.setRunDistance(i*5.00);
-            r.setRunCalories(234);
-            r.setRunDuration(1500000);
-            r.setRunPace();
-            runs.add(r);
-        }
-        return runs;
-    }
 
     @Override
     public void onResume() {

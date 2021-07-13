@@ -143,6 +143,7 @@ public class StartRunActivity extends AppCompatActivity{
             startBtn.setText("Start");
             timer.setText("0:00:00");
             anime.pauseAnimation();
+            seconds = 0;
         } else{
             startBtn.setText("Stop");
 

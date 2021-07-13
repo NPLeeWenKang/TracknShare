@@ -25,6 +25,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import sg.edu.np.tracknshare.CreatePostActivity;
@@ -56,12 +58,15 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder>  {
     public void onBindViewHolder(@NonNull RunsViewHolder holder, int position) {
         Run r = runs.get(position);
         StorageHandler storageHandler = new StorageHandler();
+        DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy h:ma");
         storageHandler.LoadFileToApp(r.getImageId(), context, holder.MapImage);
-        holder.Run_Date.setText(r.getRunDate());
+
+        holder.Run_Date.setText(dateFormat.format(r.getRunDate()));
         holder.Run_distance.setText(String.format("%.4f", r.getRunDistance()));
         holder.Run_calories.setText(""+r.getRunCalories());
         holder.Run_timing.setText(""+r.getRunDuration());
-        holder.Run_pace.setText(""+r.getRunPace());
+        holder.Run_pace.setText("" + String.format("%.2f", r.getRunPace()) + " m/s");
+        Log.d("PACE", "onBindViewHolder: "+r.getRunPace());
         holder.Share_button.setImageDrawable(context.getResources().getDrawable(R.drawable.share));
         holder.post_button.setImageDrawable(context.getResources().getDrawable(R.drawable.writing));
         saveImage(holder.MapImage.getDrawable());
