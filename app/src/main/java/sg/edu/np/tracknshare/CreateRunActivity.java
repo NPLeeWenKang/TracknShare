@@ -12,8 +12,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,6 +37,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 import sg.edu.np.tracknshare.handlers.AuthHandler;
 import sg.edu.np.tracknshare.handlers.RunDBHandler;
@@ -68,15 +71,14 @@ public class CreateRunActivity extends AppCompatActivity {
 
         Calendar calendar = Calendar.getInstance();
         long timeMilli = calendar.getTimeInMillis();
-        Run r = new Run(auth.GetCurrentUser().getUid(), ""+timeMilli,""+timeMilli,null,1,getDistance(),1,1,trackingDB.getAllPoints());
+        Run r = new Run(auth.GetCurrentUser().getUid(), ""+timeMilli,""+timeMilli,timeMilli,getTimeInS(),getDistance(),1,getPace(),trackingDB.getAllPoints());
 
         DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy h:ma");
-        System.out.println(dateFormat.format(timeMilli));
 
         dateText.setText(dateFormat.format(timeMilli));
-        timeText.setText("NULL");
-        distanceText.setText(String.format("%.4f", getDistance()));
-        paceText.setText("NULL");
+        timeText.setText("" + getTimeInS() + " seconds");
+        distanceText.setText(String.format("%.4f", getDistance()) + "km");
+        paceText.setText("" + String.format("%.2f", getPace()) + " m/s");
         caloriesText.setText("NULL");
 
         ImageView settingsBtn = findViewById(R.id.save_profile);
@@ -84,6 +86,7 @@ public class CreateRunActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 performSave();
+                finish();
             }
         });
         TextView mapClickable = findViewById(R.id.mapClickable);
@@ -125,6 +128,7 @@ public class CreateRunActivity extends AppCompatActivity {
                 posButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        dialog.dismiss();
                         finish();
                     }
                 });
@@ -146,7 +150,7 @@ public class CreateRunActivity extends AppCompatActivity {
         RunDBHandler runsDB = new RunDBHandler(CreateRunActivity.this);
 
         long id = storageHandler.GenerateId();
-        Run r = new Run(auth.GetCurrentUser().getUid(), ""+id,""+id,null,1,getDistance(),1,1,trackingDB.getAllPoints());
+        Run r = new Run(auth.GetCurrentUser().getUid(), ""+id,""+id,id,getTimeInS(),getDistance(),1,getPace(),trackingDB.getAllPoints());
         runsDB.AddRun(r);
 
         GoogleMap.SnapshotReadyCallback callback = new GoogleMap.SnapshotReadyCallback() {
@@ -186,5 +190,19 @@ public class CreateRunActivity extends AppCompatActivity {
         double distance = 2 * earthRadius * Math.asin(Math.sqrt(Math.sin(diffLat / 2) * Math.sin(diffLat / 2) + Math.cos(rLat1) * Math.cos(rLat2) * Math.sin(diffLng / 2) * Math.sin(diffLng / 2)));
 
         return distance;
+    }
+    public long getTimeInS(){
+        SharedPreferences sharedPreferences = getSharedPreferences("tracking", Context.MODE_PRIVATE);
+        long initialTime = sharedPreferences.getLong("initialTime", 0);
+        long finalTime = sharedPreferences.getLong("finalTime", 0);
+        long diffTime = (finalTime - initialTime);
+        long diffInSec = TimeUnit.MILLISECONDS.toSeconds(diffTime);
+        return diffInSec;
+    }
+    public double getPace(){
+        double distance = getDistance() * 1000;
+        long time = getTimeInS();
+        double speed = distance / time; //simple formula to calculate pace...
+        return speed;
     }
 }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Run {
     private String UserId;
     private String RunId;
-    private String RunDate; //to be formatted with SimpleDateFormatter class
+    private long RunDate; //to be formatted with SimpleDateFormatter class
     private String ImageId;
     private long RunDuration; //timing calculated in milliseconds
     private double RunDistance;
@@ -37,11 +37,11 @@ public class Run {
         RunId = runId;
     }
 
-    public String getRunDate() {
+    public long getRunDate() {
         return RunDate;
     }
 
-    public void setRunDate(String runDate) {
+    public void setRunDate(long runDate) {
         RunDate = runDate;
     }
 
@@ -73,10 +73,8 @@ public class Run {
         return RunPace;
     }
 
-    public void setRunPace() {
-        RunPace = (RunDuration/1000/60)/RunDistance; //pace is read as x minutes/km
-        //(RunDuration/1000/60) --> milliseconds to minutes
-
+    public void setRunPace(double runPace) {
+        RunPace = runPace;
     }
 
     public ArrayList<MyLatLng> getPoints() {
@@ -87,7 +85,7 @@ public class Run {
         this.points = points;
     }
 
-    public Run(String userId, String runId, String imageId, String runDate, long runDuration, double runDistance, double runCalories, double runPace, ArrayList<MyLatLng> points) {
+    public Run(String userId, String runId, String imageId, long runDate, long runDuration, double runDistance, double runCalories, double runPace, ArrayList<MyLatLng> points) {
         UserId = userId;
         RunId = runId;
         RunDate = runDate;

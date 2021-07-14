@@ -1,5 +1,6 @@
 package sg.edu.np.tracknshare;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -7,58 +8,81 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.google.android.gms.maps.GoogleMap;
+
+import sg.edu.np.tracknshare.handlers.AuthHandler;
+import sg.edu.np.tracknshare.handlers.PostDBHandler;
+import sg.edu.np.tracknshare.handlers.RunDBHandler;
+import sg.edu.np.tracknshare.handlers.StorageHandler;
+import sg.edu.np.tracknshare.handlers.TrackingDBHandler;
+import sg.edu.np.tracknshare.models.Post;
+import sg.edu.np.tracknshare.models.Run;
 
 
 public class CreatePostActivity extends AppCompatActivity {
-    Dialog createPostDialog;
-    EditText caption;
-    Button post;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        createPostDialog =  new Dialog(this,R.style.Widget_MaterialComponents_Toolbar);
-        createPostDialog.setContentView(R.layout.activity_create_post);
-        createPostDialog.show();
-/*
-        caption = findViewById(R.id.caption_editText);
-        post = findViewById(R.id.create_post);
-        if(caption.getText().toString().isEmpty()){
-            post.setClickable(false); //disable post if there's no caption
-        }
+        setContentView(R.layout.activity_create_post);
 
-        post.setOnClickListener(new View.OnClickListener() {
+        Toolbar toolBar = findViewById(R.id.toolBar);
+        setSupportActionBar(toolBar);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        Intent receivingEnd = getIntent();
+        String runId = receivingEnd.getStringExtra("runId");
+
+        ImageView img = findViewById(R.id.create_post_img);
+
+        Log.d("CREATEPOST", "onCreate: "+img.getWidth());
+
+        StorageHandler storageDB = new StorageHandler();
+        storageDB.LoadFileToApp(runId, this, img);
+
+        ImageView settingsBtn = findViewById(R.id.post_run);
+        settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Log.d("HELLO","YO");
+            public void onClick(View view) {
+                EditText captionText = findViewById(R.id.caption_editText);
+                performPost(captionText.getText().toString());
             }
         });
-*/
+
     }
+    public void performPost(String caption){
+        StorageHandler storageHandler = new StorageHandler();
+        AuthHandler auth = new AuthHandler(CreatePostActivity.this);
+        TrackingDBHandler trackingDB = new TrackingDBHandler(CreatePostActivity.this);
+        PostDBHandler PostsDB = new PostDBHandler(CreatePostActivity.this);
 
-    public void showClosingAlert(View view) { //onclick callback referenced in xml markup
-        AlertDialog.Builder builder = new AlertDialog.Builder(CreatePostActivity.this);
-        builder.setCancelable(true);
-        builder.setTitle("Warning!");
-        builder.setMessage("Cancel New Post?");
-        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        Intent receivingEnd = getIntent();
+        String runId = receivingEnd.getStringExtra("runId");
 
-                Intent intent = new Intent(CreatePostActivity.this,BaseActivity.class);
-            }
-        });
-        AlertDialog alert = builder.create();
-        alert.show();
+        long id = storageHandler.GenerateId();
+        Post p = new Post(auth.GetCurrentUser().getUid(), ""+id, runId, id, 0, caption);
+        PostsDB.AddPost(p);
+        finish();
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

@@ -42,38 +42,20 @@ public class fragment_follow extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        sendButton = view.findViewById(R.id.sharePost);
-        postCaption = view.findViewById(R.id.postCaption);
-        likesIcon = view.findViewById(R.id.likesImg);
-        posts = new ArrayList<Post>();
-        generatePosts();
-        RecyclerView rv = view.findViewById(R.id.rvPost);
-        PostsAdapter adapter = new PostsAdapter(view.getContext(),posts);
-        LinearLayoutManager lm = new LinearLayoutManager(view.getContext());
-        rv.setLayoutManager(lm);
-        rv.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+//        sendButton = view.findViewById(R.id.sharePost);
+//        postCaption = view.findViewById(R.id.postCaption);
+//        likesIcon = view.findViewById(R.id.likesImg);
+//        posts = new ArrayList<Post>();
+//
+//        RecyclerView rv = view.findViewById(R.id.rvPost);
+//        PostsAdapter adapter = new PostsAdapter(view.getContext(),posts);
+//        LinearLayoutManager lm = new LinearLayoutManager(view.getContext());
+//        rv.setLayoutManager(lm);
+//        rv.setAdapter(adapter);
+//        adapter.notifyDataSetChanged();
 
     }
-    public void generatePosts(){
-        //Post date formatting constructor and methods
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy") ;
-        String date = sdf.format(calendar.getTime());
 
-        String captionText = "This is the message of the post! Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                "Sed sagittis ante quis convallis rutrum. Integer vitae convallis nulla, non pharetra quam. " +
-                "Fusce in sodales arcu, a iaculis felis.";
-        for(int i = 1;i<=10;i++){
-            Post p = new Post();
-            p.setPostUsername("#MAD CATS"+i);
-            p.setPostId(i);
-            p.setCaption(captionText);
-            p.setLikes(i*2);
-            p.setPostDate(date);
-            posts.add(p);
-        }
-    }
     public void SharePost(String caption, Uri imageUri){
         /*this function calls the sharesheet API to share the posts to
         other social messaging apps*/
