@@ -1,6 +1,7 @@
 package sg.edu.np.tracknshare.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +39,12 @@ public class RunsFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_runs, container, false);
     }
+    @Override
+    public void onPause() {
+        super.onPause();
+        //
+        Log.d("state","PAUSED");
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -56,11 +64,22 @@ public class RunsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-//        View v = getActivity().findViewById(R.id.coordinatorlayout);
-//        Snackbar snackbar = Snackbar.make(v,"Successfully posted your run.",Snackbar.LENGTH_LONG)
-//
-//                .setAnchorView(R.id.fab);
-//        snackbar.show();
+        Log.d("state","RESUMED");
+        SharedPreferences sharedPreferences = getContext().
+                getSharedPreferences("PostStatus",Context.MODE_PRIVATE);
+        boolean showSnackbar = sharedPreferences.getBoolean("Success",false);
+        if(showSnackbar){// if post successfully created
+            View v = getActivity().findViewById(R.id.coordinatorlayout);
+            Snackbar snackbar = Snackbar.make(v,"Successfully posted your run.",Snackbar.LENGTH_LONG)
+                    .setAnchorView(R.id.fab);
+                    snackbar.show();//one-time event
 
+            sharedPreferences.edit().clear().commit();//to avoid snackbar from appearing repetitively
+
+        }
+
+    }
+    public void onDestroy(){
+        super.onDestroy();
     }
 }
