@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -87,15 +88,36 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder>  {
 
             }
             private void openShareSheet() {
-                BitmapDrawable bitmapDrawable = ((BitmapDrawable) holder.MapImage.getDrawable());
-                Bitmap bitmap = bitmapDrawable.getBitmap();
+                try{
+                    BitmapDrawable bitmapDrawable = ((BitmapDrawable) holder.MapImage.getDrawable());
+                    Bitmap bitmap = bitmapDrawable.getBitmap();
 
-                StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().build()); //set external app-sharing permissions
-                Intent shareIntent = new Intent();
-                shareIntent.setAction(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_STREAM, getBitmapFromView(bitmap));
-                shareIntent.setType("image/*");
-                context.startActivity(Intent.createChooser(shareIntent, "Send"));
+                    StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().build()); //set external app-sharing permissions
+
+                    File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),System.currentTimeMillis()+".png");
+                   //String file_path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/tracknshare/";
+                    //File dir = new File(file_path);
+                    //dir.mkdirs();
+                    //File file = new File(dir,System.currentTimeMillis()+".png");
+                    FileOutputStream fileOutputStream = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.PNG,90,fileOutputStream);
+                    file.setReadable(true,false);
+                    Log.d("uri",file.toURI().toString());
+                    fileOutputStream.flush();
+                    fileOutputStream.close();
+                    Uri uri = Uri.fromFile(file);
+
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
+                    shareIntent.setType("image/png");
+                    context.startActivity(Intent.createChooser(shareIntent, "Send"));
+
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
             }
 
         });
@@ -105,22 +127,23 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder>  {
         return d;
     }
 
-    private Uri getBitmapFromView(Bitmap bmp){
-        Uri bitmapUri = null;
-        try{
-            File file = new File(context.getExternalCacheDir(),String.valueOf(System.currentTimeMillis())+".jpg");
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.JPEG,90,fileOutputStream);
-            fileOutputStream.close();
-            bitmapUri = Uri.fromFile(file);
-
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
-        Log.d("ERROR",bitmapUri.toString());
-        return bitmapUri;
-    }
+//    private Uri getBitmapFromView(Bitmap bmp){
+//        Uri bitmapUri = null;
+//        try{
+////            File file = new File(context.getExternalCacheDir(),System.currentTimeMillis()+".png");
+////            FileOutputStream fileOutputStream = new FileOutputStream(file);
+////            bmp.compress(Bitmap.CompressFormat.PNG,90,fileOutputStream);
+////            file.setReadable(true,false);
+////            fileOutputStream.flush();
+//            //bitmapUri = Uri.fromFile(file);
+//
+//        }
+//        catch(IOException e){
+//            e.printStackTrace();
+//        }
+//        Log.d("ERROR",bitmapUri.toString());
+//        return bitmapUri;
+//    }
     @Override
     public int getItemCount() {
         return runs.size();
