@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 
@@ -55,7 +57,13 @@ public class CreatePostActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 EditText captionText = findViewById(R.id.caption_editText);
-                performPost(captionText.getText().toString());
+                String caption = captionText.getText().toString();
+                if(!caption.isEmpty()){
+                    performPost(captionText.getText().toString());
+                }
+                else{ //empty caption validation
+                    Toast.makeText(getApplicationContext(),"Caption cannot be left empty",Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -72,7 +80,12 @@ public class CreatePostActivity extends AppCompatActivity {
         long id = storageHandler.GenerateId();
         Post p = new Post(auth.GetCurrentUser().getUid(), ""+id, runId, id, 0, caption);
         PostsDB.AddPost(p);
+        //set Success value to create Snackbar
+        SharedPreferences.Editor sharedPref = getSharedPreferences("PostStatus",MODE_PRIVATE).edit();
+        sharedPref.putBoolean("Success",true);
+        sharedPref.apply();
         finish();
+
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
