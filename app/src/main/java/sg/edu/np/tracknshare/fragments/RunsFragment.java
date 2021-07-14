@@ -56,11 +56,11 @@ public class RunsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        View v = getActivity().findViewById(R.id.coordinatorlayout);
-        Snackbar snackbar = Snackbar.make(v,"Successfully posted your run.",Snackbar.LENGTH_LONG)
-
-                .setAnchorView(R.id.fab);
-        snackbar.show();
+//        View v = getActivity().findViewById(R.id.coordinatorlayout);
+//        Snackbar snackbar = Snackbar.make(v,"Successfully posted your run.",Snackbar.LENGTH_LONG)
+//
+//                .setAnchorView(R.id.fab);
+//        snackbar.show();
 
     }
 }
