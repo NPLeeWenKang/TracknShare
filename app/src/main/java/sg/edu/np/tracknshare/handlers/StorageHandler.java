@@ -7,8 +7,12 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -31,14 +35,18 @@ public class StorageHandler {
     public void LoadFileToApp(String imageId, Context c, ImageView imageRef){
         Log.d("GENERATEID", "LoadFileToApp: "+imageId);
         StorageReference imagesRef = storageRef.child("images/"+imageId);
-        imagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
-        {
+        imagesRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
             @Override
-            public void onSuccess(Uri downloadUrl)
-            {
-                Glide.with(c)
-                        .load(downloadUrl.toString())
-                        .into(imageRef);
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()){
+                    Log.d("GENERATEID", "LoadFileToApp: "+task.getResult().toString());
+                    Glide.with(c)
+                            .load(task.getResult().toString())
+                            .into(imageRef);
+                }else{
+                    Log.d("GENERATEID", "LoadFileToApp: "+task.getException());
+                    imageRef.setImageBitmap(null);
+                }
             }
         });
 
