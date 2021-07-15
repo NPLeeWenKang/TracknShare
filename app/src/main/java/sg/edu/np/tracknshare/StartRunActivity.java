@@ -389,7 +389,10 @@ public class StartRunActivity extends AppCompatActivity{
                     totalSteps = (int) event.values[0];
                     currentSteps = totalSteps - previousTotalSteps;
                     TextView tv = findViewById(R.id.tv_stepCounter);
-                    tv.setText(""+currentSteps + "steps");
+                    if (tv != null){
+                        tv.setText(""+currentSteps + "steps");
+                    }
+
                     Log.e("Running", "TRACKING STEPS" + currentSteps);
                 }
                 else{
