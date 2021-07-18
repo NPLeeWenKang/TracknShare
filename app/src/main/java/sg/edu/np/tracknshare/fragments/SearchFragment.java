@@ -26,6 +26,7 @@ import android.widget.EditText;
 import java.util.ArrayList;
 
 import sg.edu.np.tracknshare.BaseActivity;
+import sg.edu.np.tracknshare.FriendListActivity;
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.SettingsActivity;
 import sg.edu.np.tracknshare.adapters.SearchItemAdapter;
@@ -94,7 +95,7 @@ public class SearchFragment extends Fragment {
         friendConst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), SettingsActivity.class);
+                Intent intent = new Intent(view.getContext(), FriendListActivity.class);
                 ((Activity) view.getContext()).startActivity(intent);
                 ((Activity) view.getContext()).overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
             }
