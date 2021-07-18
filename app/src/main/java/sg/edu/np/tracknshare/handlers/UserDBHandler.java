@@ -49,8 +49,10 @@ public class UserDBHandler {
                     if (task.getResult().exists()){
                         for (DataSnapshot ds : task.getResult().getChildren()){
                             User u = ds.getValue(User.class);
-                            u.setFriendsId(null);
-                            uList.add(u);
+                            if (u.getUserName() != username){
+                                u.setFriendsId(null);
+                                uList.add(u);
+                            }
                         }
                         Log.d("KEYCODE", "onKey: UPDATE "+username);
                         Log.d("firebase", String.valueOf(task.getResult().getValue()));

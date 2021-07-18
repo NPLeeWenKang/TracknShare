@@ -122,7 +122,6 @@ public class BaseActivity extends AppCompatActivity  implements EasyPermissions.
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                bottomNavigationView.getMenu().setGroupCheckable(0, true,true);
                 FragmentManager fManager = getSupportFragmentManager();
                 FragmentTransaction fTransaction = fManager.beginTransaction();
                 fTransaction.setTransition(FragmentTransaction.TRANSIT_NONE);
@@ -164,7 +163,6 @@ public class BaseActivity extends AppCompatActivity  implements EasyPermissions.
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bottomNavigationView.getMenu().setGroupCheckable(0, false,false);
                 /*FragmentManager fManager = getSupportFragmentManager();
                 FragmentTransaction fTransaction = fManager.beginTransaction();
                 fTransaction.setTransition(FragmentTransaction.TRANSIT_NONE);
