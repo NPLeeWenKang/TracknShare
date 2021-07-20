@@ -106,7 +106,6 @@ public class StartRunActivity extends AppCompatActivity{
         loadData();
         Button startBtn = findViewById(R.id.startRun);
         TextView timer = findViewById(R.id.timer);
-        LottieAnimationView anime = findViewById(R.id.animation_view);
 
         if (!isMapEnabled(this)){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -142,13 +141,9 @@ public class StartRunActivity extends AppCompatActivity{
         if (!tU.isMyServiceRunning(TrackingService.class, StartRunActivity.this)){
             startBtn.setText("Start");
             timer.setText("0:00:00");
-            anime.pauseAnimation();
             seconds = 0;
         } else{
             startBtn.setText("Stop");
-
-            anime.playAnimation();
-
             SharedPreferences sharedPreferences = getSharedPreferences("tracking", Context.MODE_PRIVATE);
             long initialTime = sharedPreferences.getLong("initialTime", 0);
             long diffTime = (Calendar.getInstance().getTimeInMillis() - initialTime);
@@ -174,9 +169,6 @@ public class StartRunActivity extends AppCompatActivity{
                     startBtn.setText("Stop");
                     sendCommandToService(Constants.ACTION_START_OR_RESUME_SERVICE);
                     running = true;
-
-                    anime.playAnimation();
-
                     long initialMS = Calendar.getInstance().getTimeInMillis();
                     SharedPreferences sharedPreferences = getSharedPreferences("tracking", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
