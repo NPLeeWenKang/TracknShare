@@ -44,6 +44,20 @@ public class PostDBHandler {
         DatabaseReference dbRef = database.getReference("/posts");
         dbRef.child(""+p.getPostId()).setValue(p);
     }
+    public void getCount(String id, TextView numPost){
+        DatabaseReference dbRef = database.getReference("/posts");
+        dbRef.orderByChild("userId").equalTo(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().exists()){
+                        numPost.setText(""+task.getResult().getChildrenCount());
+                    }
+
+                }
+            }
+        });
+    }
     public void GetPosts(ArrayList<UserPostViewModel> upList, PostsAdapter mAdapter){
         DatabaseReference dbRef = database.getReference("/posts");
         dbRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {

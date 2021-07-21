@@ -42,6 +42,7 @@ public class UserDetailActivity extends AppCompatActivity {
         String id = receivingEnd.getStringExtra("id");
 
         UserDBHandler db = new UserDBHandler(this);
+        AuthHandler auth = new AuthHandler(this);
         db.GetUserDetails(id, this);
 
         StorageHandler storageHandler = new StorageHandler();
@@ -58,6 +59,8 @@ public class UserDetailActivity extends AppCompatActivity {
 
         PostDBHandler postDBHandler = new PostDBHandler(this);
         postDBHandler.GetUserPosts(upList, mAdapter, id);
+
+        //db.AddToFriends(auth.GetCurrentUser().getUid(), id);
 
     }
     @Override

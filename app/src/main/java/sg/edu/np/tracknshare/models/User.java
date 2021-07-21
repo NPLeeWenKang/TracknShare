@@ -3,14 +3,17 @@ package sg.edu.np.tracknshare.models;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Set;
 
 public class User {
     private String Id;
     private String UserName;
     private String Email;
     private String AccountCreationDate;
-    private ArrayList<String> FriendsId;
+    private HashMap<String, Boolean> FriendsId;
 
     public String getAccountCreationDate() {
         return AccountCreationDate;
@@ -20,11 +23,11 @@ public class User {
         AccountCreationDate = accountCreationDate;
     }
 
-    public ArrayList<String> getFriendsId() {
+    public HashMap<String, Boolean> getFriendsId() {
         return FriendsId;
     }
 
-    public void setFriendsId(ArrayList<String> friendsId) {
+    public void setFriendsId(HashMap<String, Boolean> friendsId) {
         FriendsId = friendsId;
     }
     public User(){};
@@ -52,7 +55,7 @@ public class User {
         Email = email;
     }
 
-    public User(String id, String userName, String email, String accountCreationDate, ArrayList<String> friendsId) {
+    public User(String id, String userName, String email, String accountCreationDate, HashMap<String, Boolean> friendsId) {
         Id = id;
         UserName = userName;
         Email = email;

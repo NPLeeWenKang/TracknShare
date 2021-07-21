@@ -39,6 +39,20 @@ public class RunDBHandler {
         DatabaseReference dbRef = database.getReference("/runs");
         dbRef.child(""+r.getRunId()).setValue(r);
     }
+    public void getCount(String id, TextView numRun){
+        DatabaseReference dbRef = database.getReference("/runs");
+        dbRef.orderByChild("userId").equalTo(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().exists()){
+                        numRun.setText(""+task.getResult().getChildrenCount());
+                    }
+
+                }
+            }
+        });
+    }
     public void GetRuns(String id, ArrayList<Run> rList, RunsAdapter mAdapter){
         DatabaseReference dbRef = database.getReference("/runs");
         dbRef.orderByChild("userId").equalTo(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
