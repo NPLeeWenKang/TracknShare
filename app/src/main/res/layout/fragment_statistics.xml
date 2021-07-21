@@ -3,12 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.fragment_statistics">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/stats_viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="my statistics" />
+        android:layout_height="match_parent" />
+    <com.google.android.material.tabs.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tabDots"
+        android:layout_marginTop="15dp"
+        app:dotsSpacing="3dp"
+        app:dotsSize="5dp"
+        app:selectedDotColor="#68c3f7"
+        app:dotsColor="@color/secondaryDarkColor"
+        app:progressMode="true"/>
+<!--
+    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+        android:id="@+id/tabDots"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="15dp"
+        app:dotsSpacing="3dp"
+        app:dotsSize="5dp"
+        app:selectedDotColor="#68c3f7"
+        app:dotsColor="@color/secondaryDarkColor"
+        app:progressMode="true"/>
+-->
 
 </FrameLayout>

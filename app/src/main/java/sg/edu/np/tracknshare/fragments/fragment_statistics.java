@@ -2,13 +2,23 @@ package sg.edu.np.tracknshare.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import sg.edu.np.tracknshare.R;
+import sg.edu.np.tracknshare.adapters.StatisticsFragmentAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,7 +26,8 @@ import sg.edu.np.tracknshare.R;
  * create an instance of this fragment.
  */
 public class fragment_statistics extends Fragment {
-
+    ViewPager2 viewPager2;
+    TabLayout dotsIndicator;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -62,5 +73,20 @@ public class fragment_statistics extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_statistics, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        StatisticsFragmentAdapter statisticsFragmentAdapter = new StatisticsFragmentAdapter(getChildFragmentManager(),getLifecycle());
+        viewPager2 =view.findViewById(R.id.stats_viewPager);
+        dotsIndicator = view.findViewById(R.id.tabDots);
+        viewPager2.setSaveEnabled(false);
+        viewPager2.setAdapter(statisticsFragmentAdapter);
+        new TabLayoutMediator(dotsIndicator,viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+            }
+        }).attach();
     }
 }
