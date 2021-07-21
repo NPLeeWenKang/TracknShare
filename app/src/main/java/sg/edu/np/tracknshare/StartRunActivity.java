@@ -103,7 +103,6 @@ public class StartRunActivity extends AppCompatActivity{
         RunDBHandler runsDB = new RunDBHandler(this);
         TrackingDBHandler trackingDB = new TrackingDBHandler(this);
 
-        loadData();
         Button startBtn = findViewById(R.id.startRun);
         TextView timer = findViewById(R.id.timer);
 
@@ -176,7 +175,6 @@ public class StartRunActivity extends AppCompatActivity{
                     editor.apply();
 
                     runTimer();
-                    stepCounter();
                     Toast.makeText(StartRunActivity.this, "Start Run!", Toast.LENGTH_SHORT).show();
                 } else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(StartRunActivity.this);
@@ -212,7 +210,6 @@ public class StartRunActivity extends AppCompatActivity{
 
                                     Log.e("FINAL", "onClick: " +diffInSec);
                                     Toast.makeText(StartRunActivity.this, "Stopped Run!", Toast.LENGTH_SHORT).show();
-                                    saveData();
 
                                     Intent intent = new Intent(StartRunActivity.this, CreateRunActivity.class);
                                     startActivity(intent);
@@ -373,71 +370,7 @@ public class StartRunActivity extends AppCompatActivity{
         dialog.show();
     }
     //StepCounter codes
-    public void stepCounter(){
-        SensorEventListener sensorEventListener = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent event) {
-                if(running){
-                    totalSteps = (int) event.values[0];
-                    currentSteps = totalSteps - previousTotalSteps;
-                    TextView tv = findViewById(R.id.tv_stepCounter);
-                    if (tv != null){
-                        tv.setText(""+currentSteps + "steps");
-                    }
 
-                    Log.e("Running", "TRACKING STEPS" + currentSteps);
-                }
-                else{
-                    Log.e("Running", "NOT TRACKING STEPS");
-                }
-            }
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-            }
-        };
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        Sensor stepSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        if (stepSensor == null) {
-            // This will give a toast message to the user if there is no sensor in the device
-            Toast.makeText(StartRunActivity.this, "No sensor detected on this device", Toast.LENGTH_SHORT).show();
-        } else {
-            // Rate suitable for the user interface
-            sensorManager.registerListener(sensorEventListener, stepSensor, SensorManager.SENSOR_DELAY_UI);
-        }
-        Toast.makeText(StartRunActivity.this, "Start Run!", Toast.LENGTH_SHORT).show();
-    }
-    //Saving and Loading StepCounter Data from sharedPreferences
-    public void saveData(){
-        SharedPreferences sharedPreferences = getSharedPreferences("steps", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("key1", previousTotalSteps);
-        editor.apply();
-    }
-    public void loadData(){
-        SharedPreferences sharedPreferences = getSharedPreferences("steps", Context.MODE_PRIVATE);
-        int savedData = sharedPreferences.getInt("key1", 0);
-        previousTotalSteps = savedData;
-    }
-    //Reset steps when the user longpress on the textview.
-    public void resetSteps(View view) {
-        TextView tv_stepsTaken = findViewById(R.id.tv_stepCounter);
-        tv_stepsTaken.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(StartRunActivity.this, "Long tap to reset", Toast.LENGTH_SHORT).show();
-            }
-        });
-        tv_stepsTaken.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                previousTotalSteps = totalSteps;
-                tv_stepsTaken.setText(""+0 + "steps");
-                saveData();
-                return true;
-            }
-        });
-    }
     public double getDistance(){
         TrackingDBHandler trackingDB = new TrackingDBHandler(this);
         ArrayList<MyLatLng> pointsList = trackingDB.getAllPoints();
