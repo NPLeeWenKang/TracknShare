@@ -51,6 +51,31 @@ public class StorageHandler {
         });
 
     }
+    public void LoadProfileImageToApp(String imageId, Context c, ImageView imageRef){
+        Log.d("GENERATEID", "LoadProfileImageToApp: "+imageId);
+        StorageReference imagesRef = storageRef.child("profileIMG/"+imageId);
+        imagesRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()){
+                    Log.d("GENERATEID", "LoadProfileImageToApp: "+task.getResult().toString());
+                    Glide.with(c)
+                            .load(task.getResult().toString())
+                            .into(imageRef);
+                }else{
+                    Log.d("GENERATEID", "LoadProfileImageToApp: "+task.getException());
+                }
+            }
+        });
+
+    }
+    public void UploadProfileImage(String id, Bitmap bm){
+        StorageReference imagesRef = storageRef.child("profileIMG");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+        imagesRef.child(id).putBytes(data);
+    }
     public long GenerateId(){
         Calendar calendar = Calendar.getInstance();
         long timeMilli = calendar.getTimeInMillis();

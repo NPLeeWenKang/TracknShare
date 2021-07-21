@@ -39,6 +39,26 @@ import sg.edu.np.tracknshare.handlers.AuthHandler;
 public class BaseActivity extends AppCompatActivity  implements EasyPermissions.PermissionCallbacks{
     public ActionBarDrawerToggle toggle;
 
+    public void setAppBar(boolean isSearch){
+        Toolbar toolBar = null;
+        if (isSearch){
+            Log.d("APPBAR", "setAppBar: true");
+            findViewById(R.id.includeBase).setVisibility(View.GONE);
+            findViewById(R.id.includeSearch).setVisibility(View.VISIBLE);
+            toolBar = findViewById(R.id.toolBarSearch);
+        }else{
+            Log.d("APPBAR", "setAppBar: true");
+            findViewById(R.id.includeBase).setVisibility(View.VISIBLE);
+            findViewById(R.id.includeSearch).setVisibility(View.GONE);
+            toolBar = findViewById(R.id.toolBarBase);
+        }
+        setSupportActionBar(toolBar);
+        toggle = new ActionBarDrawerToggle(this, findViewById(R.id.drawLayout), R.string.open, R.string.close);
+        DrawerLayout dL = findViewById(R.id.drawLayout);
+        dL.addDrawerListener(toggle);
+        toggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,14 +70,9 @@ public class BaseActivity extends AppCompatActivity  implements EasyPermissions.
             startActivity(intent);
         }
 
-        // Initiating navigation drawer
-        Toolbar toolBar = findViewById(R.id.toolBar);
-        setSupportActionBar(toolBar);
-        toggle = new ActionBarDrawerToggle(this, findViewById(R.id.drawLayout), R.string.open, R.string.close);
+        setAppBar(false);
+
         DrawerLayout dL = findViewById(R.id.drawLayout);
-        dL.addDrawerListener(toggle);
-        toggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Setting initial fragment
         FragmentManager fManager = getSupportFragmentManager();
@@ -77,18 +92,9 @@ public class BaseActivity extends AppCompatActivity  implements EasyPermissions.
                 //Log.d("NAV", "onNavigationItemSelected: ");
                 dL.closeDrawer(Gravity.LEFT);
                 BottomNavigationView bottomNavigationView = (BaseActivity.this).findViewById(R.id.bottomNavigationView);
-                if (item.getItemId() == R.id.homeNavItem){
-                    bottomNavigationView.setSelectedItemId(R.id.homeNavItem);
-
-                }else if (item.getItemId() == R.id.searchNavItem){
-                    bottomNavigationView.setSelectedItemId(R.id.searchNavItem);
-
-                }
-                else if (item.getItemId() == R.id.runsNavItem){
-                    bottomNavigationView.setSelectedItemId(R.id.runsNavItem);
-                }
-                else if (item.getItemId() == R.id.profileNavItem){
-                    bottomNavigationView.setSelectedItemId(R.id.profileNavItem);
+                if(item.getItemId() == R.id.settingsNavItem){
+                    Intent intent = new Intent(BaseActivity.this, SettingsActivity.class);
+                    startActivity(intent);
                 }
                 else if (item.getItemId() == R.id.signOut){
                     AuthHandler auth = new AuthHandler(BaseActivity.this);
@@ -107,22 +113,25 @@ public class BaseActivity extends AppCompatActivity  implements EasyPermissions.
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                bottomNavigationView.getMenu().setGroupCheckable(0, true,true);
                 FragmentManager fManager = getSupportFragmentManager();
                 FragmentTransaction fTransaction = fManager.beginTransaction();
                 fTransaction.setTransition(FragmentTransaction.TRANSIT_NONE);
 ;                if (item.getItemId() == R.id.homeNavItem){
+                    setAppBar(false);
                     fTransaction.replace(R.id.flFragment, postFrag, "Post_Frag");
                     fTransaction.commit();
                 }else if (item.getItemId() == R.id.searchNavItem){
+                    setAppBar(true);
                     fTransaction.replace(R.id.flFragment, searchFrag, "Search_Frag");
                     fTransaction.commit();
                 }
                 else if (item.getItemId() == R.id.runsNavItem){
+                    setAppBar(false);
                     fTransaction.replace(R.id.flFragment, runsFrag, "Runs_Frag");
                     fTransaction.commit();
                 }
                 else if (item.getItemId() == R.id.profileNavItem){
+                    setAppBar(false);
                     fTransaction.replace(R.id.flFragment, profileFrag, "Profile_Frag");
                     fTransaction.commit();
                 }
@@ -130,22 +139,21 @@ public class BaseActivity extends AppCompatActivity  implements EasyPermissions.
             }
         });
 
-        ImageView settingsBtn = findViewById(R.id.save_profile);
-        settingsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("SETTINGS", "onClick: Settings");
-                Intent intent = new Intent(BaseActivity.this, SettingsActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
-            }
-        });
+//        ImageView settingsBtn = findViewById(R.id.save_profile);
+//        settingsBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.d("SETTINGS", "onClick: Settings");
+//                Intent intent = new Intent(BaseActivity.this, SettingsActivity.class);
+//                startActivity(intent);
+//                overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
+//            }
+//        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bottomNavigationView.getMenu().setGroupCheckable(0, false,false);
                 /*FragmentManager fManager = getSupportFragmentManager();
                 FragmentTransaction fTransaction = fManager.beginTransaction();
                 fTransaction.setTransition(FragmentTransaction.TRANSIT_NONE);

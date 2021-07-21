@@ -77,8 +77,8 @@ public class PostFragment extends Fragment {
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) { }
 
         }).attach();
-        tabLayout.getTabAt(0).setText("general");
-        tabLayout.getTabAt(1).setText("friends");
+        tabLayout.getTabAt(0).setText("General");
+        tabLayout.getTabAt(1).setText("Friends");
 
     }
 

@@ -1,6 +1,8 @@
 package sg.edu.np.tracknshare.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import sg.edu.np.tracknshare.FriendListActivity;
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.models.User;
 import sg.edu.np.tracknshare.viewholders.SearchItemViewHolder;
@@ -33,6 +36,14 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemViewHolder
     public void onBindViewHolder(@NonNull SearchItemViewHolder holder, int position) {
         User u = data.get(position);
         holder.username.setText(u.getUserName());
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), FriendListActivity.class);
+                ((Activity) view.getContext()).startActivity(intent);
+                ((Activity) view.getContext()).overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
+            }
+        });
     }
 
     @Override

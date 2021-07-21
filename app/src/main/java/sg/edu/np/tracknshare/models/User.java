@@ -10,7 +10,7 @@ public class User {
     private String UserName;
     private String Email;
     private String AccountCreationDate;
-    private ArrayList<String> FollowingId;
+    private ArrayList<String> FriendsId;
 
     public String getAccountCreationDate() {
         return AccountCreationDate;
@@ -21,11 +21,11 @@ public class User {
     }
 
     public ArrayList<String> getFriendsId() {
-        return FollowingId;
+        return FriendsId;
     }
 
     public void setFriendsId(ArrayList<String> friendsId) {
-        FollowingId = friendsId;
+        FriendsId = friendsId;
     }
     public User(){};
     public String getId() {
@@ -52,11 +52,11 @@ public class User {
         Email = email;
     }
 
-    public User(String id, String userName, String email, String accountCreationDate, ArrayList<String> followingId) {
+    public User(String id, String userName, String email, String accountCreationDate, ArrayList<String> friendsId) {
         Id = id;
         UserName = userName;
         Email = email;
         AccountCreationDate = accountCreationDate;
-        FollowingId = followingId;
+        FriendsId = friendsId;
     }
 }

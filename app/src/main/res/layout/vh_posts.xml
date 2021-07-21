@@ -46,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="19dp"
         android:text="03/02/2021"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/avatar"
         app:layout_constraintStart_toStartOf="@+id/username"
         app:layout_constraintTop_toBottomOf="@+id/username" />
@@ -64,7 +64,7 @@
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="15dp"
         android:text="Username"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/workoutDate"
@@ -76,10 +76,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="description"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="descriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescription"
         android:textColor="@color/black"
-        android:textSize="19sp"
-        android:textStyle="bold"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/likesImg"
         app:layout_constraintStart_toStartOf="@+id/avatar"
         app:layout_constraintTop_toBottomOf="@+id/avatar" />
@@ -104,23 +105,42 @@
         app:layout_constraintTop_toTopOf="@+id/viewComments"
         app:srcCompat="@drawable/ic_comment" />
 
-    <ImageView
+    <androidx.cardview.widget.CardView
         android:id="@+id/avatar"
-        android:layout_width="50dp"
+        android:layout_width="45dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
+        app:cardCornerRadius="250dp"
         app:layout_constraintDimensionRatio="h,1:1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_avatar" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/avatarIMG"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_avatar" />
+    </androidx.cardview.widget.CardView>
+<!--    <ImageView-->
+<!--        android:layout_width="45dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:alpha="0.5"-->
+<!--        app:layout_constraintDimensionRatio="h,1:1"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:srcCompat="@drawable/ic_avatar" />-->
 
     <ImageView
         android:id="@+id/imageView8"
         android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:alpha="0.2"
+        android:layout_height="5dp"
+        android:alpha="0.1"
         android:background="@color/black"
+        android:tint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

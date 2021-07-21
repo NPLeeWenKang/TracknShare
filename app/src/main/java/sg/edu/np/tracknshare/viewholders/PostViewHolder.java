@@ -23,7 +23,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     public PostViewHolder(View itemView){
         super(itemView);
         view = itemView;
-        UserImg = itemView.findViewById(R.id.avatar);
+        UserImg = itemView.findViewById(R.id.avatarIMG);
         Username = itemView.findViewById(R.id.username);
         PostDate = itemView.findViewById(R.id.workoutDate);
         Likes = itemView.findViewById(R.id.likes);
