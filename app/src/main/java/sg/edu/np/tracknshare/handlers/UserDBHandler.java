@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -110,12 +111,13 @@ public class UserDBHandler {
                         User u = ds.getValue(User.class);
                         u.setFriendsId(null);
                         EditText name = ((Activity) context).findViewById(R.id.edit_username);
-                        EditText description = ((Activity) context).findViewById(R.id.edit_description);
-                        if (name != null && description != null){
+                        ImageView imageView = ((Activity) context).findViewById(R.id.add_profile_image);
+                        if (name != null){
                             name.setText(u.getUserName());
-                            description.setText(u.getEmail());
                             Log.d("FIREBASE123", "Error getting data"+ u.getUserName());
                         }
+                        StorageHandler storageHandler = new StorageHandler();
+                        storageHandler.LoadProfileImageToApp(u.getId(), context, imageView);
                     }
                 }
                 else {

@@ -3,21 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <item
-        android:id="@+id/homeNavItem"
-        android:title="Home"
-        android:icon="@drawable/home"/>
-    <item
-        android:id="@+id/searchNavItem"
-        android:title="Search"
-        android:icon="@drawable/search"/>
-    <item
-        android:id="@+id/runsNavItem"
-        android:title="Runs"
-        android:icon="@drawable/history"/>
-    <item
-        android:id="@+id/profileNavItem"
-        android:title="Profile"
-        android:icon="@drawable/user"/>
+        android:id="@+id/settingsNavItem"
+        android:title="Settings"
+        android:icon="@drawable/settings"/>
     <item
         android:id="@+id/signOut"
         android:title="Sign Out"

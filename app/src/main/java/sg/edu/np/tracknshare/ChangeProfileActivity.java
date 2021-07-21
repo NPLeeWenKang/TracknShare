@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.database.core.view.Change;
 
@@ -25,6 +27,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import sg.edu.np.tracknshare.handlers.AuthHandler;
+import sg.edu.np.tracknshare.handlers.StorageHandler;
 import sg.edu.np.tracknshare.handlers.UserDBHandler;
 import sg.edu.np.tracknshare.models.User;
 
@@ -42,6 +45,10 @@ public class ChangeProfileActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         loadData();
+
+        StorageHandler storageHandler = new StorageHandler();
+        AuthHandler auth = new AuthHandler(this);
+        UserDBHandler userDBHandler = new UserDBHandler(this);
 
         ImageView imageView = findViewById(R.id.add_profile_image);
         ActivityResultLauncher<Intent> myActivityResultLauncher = registerForActivityResult(
@@ -75,11 +82,20 @@ public class ChangeProfileActivity extends AppCompatActivity {
                 myActivityResultLauncher.launch(intent);
             }
         });
+        TextView newName = findViewById(R.id.edit_username);
         ImageView settingsBtn = findViewById(R.id.save_profile);
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("SETTINGS", "onClick: Settings");
+                BitmapDrawable bitmapDrawable = ((BitmapDrawable) imageView.getDrawable());
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+                storageHandler.UploadProfileImage(""+auth.GetCurrentUser().getUid(), bitmap);
+                User u = new User();
+                u.setUserName(newName.getText().toString());
+                u.setId(auth.GetCurrentUser().getUid());
+                userDBHandler.UpdateUserDetails(u);
+
                 finish();
                 overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
             }

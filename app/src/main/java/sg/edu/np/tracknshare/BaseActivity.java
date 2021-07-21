@@ -92,18 +92,9 @@ public class BaseActivity extends AppCompatActivity  implements EasyPermissions.
                 //Log.d("NAV", "onNavigationItemSelected: ");
                 dL.closeDrawer(Gravity.LEFT);
                 BottomNavigationView bottomNavigationView = (BaseActivity.this).findViewById(R.id.bottomNavigationView);
-                if (item.getItemId() == R.id.homeNavItem){
-                    bottomNavigationView.setSelectedItemId(R.id.homeNavItem);
-
-                }else if (item.getItemId() == R.id.searchNavItem){
-                    bottomNavigationView.setSelectedItemId(R.id.searchNavItem);
-
-                }
-                else if (item.getItemId() == R.id.runsNavItem){
-                    bottomNavigationView.setSelectedItemId(R.id.runsNavItem);
-                }
-                else if (item.getItemId() == R.id.profileNavItem){
-                    bottomNavigationView.setSelectedItemId(R.id.profileNavItem);
+                if(item.getItemId() == R.id.settingsNavItem){
+                    Intent intent = new Intent(BaseActivity.this, SettingsActivity.class);
+                    startActivity(intent);
                 }
                 else if (item.getItemId() == R.id.signOut){
                     AuthHandler auth = new AuthHandler(BaseActivity.this);

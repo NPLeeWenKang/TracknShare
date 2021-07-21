@@ -47,7 +47,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post p = data.get(position).getPost();
         User u = data.get(position).getUser();
-        DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy h:ma");
+        DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy h:mma");
         holder.Username.setText(u.getUserName());
         holder.PostDate.setText(dateFormat.format(p.getPostDate()));
         holder.Likes.setText(""+p.getLikes());
@@ -58,6 +58,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
 
         StorageHandler storageHandler = new StorageHandler();
         storageHandler.LoadFileToApp(p.getRunId(), context, holder.PostImg);
+        storageHandler.LoadProfileImageToApp(u.getId(), context, holder.UserImg);
 
         isSelected = false;
         int red = Color.RED;
