@@ -4,11 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.fragment_steps">
-
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="steps for 5 runss" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Total Runs"/>
+    <Button
+        android:id="@+id/button"
 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circle"
+        android:text="27"
+        android:textColor="@color/white"
+        android:textSize="20pt"
+        android:layout_gravity="center"/>
 </FrameLayout>
