@@ -1,4 +1,4 @@
-    package sg.edu.np.tracknshare.fragments;
+package sg.edu.np.tracknshare.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,11 +21,13 @@ import sg.edu.np.tracknshare.models.Bargraph;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fragment_steps#newInstance} factory method to
+ * Use the {@link fragment_calories#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fragment_steps extends Fragment {
+public class fragment_calories extends Fragment {
 
+    private Bargraph calorieGraph;
+    private BarChart calorieChart;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -33,9 +35,9 @@ public class fragment_steps extends Fragment {
 
     // TODO: Rename and change types of parameters
     private String mParam1;
-    private Bargraph Bargraph;
+    private String mParam2;
 
-    public fragment_steps() {
+    public fragment_calories() {
         // Required empty public constructor
     }
 
@@ -45,11 +47,11 @@ public class fragment_steps extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment fragment_totalRuns.
+     * @return A new instance of fragment fragment_calories.
      */
     // TODO: Rename and change types and number of parameters
-    public static fragment_steps newInstance(String param1, String param2) {
-        fragment_steps fragment = new fragment_steps();
+    public static fragment_calories newInstance(String param1, String param2) {
+        fragment_calories fragment = new fragment_calories();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -62,6 +64,7 @@ public class fragment_steps extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -69,23 +72,23 @@ public class fragment_steps extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_steps, container, false);
+        return inflater.inflate(R.layout.fragment_calories, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        BarChart barChart = getView().findViewById(R.id.steps_bar);
-
-        //generating bar data
+        calorieGraph = new Bargraph(); //instantiate object
+        calorieChart = getView().findViewById(R.id.calories_chart);
+        // retrieve stats of calories from database here and attach to list
         ArrayList<BarEntry> data = new ArrayList<>();
-        data.add(new BarEntry(1,200));
-        data.add(new BarEntry(2,500));
-        data.add(new BarEntry(3,350));
-        data.add(new BarEntry(4,700));
-        data.add(new BarEntry(5,150));
-        Bargraph = new Bargraph();
-        int barColors = Color.BLACK;
-        Bargraph.setChart(data,barChart,barColors); //create bar graph
+        data.add(new BarEntry(3,34));
+        data.add(new BarEntry(4,55));
+        data.add(new BarEntry(5,74));
+        data.add(new BarEntry(6,25));
+        //-------------------------------------//
+        int BarColor = Color.CYAN;
+        calorieGraph.setChart(data, calorieChart,BarColor);
+
     }
 }

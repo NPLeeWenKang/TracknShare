@@ -81,13 +81,11 @@ public class fragment_statistics extends Fragment {
         StatisticsFragmentAdapter statisticsFragmentAdapter = new StatisticsFragmentAdapter(getChildFragmentManager(),getLifecycle());
         viewPager2 =view.findViewById(R.id.stats_viewPager);
         dotsIndicator = view.findViewById(R.id.tabDots);
-        viewPager2.setSaveEnabled(false);
+        viewPager2.setSaveEnabled(true);
         viewPager2.setAdapter(statisticsFragmentAdapter);
         new TabLayoutMediator(dotsIndicator,viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-
-            }
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) { }
         }).attach();
     }
 }
