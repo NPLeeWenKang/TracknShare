@@ -1,12 +1,22 @@
 package sg.edu.np.tracknshare.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+
+import java.util.ArrayList;
 
 import sg.edu.np.tracknshare.R;
 
@@ -62,5 +72,30 @@ public class fragment_totalRuns extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_total_runs, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        BarChart barChart = getActivity().findViewById(R.id.steps_bar);
+
+        //generating bar data
+        ArrayList<BarEntry> data = new ArrayList<>();
+        data.add(new BarEntry(1,200));
+        data.add(new BarEntry(2,500));
+        data.add(new BarEntry(3,350));
+        data.add(new BarEntry(4,700));
+        data.add(new BarEntry(5,150));
+        String graphLabel = "Steps for 5 previous runs";
+
+        BarDataSet barDataSet  = new BarDataSet(data,graphLabel);
+        barDataSet.setValueTextColor(Color.BLACK);
+        barDataSet.setValueTextSize(16f);
+
+
+        BarData barData = new BarData(barDataSet);
+        barChart.setData(barData);
+        barChart.getDescription().setText(graphLabel);
+        barChart.animateY(2000);
     }
 }

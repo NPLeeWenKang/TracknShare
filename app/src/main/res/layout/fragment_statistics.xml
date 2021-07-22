@@ -6,21 +6,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.fragment_statistics">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/stats_viewPager"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    <com.google.android.material.tabs.TabLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tabDots"
-        android:layout_marginTop="15dp"
-        app:dotsSpacing="3dp"
-        app:dotsSize="5dp"
-        app:selectedDotColor="#68c3f7"
-        app:dotsColor="@color/secondaryDarkColor"
-        app:progressMode="true"/>
-<!--
+        android:layout_height="match_parent">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/stats_viewPager"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/tabDots"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabDots"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:dotsSpacing="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stats_viewPager"
+            app:tabBackground="@drawable/tab_selector"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--
     <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
         android:id="@+id/tabDots"
         android:layout_height="wrap_content"

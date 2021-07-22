@@ -86,6 +86,7 @@ public class fragment_statistics extends Fragment {
         new TabLayoutMediator(dotsIndicator,viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+
             }
         }).attach();
     }
