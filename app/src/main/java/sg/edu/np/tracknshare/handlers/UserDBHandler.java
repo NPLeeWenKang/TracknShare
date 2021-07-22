@@ -36,10 +36,12 @@ public class UserDBHandler {
         context = c;
     }
     public void AddUser(User u){
+        Log.d("SAVEUSERDB", "AddUser: "+u.getAccountCreationDate());
         DatabaseReference dbRef = database.getReference("/user");
         dbRef.child(u.getId()).setValue(u);
     }
     public void SearchUser(String username, ArrayList<User> uList, SearchItemAdapter mAdapter){
+        mAdapter.notifyItemRangeRemoved(0,uList.size());
         uList.clear();
         DatabaseReference dbRef = database.getReference("/user");
         dbRef.orderByChild("userName").startAt(username).endAt(username+"\uf8ff").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -57,6 +59,7 @@ public class UserDBHandler {
                         }
                         Log.d("KEYCODE", "onKey: UPDATE "+username);
                         Log.d("firebase", String.valueOf(task.getResult().getValue()));
+
                         mAdapter.notifyDataSetChanged();
                     }else{
                         mAdapter.notifyDataSetChanged();
@@ -184,6 +187,10 @@ public class UserDBHandler {
     public void AddToFriends(String userId, String friendId){
         DatabaseReference dbRef = database.getReference("/user");
         dbRef.child(userId).child("friendsId").child(friendId).setValue(true);
+    }
+    public void RemoveFriends(String userId, String friendId){
+        DatabaseReference dbRef = database.getReference("/user");
+        dbRef.child(userId).child("friendsId").child(friendId).setValue(null);
     }
     public void UpdateUserDetails(User u){
         DatabaseReference dbRef = database.getReference("/user");

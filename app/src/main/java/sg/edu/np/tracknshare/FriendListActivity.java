@@ -30,7 +30,11 @@ public class FriendListActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         RecyclerView recyclerView = findViewById(R.id.search_rv);
         SearchItemAdapter mAdapter = new SearchItemAdapter(this, uList);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -38,11 +42,11 @@ public class FriendListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
-
         UserDBHandler userDB = new UserDBHandler(this);
         AuthHandler auth = new AuthHandler(this);
         userDB.GetFriendsList(""+auth.GetCurrentUser().getUid(), uList, mAdapter);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

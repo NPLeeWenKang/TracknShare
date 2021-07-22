@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import sg.edu.np.tracknshare.FriendListActivity;
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.UserDetailActivity;
+import sg.edu.np.tracknshare.handlers.StorageHandler;
 import sg.edu.np.tracknshare.models.User;
 import sg.edu.np.tracknshare.viewholders.SearchItemViewHolder;
 
@@ -37,6 +38,9 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemViewHolder
     public void onBindViewHolder(@NonNull SearchItemViewHolder holder, int position) {
         User u = data.get(position);
         holder.username.setText(u.getUserName());
+
+        StorageHandler storageHandler = new StorageHandler();
+        storageHandler.LoadProfileImageToApp(u.getId(),context,holder.image);
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

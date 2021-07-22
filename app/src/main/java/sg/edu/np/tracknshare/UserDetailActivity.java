@@ -11,7 +11,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -60,7 +63,19 @@ public class UserDetailActivity extends AppCompatActivity {
         PostDBHandler postDBHandler = new PostDBHandler(this);
         postDBHandler.GetUserPosts(upList, mAdapter, id);
 
-        //db.AddToFriends(auth.GetCurrentUser().getUid(), id);
+        Button friends_btn = findViewById(R.id.friends_btn);
+        friends_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (friends_btn.getText().toString().equals("Remove from Friends")){
+                    db.RemoveFriends(auth.GetCurrentUser().getUid(), id);
+                    friends_btn.setText("Add to Friends");
+                }else{
+                    db.AddToFriends(auth.GetCurrentUser().getUid(), id);
+                    friends_btn.setText("Remove from Friends");
+                }
+            }
+        });
 
     }
     @Override

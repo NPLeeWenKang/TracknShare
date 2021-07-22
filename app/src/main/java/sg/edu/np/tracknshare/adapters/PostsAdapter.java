@@ -1,5 +1,6 @@
 package sg.edu.np.tracknshare.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 
 import sg.edu.np.tracknshare.CommentsActivity;
 import sg.edu.np.tracknshare.R;
+import sg.edu.np.tracknshare.UserDetailActivity;
 import sg.edu.np.tracknshare.handlers.StorageHandler;
 import sg.edu.np.tracknshare.models.Post;
 import sg.edu.np.tracknshare.models.Run;
@@ -59,6 +61,34 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
         StorageHandler storageHandler = new StorageHandler();
         storageHandler.LoadFileToApp(p.getRunId(), context, holder.PostImg);
         storageHandler.LoadProfileImageToApp(u.getId(), context, holder.UserImg);
+
+        holder.UserImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), UserDetailActivity.class);
+                intent.putExtra("id", ""+u.getId());
+                ((Activity) view.getContext()).startActivity(intent);
+                ((Activity) view.getContext()).overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
+            }
+        });
+        holder.Username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), UserDetailActivity.class);
+                intent.putExtra("id", ""+u.getId());
+                ((Activity) view.getContext()).startActivity(intent);
+                ((Activity) view.getContext()).overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
+            }
+        });
+        holder.PostDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), UserDetailActivity.class);
+                intent.putExtra("id", ""+u.getId());
+                ((Activity) view.getContext()).startActivity(intent);
+                ((Activity) view.getContext()).overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
+            }
+        });
 
         isSelected = false;
         int red = Color.RED;

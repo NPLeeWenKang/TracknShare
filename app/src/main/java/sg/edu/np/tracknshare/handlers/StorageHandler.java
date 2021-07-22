@@ -1,5 +1,6 @@
 package sg.edu.np.tracknshare.handlers;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,6 +20,8 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
+
+import sg.edu.np.tracknshare.R;
 
 public class StorageHandler {
     private final FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -64,6 +68,7 @@ public class StorageHandler {
                             .into(imageRef);
                 }else{
                     Log.d("GENERATEID", "LoadProfileImageToApp: "+task.getException());
+                    imageRef.setImageDrawable(ContextCompat.getDrawable(c, R.drawable.ic_avatar));
                 }
             }
         });
