@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.fragment_steps">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.fragment_pace">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/runs_chart"
+            android:id="@+id/header_pace"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="@string/header_steps_chart"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
+            android:text="@string/Header_pace"
             android:textSize="19sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/runs_chart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-        <com.github.mikephil.charting.charts.BarChart
 
-            android:id="@+id/steps_bar"
-            android:layout_width="match_parent"
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/pace_chart"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/runs_chart" />
-
+            app:layout_constraintTop_toBottomOf="@+id/header_pace" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </FrameLayout>
