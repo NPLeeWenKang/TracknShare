@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,6 +33,9 @@ import sg.edu.np.tracknshare.models.User;
 import sg.edu.np.tracknshare.models.UserPostViewModel;
 
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class PostDBHandler {
     private final String dbUrl = "https://testapp-bc30f-default-rtdb.asia-southeast1.firebasedatabase.app";
@@ -58,11 +63,127 @@ public class PostDBHandler {
             }
         });
     }
+    public void GetFriendsPost(ArrayList<UserPostViewModel> upList, PostsAdapter mAdapter, String userId){
+        upList.clear();
+        DatabaseReference dbRef = database.getReference("/user");
+        dbRef.child(userId).child("friendsId").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                ConstraintLayout progress = ((Activity) context).findViewById(R.id.progress_bar);
+                if (progress != null){
+                    progress.setVisibility(View.INVISIBLE);
+                }
+                if (task.isSuccessful()) {
+                    upList.clear();
+                    if (task.getResult().exists()){
+                        ArrayList<String> friends = new ArrayList<>();
+                        for (DataSnapshot ds : task.getResult().getChildren()){
+                            friends.add(ds.getKey());
+                            Log.d("Fiends", "onComplete: "+ds.getKey());
+                        }
+                        long totalFriends = friends.size();
+                        long currentFiendCount = 1;
+                        for (String friendId : friends){
+                            GetFriends(upList, mAdapter, friendId, totalFriends, currentFiendCount);
+                            currentFiendCount++;
+                        }
+//                        long length = task.getResult().getChildrenCount();
+//                        long currentLength = 1;
+//                        for (DataSnapshot ds : task.getResult().getChildren()){
+//                            Post p = ds.getValue(Post.class);
+//                            GetUser(p.getUserId(), p, length,currentLength, upList, mAdapter);
+//                            currentLength++;
+//                        }
+                    }
+
+                }
+                else {
+                    Log.d("firebase", "Error getting data", task.getException());
+                    ConstraintLayout img = ((Activity) context).findViewById(R.id.error);
+                    if (img != null){
+                        img.setVisibility(View.VISIBLE);
+                    }
+
+                }
+            }
+        });
+    }
+    private void GetFriends(ArrayList<UserPostViewModel> upList, PostsAdapter mAdapter, String friendId, long totalFriends, long currentFriendCount){
+        DatabaseReference dbRef = database.getReference("/user");
+        dbRef.child(friendId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                ConstraintLayout progress = ((Activity) context).findViewById(R.id.progress_bar);
+                if (progress != null){
+                    progress.setVisibility(View.INVISIBLE);
+                }
+                if (task.isSuccessful()) {
+                    DataSnapshot ds = task.getResult();
+                    User u = ds.getValue(User.class);
+                    GetPosts(upList, mAdapter, u, totalFriends, currentFriendCount);
+
+
+
+                }
+            }
+        });
+    }
+    private void GetPosts(ArrayList<UserPostViewModel> upList, PostsAdapter mAdapter, User u, long totalFriends, long currentFriendCount){
+        DatabaseReference dbRef = database.getReference("/posts");
+        dbRef.orderByChild("userId").equalTo(u.getId()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                ConstraintLayout progress = ((Activity) context).findViewById(R.id.progress_bar);
+                if (progress != null){
+                    progress.setVisibility(View.INVISIBLE);
+                }
+                if (task.isSuccessful()) {
+                    DataSnapshot ds = task.getResult();
+                    for(DataSnapshot smallDS : ds.getChildren()){
+                        Post p = smallDS.getValue(Post.class);
+                        UserPostViewModel uPVM = new UserPostViewModel(p,u);
+                        upList.add(0, uPVM);
+                    }
+                    if (totalFriends == currentFriendCount){
+                        ArrayList<UserPostViewModel> temp = new ArrayList<>(upList);
+                        ArrayList<String> sortedPostId = new ArrayList<>();
+                        upList.clear();
+
+                        for (UserPostViewModel upOBJ : temp){
+                            sortedPostId.add(upOBJ.getPost().getPostId());
+                        }
+                        Collections.sort(sortedPostId);
+                        Collections.reverse(sortedPostId);
+                        for (String postId : sortedPostId){
+                            Iterator<UserPostViewModel> iter = temp.iterator();
+                            while (iter.hasNext()){
+                                UserPostViewModel upOBJ = iter.next();
+                                if (upOBJ.getPost().getPostId().equals(postId)){
+                                    upList.add(upOBJ);
+                                    iter.remove();
+                                }
+                            }
+                        }
+
+
+                        mAdapter.notifyDataSetChanged();
+                    }
+
+
+                }
+
+            }
+        });
+    }
     public void GetPosts(ArrayList<UserPostViewModel> upList, PostsAdapter mAdapter){
         DatabaseReference dbRef = database.getReference("/posts");
         dbRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
+                ConstraintLayout progress = ((Activity) context).findViewById(R.id.progress_bar);
+                if (progress != null){
+                    progress.setVisibility(View.INVISIBLE);
+                }
                 if (task.isSuccessful()) {
                     upList.clear();
                     if (task.getResult().exists()){
@@ -78,6 +199,11 @@ public class PostDBHandler {
                 }
                 else {
                     Log.d("firebase", "Error getting data", task.getException());
+                    ConstraintLayout img = ((Activity) context).findViewById(R.id.error);
+                    if (img != null){
+                        img.setVisibility(View.VISIBLE);
+                    }
+
                 }
             }
         });

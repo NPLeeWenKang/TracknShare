@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -53,11 +56,15 @@ public class RunDBHandler {
             }
         });
     }
-    public void GetRuns(String id, ArrayList<Run> rList, RunsAdapter mAdapter){
+    public void GetRuns(String id, ArrayList<Run> rList, RunsAdapter mAdapter, Context context){
         DatabaseReference dbRef = database.getReference("/runs");
         dbRef.orderByChild("userId").equalTo(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
+                ConstraintLayout progress = ((Activity) context).findViewById(R.id.progress_bar);
+                if (progress != null){
+                    progress.setVisibility(View.INVISIBLE);
+                }
                 if (task.isSuccessful()) {
                     rList.clear();
                     if (task.getResult().exists()){
@@ -69,10 +76,20 @@ public class RunDBHandler {
                         Log.d("firebase", String.valueOf(task.getResult().getValue()));
                         mAdapter.notifyDataSetChanged();
                     }
-
+                    else{
+                        ConstraintLayout img = ((Activity) context).findViewById(R.id.invalid_runs);
+                        if (img != null){
+                            img.setVisibility(View.VISIBLE);
+                        }
+                    }
                 }
                 else {
                     Log.d("firebase", "Error getting data", task.getException());
+                    ConstraintLayout img = ((Activity) context).findViewById(R.id.error);
+                    if (img != null){
+                        img.setVisibility(View.VISIBLE);
+                    }
+
                 }
             }
         });

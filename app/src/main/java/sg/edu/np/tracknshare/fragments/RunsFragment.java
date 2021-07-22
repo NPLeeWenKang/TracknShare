@@ -57,7 +57,7 @@ public class RunsFragment extends Fragment {
 
         RunDBHandler runDB = new RunDBHandler(view.getContext());
         AuthHandler auth = new AuthHandler(view.getContext());
-        runDB.GetRuns(auth.GetCurrentUser().getUid(), rList, runsAdapter);
+        runDB.GetRuns(auth.GetCurrentUser().getUid(), rList, runsAdapter, view.getContext());
     }
 
 

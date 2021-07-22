@@ -21,13 +21,13 @@ import java.util.Calendar;
 
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.adapters.PostsAdapter;
+import sg.edu.np.tracknshare.handlers.AuthHandler;
+import sg.edu.np.tracknshare.handlers.PostDBHandler;
 import sg.edu.np.tracknshare.models.Post;
+import sg.edu.np.tracknshare.models.UserPostViewModel;
 
 public class fragment_follow extends Fragment {
-    ImageView sendButton;
-    ImageView likesIcon;
-    TextView postCaption;
-    ArrayList<Post> posts;
+    ArrayList<UserPostViewModel> upList = new ArrayList<>();
 
     public fragment_follow() {
         //Required empty public constructor
@@ -42,17 +42,17 @@ public class fragment_follow extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        sendButton = view.findViewById(R.id.sharePost);
-//        postCaption = view.findViewById(R.id.postCaption);
-//        likesIcon = view.findViewById(R.id.likesImg);
-//        posts = new ArrayList<Post>();
-//
-//        RecyclerView rv = view.findViewById(R.id.rvPost);
-//        PostsAdapter adapter = new PostsAdapter(view.getContext(),posts);
-//        LinearLayoutManager lm = new LinearLayoutManager(view.getContext());
-//        rv.setLayoutManager(lm);
-//        rv.setAdapter(adapter);
-//        adapter.notifyDataSetChanged();
+
+        RecyclerView rv = view.findViewById(R.id.rvPost);
+        PostsAdapter adapter = new PostsAdapter(view.getContext(),upList);
+        LinearLayoutManager lm = new LinearLayoutManager(view.getContext());
+        rv.setLayoutManager(lm);
+        rv.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+        PostDBHandler postDBHandler = new PostDBHandler(view.getContext());
+        AuthHandler authHandler = new AuthHandler(view.getContext());
+        postDBHandler.GetFriendsPost(upList, adapter, authHandler.GetCurrentUser().getUid());
 
     }
 
