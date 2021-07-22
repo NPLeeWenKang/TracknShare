@@ -77,7 +77,7 @@ public class fragment_totalRuns extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        BarChart barChart = getActivity().findViewById(R.id.steps_bar);
+        BarChart barChart = getView().findViewById(R.id.steps_bar);
 
         //generating bar data
         ArrayList<BarEntry> data = new ArrayList<>();
@@ -92,10 +92,11 @@ public class fragment_totalRuns extends Fragment {
         barDataSet.setValueTextColor(Color.BLACK);
         barDataSet.setValueTextSize(16f);
 
-
         BarData barData = new BarData(barDataSet);
         barChart.setData(barData);
-        barChart.getDescription().setText(graphLabel);
-        barChart.animateY(2000);
+        barChart.getXAxis().setEnabled(false);
+        barChart.getAxisLeft().setEnabled(false);barChart.getAxisRight().setEnabled(false);
+        barChart.setDescription(null);
+        barChart.animateY(900);
     }
 }

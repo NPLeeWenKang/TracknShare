@@ -75,7 +75,6 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder>  {
             @Override
             public void onClick(View v) {
                 // "Share internally to TracknShare app"
-                Log.d("HELO","jeff");
                 Intent intent = new Intent(v.getContext(), CreatePostActivity.class);
                 intent.putExtra("runId", r.getImageId());
                 context.startActivity(intent);
