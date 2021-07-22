@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/likes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="69"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/likesImg"
+        app:layout_constraintEnd_toStartOf="@+id/likesImg"
+        app:layout_constraintTop_toTopOf="@+id/likesImg" />
+
+    <ImageView
+        android:id="@+id/postImage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintDimensionRatio="10:9"
+        app:layout_constraintEnd_toEndOf="@+id/postCaption"
+        app:layout_constraintStart_toStartOf="@+id/postCaption"
+        app:layout_constraintTop_toBottomOf="@+id/postCaption" />
+
+    <TextView
+        android:id="@+id/workoutDate"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:text="03/02/2021"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/likesImg"
+        app:layout_constraintStart_toStartOf="@+id/username"
+        app:layout_constraintTop_toBottomOf="@+id/username" />
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Username"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/workoutDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/likesImg" />
+
+    <TextView
+        android:id="@+id/postCaption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="descriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescription"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/likesImg"
+        app:layout_constraintStart_toStartOf="@+id/workoutDate"
+        app:layout_constraintTop_toBottomOf="@+id/workoutDate" />
+
+    <ImageView
+        android:id="@+id/likesImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_heart" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:alpha="0.1"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/postImage"
+        app:srcCompat="@drawable/line"
+        app:tint="@color/black" />
+</androidx.constraintlayout.widget.ConstraintLayout>

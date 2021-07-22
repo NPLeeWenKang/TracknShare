@@ -80,12 +80,68 @@ public class UserDBHandler {
                         User u = ds.getValue(User.class);
                         u.setFriendsId(null);
                         TextView name = ((Activity) context).findViewById(R.id.profileName);
-                        if (name != null){
+                        TextView numPosts = ((Activity) context).findViewById(R.id.numPosts);
+                        TextView numRuns = ((Activity) context).findViewById(R.id.numRuns);
+                        TextView accountCreationDate = ((Activity) context).findViewById(R.id.accountCreationDate);
+                        if (name != null && accountCreationDate != null && numPosts != null && numRuns != null){
                             name.setText(u.getUserName());
-                            TextView accountCreationDate = ((Activity) context).findViewById(R.id.accountCreationDate);
-                            if (accountCreationDate == null){
-                                accountCreationDate.setText("No date recoreded.");
-                            }else{
+                            PostDBHandler postDBHandler = new PostDBHandler(context);
+                            postDBHandler.getCount(u.getId(),numPosts);
+                            RunDBHandler runDBHandler = new RunDBHandler(context);
+                            runDBHandler.getCount(u.getId(),numRuns);
+                            if (u.getAccountCreationDate() != null)
+                            {
+                                accountCreationDate.setText(u.getAccountCreationDate());
+                            }
+                            Log.d("FIREBASE123", "Error getting data"+ u.getUserName());
+                        }
+                        isFriends(id, context);
+                    }
+                }
+                else {
+                    Log.d("FIREBASE123", "Error getting data", task.getException());
+                }
+            }
+        });
+    }
+    private void isFriends(String id, Context context){
+        AuthHandler authHandler = new AuthHandler(context);
+        database.getReference("/user").child(authHandler.GetCurrentUser().getUid()).child("friendsId").child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DataSnapshot ds = task.getResult();
+                    if (ds.exists()){
+                        TextView tv = ((Activity) context).findViewById(R.id.friends_btn);
+                        tv.setText("Remove from Friends");
+                    }else{
+                        TextView tv = ((Activity) context).findViewById(R.id.friends_btn);
+                        tv.setText("Add to Friend");
+                    }
+                }
+            }
+        });
+
+
+    }
+
+    public void GetMyDetails(String id, Context context){
+        Log.d("FIREBASE123", "GetUserDetails: "+id);
+        DatabaseReference dbRef = database.getReference("/user");
+        dbRef.child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().exists()){
+                        DataSnapshot ds = task.getResult();
+                        User u = ds.getValue(User.class);
+                        u.setFriendsId(null);
+                        TextView name = ((Activity) context).findViewById(R.id.profileName);
+                        TextView accountCreationDate = ((Activity) context).findViewById(R.id.accountCreationDate);
+                        if (name != null && accountCreationDate != null){
+                            name.setText(u.getUserName());
+                            if (u.getAccountCreationDate() != null)
+                            {
                                 accountCreationDate.setText(u.getAccountCreationDate());
                             }
                             Log.d("FIREBASE123", "Error getting data"+ u.getUserName());
@@ -98,7 +154,6 @@ public class UserDBHandler {
             }
         });
     }
-
     public void GetUserDetailsIntoSettings(String id, Context context){
         Log.d("FIREBASE123", "GetUserDetails: "+id);
         DatabaseReference dbRef = database.getReference("/user");
@@ -126,6 +181,10 @@ public class UserDBHandler {
             }
         });
     }
+    public void AddToFriends(String userId, String friendId){
+        DatabaseReference dbRef = database.getReference("/user");
+        dbRef.child(userId).child("friendsId").child(friendId).setValue(true);
+    }
     public void UpdateUserDetails(User u){
         DatabaseReference dbRef = database.getReference("/user");
         dbRef.child(u.getId()).setValue(u);
@@ -141,13 +200,19 @@ public class UserDBHandler {
                     if (task.getResult().exists()){
                         DataSnapshot ds = task.getResult();
                         User u = ds.getValue(User.class);
+//                        ArrayList<String> temp = new ArrayList<>();
+//                        for (DataSnapshot friendsDS :ds.child("friendsId").getChildren()){
+//                            temp.add(friendsDS.getKey());
+//                        }
+//                        u.setFriendsId(temp);
                         Log.d("ADDFRIEND", "onComplete: "+ u.getFriendsId());
                         if (u.getFriendsId() != null){
                             long length = u.getFriendsId().size();
                             long currentLength = 1;
-                            for (int i = 0; i <= u.getFriendsId().size()-1;i++){
+                            ArrayList<String> sList = new ArrayList<>(u.getFriendsId().keySet());
+                            for (int i = 0; i <= sList.size()-1;i++){
                                 Log.d("ADDFRIEND", "onComplete: "+u.getFriendsId().get(i));
-                                GetFriend(u.getFriendsId().get(i), length, currentLength, uList, mAdapter);
+                                GetFriend(sList.get(i), length, currentLength, uList, mAdapter);
                                 currentLength++;
                             }
                         }

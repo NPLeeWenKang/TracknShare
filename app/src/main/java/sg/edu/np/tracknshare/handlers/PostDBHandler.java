@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.adapters.PostsAdapter;
+import sg.edu.np.tracknshare.adapters.ProfilePostsAdapter;
 import sg.edu.np.tracknshare.adapters.RunsAdapter;
 import sg.edu.np.tracknshare.adapters.SearchItemAdapter;
 import sg.edu.np.tracknshare.fragments.SearchFragment;
@@ -41,6 +43,20 @@ public class PostDBHandler {
     public void AddPost(Post p){
         DatabaseReference dbRef = database.getReference("/posts");
         dbRef.child(""+p.getPostId()).setValue(p);
+    }
+    public void getCount(String id, TextView numPost){
+        DatabaseReference dbRef = database.getReference("/posts");
+        dbRef.orderByChild("userId").equalTo(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().exists()){
+                        numPost.setText(""+task.getResult().getChildrenCount());
+                    }
+
+                }
+            }
+        });
     }
     public void GetPosts(ArrayList<UserPostViewModel> upList, PostsAdapter mAdapter){
         DatabaseReference dbRef = database.getReference("/posts");
@@ -66,7 +82,31 @@ public class PostDBHandler {
             }
         });
     }
-    private void GetUser(String userId, Post p, long length, long currentLength, ArrayList<UserPostViewModel> upList, PostsAdapter mAdapter){
+    public void GetUserPosts(ArrayList<UserPostViewModel> upList, ProfilePostsAdapter mAdapter, String id){
+        DatabaseReference dbRef = database.getReference("/posts");
+        dbRef.orderByChild("userId").equalTo(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    upList.clear();
+                    if (task.getResult().exists()){
+                        long length = task.getResult().getChildrenCount();
+                        long currentLength = 1;
+                        for (DataSnapshot ds : task.getResult().getChildren()){
+                            Post p = ds.getValue(Post.class);
+                            GetUser(p.getUserId(), p, length,currentLength, upList, mAdapter);
+                            currentLength++;
+                        }
+                    }
+
+                }
+                else {
+                    Log.d("firebase", "Error getting data", task.getException());
+                }
+            }
+        });
+    }
+    private void GetUser(String userId, Post p, long length, long currentLength, ArrayList<UserPostViewModel> upList, RecyclerView.Adapter mAdapter){
         DatabaseReference dbRef = database.getReference("/user");
         dbRef.child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override

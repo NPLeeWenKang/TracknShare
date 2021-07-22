@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import sg.edu.np.tracknshare.FriendListActivity;
 import sg.edu.np.tracknshare.R;
+import sg.edu.np.tracknshare.UserDetailActivity;
 import sg.edu.np.tracknshare.models.User;
 import sg.edu.np.tracknshare.viewholders.SearchItemViewHolder;
 
@@ -39,7 +40,8 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemViewHolder
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), FriendListActivity.class);
+                Intent intent = new Intent(view.getContext(), UserDetailActivity.class);
+                intent.putExtra("id", ""+u.getId());
                 ((Activity) view.getContext()).startActivity(intent);
                 ((Activity) view.getContext()).overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
             }
