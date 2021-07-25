@@ -80,4 +80,13 @@ public class TrackingDBHandler extends SQLiteOpenHelper {
         db.close();
         return pList;
     }
+    public int getCount(){
+        String query = "SELECT * FROM "+ TABLE_USERS;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        int count = cursor.getCount();
+        cursor.close();
+        db.close();
+        return count;
+    }
 }
