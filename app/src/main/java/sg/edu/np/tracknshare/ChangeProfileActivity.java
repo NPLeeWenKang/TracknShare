@@ -79,6 +79,9 @@ public class ChangeProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                intent.setType("image/*");
+                long maxVideoSize = 1500000;
+                intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, maxVideoSize);
                 myActivityResultLauncher.launch(intent);
             }
         });
@@ -97,7 +100,7 @@ public class ChangeProfileActivity extends AppCompatActivity {
                 userDBHandler.UpdateUserDetails(u);
 
                 finish();
-                overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
+                overridePendingTransition(R.anim.end_enter, R.anim.end_exit);
             }
         });
     }

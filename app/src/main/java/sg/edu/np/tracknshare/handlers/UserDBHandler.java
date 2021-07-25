@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -82,12 +83,11 @@ public class UserDBHandler {
                         DataSnapshot ds = task.getResult();
                         User u = ds.getValue(User.class);
                         u.setFriendsId(null);
-                        TextView name = ((Activity) context).findViewById(R.id.profileName);
                         TextView numPosts = ((Activity) context).findViewById(R.id.numPosts);
                         TextView numRuns = ((Activity) context).findViewById(R.id.numRuns);
                         TextView accountCreationDate = ((Activity) context).findViewById(R.id.accountCreationDate);
-                        if (name != null && accountCreationDate != null && numPosts != null && numRuns != null){
-                            name.setText(u.getUserName());
+                        if (accountCreationDate != null && numPosts != null && numRuns != null){
+                            ((AppCompatActivity) context).getSupportActionBar().setTitle(u.getUserName());
                             PostDBHandler postDBHandler = new PostDBHandler(context);
                             postDBHandler.getCount(u.getId(),numPosts);
                             RunDBHandler runDBHandler = new RunDBHandler(context);
@@ -96,7 +96,7 @@ public class UserDBHandler {
                             {
                                 accountCreationDate.setText(u.getAccountCreationDate());
                             }
-                            Log.d("FIREBASE123", "Error getting data"+ u.getUserName());
+                            Log.d("FIREBASE123", "Error getting data"+ u.getAccountCreationDate());
                         }
                         isFriends(id, context);
                     }
@@ -119,7 +119,7 @@ public class UserDBHandler {
                         tv.setText("Remove from Friends");
                     }else{
                         TextView tv = ((Activity) context).findViewById(R.id.friends_btn);
-                        tv.setText("Add to Friend");
+                        tv.setText("Add to Friends");
                     }
                 }
             }
@@ -139,10 +139,14 @@ public class UserDBHandler {
                         DataSnapshot ds = task.getResult();
                         User u = ds.getValue(User.class);
                         u.setFriendsId(null);
-                        TextView name = ((Activity) context).findViewById(R.id.profileName);
+                        TextView numPosts = ((Activity) context).findViewById(R.id.numPosts);
+                        TextView numRuns = ((Activity) context).findViewById(R.id.numRuns);
                         TextView accountCreationDate = ((Activity) context).findViewById(R.id.accountCreationDate);
-                        if (name != null && accountCreationDate != null){
-                            name.setText(u.getUserName());
+                        if (accountCreationDate != null){
+                            PostDBHandler postDBHandler = new PostDBHandler(context);
+                            postDBHandler.getCount(u.getId(),numPosts);
+                            RunDBHandler runDBHandler = new RunDBHandler(context);
+                            runDBHandler.getCount(u.getId(),numRuns);
                             if (u.getAccountCreationDate() != null)
                             {
                                 accountCreationDate.setText(u.getAccountCreationDate());

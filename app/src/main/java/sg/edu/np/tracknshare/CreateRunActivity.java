@@ -94,6 +94,7 @@ public class CreateRunActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CreateRunActivity.this, FullMapActivity.class);
+                intent.putExtra("mapType", "movable");
                 startActivity(intent);
             }
         });

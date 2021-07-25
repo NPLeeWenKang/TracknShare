@@ -177,54 +177,77 @@ public class StartRunActivity extends AppCompatActivity{
                     runTimer();
                     Toast.makeText(StartRunActivity.this, "Start Run!", Toast.LENGTH_SHORT).show();
                 } else{
-                    AlertDialog.Builder builder = new AlertDialog.Builder(StartRunActivity.this);
-                    builder.setMessage("Are you sure you want to stop?")
-                            .setCancelable(true)
-                            .setPositiveButton("Yes", null)
-                            .setNegativeButton("No", null);
-                    AlertDialog dialog = builder.create();
-                    dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                        @Override
-                        public void onShow(DialogInterface dialogInterface) {
-                            Button posButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
-                            posButton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    dialog.dismiss();
+                    Log.d("GETCOUNT", "onClick: "+trackingDB.getCount());
+                    if (trackingDB.getCount() > 2){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(StartRunActivity.this);
+                        builder.setMessage("Are you sure you want to stop?")
+                                .setCancelable(true)
+                                .setPositiveButton("Yes", null)
+                                .setNegativeButton("No", null);
+                        AlertDialog dialog = builder.create();
+                        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                            @Override
+                            public void onShow(DialogInterface dialogInterface) {
+                                Button posButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                                posButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        dialog.dismiss();
 
-                                    handler.removeCallbacksAndMessages(null);
+                                        handler.removeCallbacksAndMessages(null);
 
-                                    sendCommandToService(Constants.ACTION_STOP_SERVICE);
-                                    running = false;
+                                        sendCommandToService(Constants.ACTION_STOP_SERVICE);
+                                        running = false;
 
-                                    long finalMS = Calendar.getInstance().getTimeInMillis();
-                                    SharedPreferences sharedPreferences = getSharedPreferences("tracking", Context.MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putLong("finalTime", finalMS);
-                                    editor.apply();
+                                        long finalMS = Calendar.getInstance().getTimeInMillis();
+                                        SharedPreferences sharedPreferences = getSharedPreferences("tracking", Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putLong("finalTime", finalMS);
+                                        editor.apply();
 
-                                    long initialTime = sharedPreferences.getLong("initialTime", 0);
-                                    long finalTime = sharedPreferences.getLong("finalTime", 0);
-                                    long diffTime = (finalTime - initialTime);
-                                    long diffInSec = TimeUnit.MILLISECONDS.toSeconds(diffTime);
+                                        long initialTime = sharedPreferences.getLong("initialTime", 0);
+                                        long finalTime = sharedPreferences.getLong("finalTime", 0);
+                                        long diffTime = (finalTime - initialTime);
+                                        long diffInSec = TimeUnit.MILLISECONDS.toSeconds(diffTime);
 
-                                    Log.e("FINAL", "onClick: " +diffInSec);
-                                    Toast.makeText(StartRunActivity.this, "Stopped Run!", Toast.LENGTH_SHORT).show();
+                                        Log.e("FINAL", "onClick: " +diffInSec);
+                                        Toast.makeText(StartRunActivity.this, "Stopped Run!", Toast.LENGTH_SHORT).show();
 
-                                    Intent intent = new Intent(StartRunActivity.this, CreateRunActivity.class);
-                                    startActivity(intent);
-                                }
-                            });
-                            Button negButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
-                            negButton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    dialog.dismiss();
-                                }
-                            });
-                        }
-                    });
-                    dialog.show();
+                                        Intent intent = new Intent(StartRunActivity.this, CreateRunActivity.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                                Button negButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+                                negButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                            }
+                        });
+                        dialog.show();
+                    }else{
+                        AlertDialog.Builder builder = new AlertDialog.Builder(StartRunActivity.this);
+                        builder.setMessage("Not enough points saved.")
+                                .setCancelable(true)
+                                .setPositiveButton("Back", null);
+                        AlertDialog dialog = builder.create();
+                        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                            @Override
+                            public void onShow(DialogInterface dialogInterface) {
+                                Button posButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                                posButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                            }
+                        });
+                        dialog.show();
+                    }
+
                 }
 
             }
