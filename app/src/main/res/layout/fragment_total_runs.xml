@@ -5,23 +5,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.fragment_TotalRuns">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textSize="19sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/header_runs"/>
 
-    <Button
-        android:id="@+id/run_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/circle"
-        android:text="27"
-        android:textColor="@color/primaryColor"
-        android:textSize="30pt"
-        app:backgroundTint="#FFFFFF" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/run_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/circle"
+            android:text="27"
+            android:textColor="@color/primaryColor"
+            android:textSize="30pt"
+            app:backgroundTint="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/total_run_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="@string/header_runs"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/run_count"
+            app:layout_constraintEnd_toEndOf="@+id/run_count"
+            app:layout_constraintStart_toStartOf="@+id/run_count"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.25" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </FrameLayout>

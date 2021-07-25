@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -17,8 +19,15 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.ListIterator;
+
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.adapters.StatisticsFragmentAdapter;
+import sg.edu.np.tracknshare.adapters.StatsAdapter;
+import sg.edu.np.tracknshare.models.Statistics;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +37,7 @@ import sg.edu.np.tracknshare.adapters.StatisticsFragmentAdapter;
 public class fragment_statistics extends Fragment {
     ViewPager2 viewPager2;
     TabLayout dotsIndicator;
+    RecyclerView stats_rv;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -79,13 +89,44 @@ public class fragment_statistics extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         StatisticsFragmentAdapter statisticsFragmentAdapter = new StatisticsFragmentAdapter(getChildFragmentManager(),getLifecycle());
+
         viewPager2 =view.findViewById(R.id.stats_viewPager);
         dotsIndicator = view.findViewById(R.id.tabDots);
         viewPager2.setSaveEnabled(true);
         viewPager2.setAdapter(statisticsFragmentAdapter);
+
         new TabLayoutMediator(dotsIndicator,viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) { }
         }).attach();
+
+        stats_rv=view.findViewById(R.id.stats_rv);
+
+        LinearLayoutManager lm = new LinearLayoutManager(getContext());
+        lm.setOrientation(RecyclerView.VERTICAL);
+        stats_rv.setLayoutManager(lm); //configure recycler view settings
+
+        ArrayList<Statistics> statisticsList = generateStats();
+        StatsAdapter adapter = new StatsAdapter(getContext(),statisticsList);
+        stats_rv.setAdapter(adapter);
+    }
+
+    private ArrayList<Statistics> generateStats() {// retrieve stats from db and populate into this list
+        ArrayList<Statistics> stats = new ArrayList<Statistics>();
+        //1: stat1:Daily avg steps stat2:Total Steps so far
+        //2:stat1: Daily avg calories stat2: Total Calories burned
+        //3:stat1: Daily avg distance(km) stat2: Total distance so far(km)
+
+        for(int i = 1;i<=3;i++){
+            Statistics stat = new Statistics();
+            stat.setTitle("Title"+i);
+            stat.setStat1Header("Header 1");
+            stat.setStat2Header("Header 2");
+            stat.setStat1number(i*5);
+            stat.setStat2number(i*5*2);
+            stats.add(stat);
+
+        }
+        return stats;
     }
 }
