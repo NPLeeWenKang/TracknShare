@@ -2,6 +2,7 @@ package sg.edu.np.tracknshare.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import sg.edu.np.tracknshare.R;
+import sg.edu.np.tracknshare.handlers.AuthHandler;
 import sg.edu.np.tracknshare.handlers.StorageHandler;
 import sg.edu.np.tracknshare.models.Post;
 import sg.edu.np.tracknshare.models.Run;
@@ -48,9 +50,9 @@ public class ProfilePostsAdapter extends RecyclerView.Adapter<ProfilePostViewHol
         DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy h:mma");
         holder.Username.setText(u.getUserName());
         holder.PostDate.setText(dateFormat.format(p.getPostDate()));
-        holder.Likes.setText(""+p.getLikes());
+
         holder.PostCaption.setText(p.getCaption());
-        holder.LikesIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_heart));
+
 
         StorageHandler storageHandler = new StorageHandler();
         storageHandler.LoadFileToApp(p.getRunId(), context, holder.PostImg);
@@ -58,33 +60,41 @@ public class ProfilePostsAdapter extends RecyclerView.Adapter<ProfilePostViewHol
         isSelected = false;
         int red = Color.RED;
         int white = Color.WHITE;
-        holder.LikesIcon.setOnClickListener(new View.OnClickListener(){
-            int likes = p.getLikes();
+        AuthHandler auth = new AuthHandler(context);
+        Log.d("POSTADAPTOR", "onBindViewHolder: "+(u.getId().equals(auth.GetCurrentUser().getUid())));
+        if (!u.getId().equals(auth.GetCurrentUser().getUid())){
+            holder.Likes.setText(""+p.getLikes());
+            holder.LikesIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_heart));
+            holder.LikesIcon.setOnClickListener(new View.OnClickListener(){
+                int likes = p.getLikes();
 
-            int clickCount = 0;
-            @Override
-            public void onClick(View v) {
-                int l = likes;
-                clickCount += 1;
-                if(clickCount > 0){//to prevent unnecessary minusing of like as initial isClicked is false
-                    if(!isSelected){ // unselected to selected:turns red,likes + 1,
-                        likes = addOneLike(holder,red,l);
-                        isSelected = true;
+                int clickCount = 0;
+                @Override
+                public void onClick(View v) {
+                    int l = likes;
+                    clickCount += 1;
+                    if(clickCount > 0){//to prevent unnecessary minusing of like as initial isClicked is false
+                        if(!isSelected){ // unselected to selected:turns red,likes + 1,
+                            likes = addOneLike(holder,red,l);
+                            isSelected = true;
+                        }
+
+                        else{   // selected to unselected:turns white,likes - 1,
+                            likes = removeOneLike(holder,white,l);
+                            isSelected = false;
+                        }
+
+                        p.setLikes(likes);
+                        holder.Likes.setText(""+likes);
                     }
 
-                    else{   // selected to unselected:turns white,likes - 1,
-                        likes = removeOneLike(holder,white,l);
-                        isSelected = false;
-                    }
-
-                    p.setLikes(likes);
-                    holder.Likes.setText(""+likes);
                 }
 
-            }
+
+            });
+        }
 
 
-        });
     }
     public int addOneLike(ProfilePostViewHolder holder,int red,int l){
         isSelected = true;

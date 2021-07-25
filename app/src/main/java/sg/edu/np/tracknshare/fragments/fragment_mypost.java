@@ -1,60 +1,37 @@
 package sg.edu.np.tracknshare.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 import sg.edu.np.tracknshare.R;
+import sg.edu.np.tracknshare.adapters.ProfilePostsAdapter;
+import sg.edu.np.tracknshare.handlers.AuthHandler;
+import sg.edu.np.tracknshare.handlers.PostDBHandler;
+import sg.edu.np.tracknshare.models.UserPostViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link fragment_mypost#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class fragment_mypost extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    private ArrayList<UserPostViewModel> upList = new ArrayList<>();
     public fragment_mypost() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment fragment_mypost.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static fragment_mypost newInstance(String param1, String param2) {
-        fragment_mypost fragment = new fragment_mypost();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -62,5 +39,22 @@ public class fragment_mypost extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_mypost, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Log.d("FRAGMENT_MYPFP", "onViewCreated: ");
+        RecyclerView recyclerView = view.findViewById(R.id.rv_profile_post);
+        ProfilePostsAdapter mAdapter = new ProfilePostsAdapter(view.getContext(), upList);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(view.getContext());
+
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
+
+        PostDBHandler postDBHandler = new PostDBHandler(view.getContext());
+        AuthHandler auth = new AuthHandler(view.getContext());
+        postDBHandler.GetUserPosts(upList, mAdapter, auth.GetCurrentUser().getUid());
     }
 }
