@@ -119,7 +119,7 @@ public class UserDBHandler {
                         tv.setText("Remove from Friends");
                     }else{
                         TextView tv = ((Activity) context).findViewById(R.id.friends_btn);
-                        tv.setText("Add to Friend");
+                        tv.setText("Add to Friends");
                     }
                 }
             }

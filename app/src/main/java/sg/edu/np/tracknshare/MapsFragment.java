@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -36,7 +37,10 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import sg.edu.np.tracknshare.adapters.RunsAdapter;
+import sg.edu.np.tracknshare.handlers.RunDBHandler;
 import sg.edu.np.tracknshare.handlers.TrackingDBHandler;
 import sg.edu.np.tracknshare.models.MyLatLng;
 
@@ -56,23 +60,37 @@ public class MapsFragment extends Fragment {
             googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
                 @Override
                 public void onMapLoaded() {
+                    Intent intent = ((Activity) c).getIntent();
+                    String mapType = intent.getStringExtra("mapType");
+                    String id = intent.getStringExtra("id");
+
                     Log.e("MAP", "onMapLoaded: ");
-                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-                    TrackingDBHandler trackingDB = new TrackingDBHandler(c);
-                    ArrayList<MyLatLng> llList = trackingDB.getAllPoints();
-                    for (int i = 0; i <= llList.size() - 1; i++) {
-                        LatLng latLng = new LatLng(llList.get(i).latitude, llList.get(i).longitude);// in this line put you lat and long
-                        builder.include(latLng);  //add latlng to builder
+                    if (mapType == null){
+                        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+                        TrackingDBHandler trackingDB = new TrackingDBHandler(c);
+                        ArrayList<MyLatLng> llList = trackingDB.getAllPoints();
+                        for (int i = 0; i <= llList.size() - 1; i++) {
+                            LatLng latLng = new LatLng(llList.get(i).latitude, llList.get(i).longitude);// in this line put you lat and long
+                            builder.include(latLng);  //add latlng to builder
+                        }
+                        LatLngBounds bounds = builder.build();
+
+                        int padding = 150; // offset from edges of the map in pixels
+                        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+
+                        googleMap.moveCamera(cu);
+
+                        googleMap.getUiSettings().setAllGesturesEnabled(false);
+
+                        setPoints(googleMap, llList);
+                    } else{
+                        googleMap.getUiSettings().setAllGesturesEnabled(true);
+
+                        RunDBHandler runDBHandler = new RunDBHandler(c);
+                        runDBHandler.getRunPoints(id, googleMap, c);
                     }
-                    LatLngBounds bounds = builder.build();
-
-                    int padding = 150; // offset from edges of the map in pixels
-                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-
-                    googleMap.moveCamera(cu);
-
-                    googleMap.getUiSettings().setAllGesturesEnabled(false);
 
                     googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 
@@ -80,7 +98,6 @@ public class MapsFragment extends Fragment {
                             return true;
                         }
                     });
-                    setPoints(googleMap, llList);
                 }
             });
             map = googleMap;
@@ -108,7 +125,7 @@ public class MapsFragment extends Fragment {
         }
     }
 
-    public void setPoints(GoogleMap googleMap, ArrayList<MyLatLng> llList){
+    static public void setPoints(GoogleMap googleMap, ArrayList<MyLatLng> llList){
         googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(llList.get(0).latitude, llList.get(0).longitude))
                 .title("Start"));

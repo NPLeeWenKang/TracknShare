@@ -1,5 +1,6 @@
 package sg.edu.np.tracknshare.adapters;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,6 +32,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import sg.edu.np.tracknshare.CreatePostActivity;
+import sg.edu.np.tracknshare.CreateRunActivity;
+import sg.edu.np.tracknshare.FullMapActivity;
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.fragments.CreatePostFragment;
 import sg.edu.np.tracknshare.handlers.StorageHandler;
@@ -71,6 +74,17 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder>  {
         holder.Share_button.setImageDrawable(context.getResources().getDrawable(R.drawable.share));
         holder.post_button.setImageDrawable(context.getResources().getDrawable(R.drawable.writing));
         saveImage(holder.MapImage.getDrawable());
+
+        holder.MapImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, FullMapActivity.class);
+                intent.putExtra("mapType", "movable");
+                intent.putExtra("id", r.getRunId());
+                ((Activity) context).startActivity(intent);
+            }
+        });
+
         holder.post_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;

@@ -11,6 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -21,10 +26,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import sg.edu.np.tracknshare.MapsFragment;
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.adapters.RunsAdapter;
 import sg.edu.np.tracknshare.adapters.SearchItemAdapter;
 import sg.edu.np.tracknshare.fragments.SearchFragment;
+import sg.edu.np.tracknshare.models.MyLatLng;
 import sg.edu.np.tracknshare.models.Run;
 import sg.edu.np.tracknshare.models.User;
 import java.util.Calendar;
@@ -52,6 +59,41 @@ public class RunDBHandler {
                         numRun.setText(""+task.getResult().getChildrenCount());
                     }
 
+                }
+            }
+        });
+    }
+    public void getRunPoints(String id, GoogleMap googleMap, Context context){
+        DatabaseReference dbRef = database.getReference("/runs");
+        dbRef.child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().exists()){
+                        DataSnapshot ds = task.getResult();
+                        Run r = ds.getValue(Run.class);
+                        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+                        for (int i = 0; i <= r.getPoints().size() - 1; i++) {
+                            LatLng latLng = new LatLng(r.getPoints().get(i).latitude, r.getPoints().get(i).longitude);// in this line put you lat and long
+                            builder.include(latLng);  //add latlng to builder
+                        }
+                        LatLngBounds bounds = builder.build();
+
+                        int padding = 150; // offset from edges of the map in pixels
+                        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+
+                        googleMap.moveCamera(cu);
+
+                        MapsFragment.setPoints(googleMap, r.getPoints());
+                    }
+                    else{
+                        ((Activity) context).finish();
+                    }
+                }
+                else {
+                    Log.d("firebase", "Error getting data", task.getException());
+                    ((Activity) context).finish();
                 }
             }
         });

@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -68,9 +69,11 @@ public class UserDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (friends_btn.getText().toString().equals("Remove from Friends")){
+                    Toast.makeText(UserDetailActivity.this, "From from Friends", Toast.LENGTH_SHORT).show();
                     db.RemoveFriends(auth.GetCurrentUser().getUid(), id);
                     friends_btn.setText("Add to Friends");
                 }else{
+                    Toast.makeText(UserDetailActivity.this, "Added to Friends", Toast.LENGTH_SHORT).show();
                     db.AddToFriends(auth.GetCurrentUser().getUid(), id);
                     friends_btn.setText("Remove from Friends");
                 }
