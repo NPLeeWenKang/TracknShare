@@ -14,7 +14,7 @@
     <item
         android:id="@+id/runsNavItem"
         android:title="Runs"
-        android:icon="@drawable/history"/>
+        android:icon="@drawable/runs"/>
     <item
         android:id="@+id/profileNavItem"
         android:title="Profile"
