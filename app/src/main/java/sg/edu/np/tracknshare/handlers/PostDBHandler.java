@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import sg.edu.np.tracknshare.R;
@@ -249,6 +254,85 @@ public class PostDBHandler {
 
                     }
 
+                }
+                else {
+                    Log.d("firebase", "Error getting data", task.getException());
+                }
+            }
+        });
+    }
+    public void getPost(String postId, Context context){
+        DatabaseReference dbRef = database.getReference("/posts");
+        dbRef.child(postId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().exists()){
+                        DataSnapshot ds = task.getResult();
+                        Post p = ds.getValue(Post.class);
+
+                        TextView postDate = ((Activity) context).findViewById(R.id.workoutDate);
+                        TextView likes = ((Activity) context).findViewById(R.id.likes);
+                        TextView postCaption = ((Activity) context).findViewById(R.id.postCaption);
+                        DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy h:mma");
+
+                        if (postDate  != null && likes != null && postCaption != null){
+                            postDate.setText(dateFormat.format(p.getPostDate()));
+                            likes.setText(""+p.getLikes());
+                            postCaption.setText(""+p.getCaption());
+                        }
+
+                        getRun(p.getRunId(), context);
+                        getUser(p.getUserId(), context);
+                    }
+
+                }
+                else {
+                    Log.d("firebase", "Error getting data", task.getException());
+                }
+            }
+        });
+    }
+    private void getRun(String runId, Context c){
+        DatabaseReference dbRef = database.getReference("/runs");
+        dbRef.child(runId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().exists()){
+                        DataSnapshot ds = task.getResult();
+                        Run r = ds.getValue(Run.class);
+                        ImageView runImage = ((Activity) context).findViewById(R.id.post_Image);
+                        StorageHandler storageHandler = new StorageHandler();
+                        if (runImage != null){
+                            storageHandler.LoadFileToApp(r.getImageId(), context, runImage);
+                        }
+                    }
+                }
+                else {
+                    Log.d("firebase", "Error getting data", task.getException());
+                }
+            }
+        });
+    }
+    private void getUser(String userId, Context context){
+        DatabaseReference dbRef = database.getReference("/user");
+        dbRef.child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().exists()){
+                        DataSnapshot ds = task.getResult();
+                        User u = ds.getValue(User.class);
+                        ImageView avatarImage = ((Activity) context).findViewById(R.id.avatarIMG);
+                        TextView name = ((Activity) context).findViewById(R.id.username);
+                        StorageHandler storageHandler = new StorageHandler();
+
+                        if (avatarImage != null && name != null){
+                            storageHandler.LoadProfileImageToApp(u.getId(), context, avatarImage);
+                            name.setText(u.getUserName());
+                        }
+                    }
                 }
                 else {
                     Log.d("firebase", "Error getting data", task.getException());

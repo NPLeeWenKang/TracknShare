@@ -1,6 +1,8 @@
 package sg.edu.np.tracknshare.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +16,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import sg.edu.np.tracknshare.CommentsActivity;
+import sg.edu.np.tracknshare.FullMapActivity;
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.handlers.AuthHandler;
 import sg.edu.np.tracknshare.handlers.StorageHandler;
@@ -62,6 +66,16 @@ public class ProfilePostsAdapter extends RecyclerView.Adapter<ProfilePostViewHol
         int white = Color.WHITE;
         AuthHandler auth = new AuthHandler(context);
         Log.d("POSTADAPTOR", "onBindViewHolder: "+(u.getId().equals(auth.GetCurrentUser().getUid())));
+
+        holder.View.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, CommentsActivity.class);
+                intent.putExtra("id", p.getPostId());
+                ((Activity) context).startActivity(intent);
+                ((Activity) context).overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
+            }
+        });
         if (!u.getId().equals(auth.GetCurrentUser().getUid())){
             holder.Likes.setText(""+p.getLikes());
             holder.LikesIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_heart));

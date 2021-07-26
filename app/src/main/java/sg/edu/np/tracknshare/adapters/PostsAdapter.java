@@ -62,6 +62,15 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
         storageHandler.LoadFileToApp(p.getRunId(), context, holder.PostImg);
         storageHandler.LoadProfileImageToApp(u.getId(), context, holder.UserImg);
 
+        holder.View.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, CommentsActivity.class);
+                intent.putExtra("id", p.getPostId());
+                ((Activity) context).startActivity(intent);
+                ((Activity) context).overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
+            }
+        });
         holder.UserImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

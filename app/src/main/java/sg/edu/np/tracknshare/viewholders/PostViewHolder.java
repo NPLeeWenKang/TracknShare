@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import sg.edu.np.tracknshare.R;
 
 public class PostViewHolder extends RecyclerView.ViewHolder {
-    View view;
+    public View View;
     public ImageView UserImg;
     public TextView Username;
     public TextView PostDate;
@@ -22,7 +22,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     public ImageView ShareIcon;
     public PostViewHolder(View itemView){
         super(itemView);
-        view = itemView;
+        View = itemView;
         UserImg = itemView.findViewById(R.id.avatarIMG);
         Username = itemView.findViewById(R.id.username);
         PostDate = itemView.findViewById(R.id.workoutDate);

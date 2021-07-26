@@ -5,17 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/likes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="69"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/likesImg"
-        app:layout_constraintEnd_toStartOf="@+id/likesImg"
-        app:layout_constraintTop_toTopOf="@+id/likesImg" />
-
     <ImageView
         android:id="@+id/postImage"
         android:layout_width="match_parent"
@@ -41,16 +30,6 @@
         app:layout_constraintStart_toStartOf="@+id/postImage"
         app:layout_constraintTop_toBottomOf="@+id/postImage" />
 
-    <TextView
-        android:id="@+id/workoutDate"
-        android:layout_width="wrap_content"
-        android:layout_height="19dp"
-        android:text="03/02/2021"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/avatar"
-        app:layout_constraintStart_toStartOf="@+id/username"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
-
     <ImageView
         android:id="@+id/sharePost"
         android:layout_width="wrap_content"
@@ -70,6 +49,16 @@
         app:layout_constraintBottom_toTopOf="@+id/workoutDate"
         app:layout_constraintStart_toEndOf="@+id/avatar"
         app:layout_constraintTop_toTopOf="@+id/avatar" />
+
+    <TextView
+        android:id="@+id/workoutDate"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:text="03/02/2021"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/avatar"
+        app:layout_constraintStart_toStartOf="@+id/username"
+        app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <TextView
         android:id="@+id/postCaption"
@@ -94,6 +83,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_heart" />
+
+    <TextView
+        android:id="@+id/likes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="69"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/likesImg"
+        app:layout_constraintEnd_toStartOf="@+id/likesImg"
+        app:layout_constraintTop_toTopOf="@+id/likesImg" />
 
     <ImageView
         android:id="@+id/commentsIcon"
@@ -123,16 +123,6 @@
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/ic_avatar" />
     </androidx.cardview.widget.CardView>
-<!--    <ImageView-->
-<!--        android:layout_width="45dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:alpha="0.5"-->
-<!--        app:layout_constraintDimensionRatio="h,1:1"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:srcCompat="@drawable/ic_avatar" />-->
 
     <ImageView
         android:id="@+id/imageView8"
