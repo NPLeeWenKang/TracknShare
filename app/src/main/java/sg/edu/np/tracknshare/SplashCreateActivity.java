@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -43,7 +44,13 @@ public class SplashCreateActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                auth.CreateEmailPasswordAccount(email.getText().toString(),password.getText().toString(),username.getText().toString());
+                String emailVal = email.getText().toString();
+                String passwordVal = password.getText().toString();
+                String usernameVal = username.getText().toString();
+                if (!emailVal.equals("") && !passwordVal.equals("") && !usernameVal.equals("")){
+                    auth.CreateEmailPasswordAccount(emailVal,passwordVal,usernameVal);
+                }
+
             }
         });
         email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
