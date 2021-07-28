@@ -18,6 +18,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
@@ -64,6 +66,68 @@ public class PostDBHandler {
                         numPost.setText(""+task.getResult().getChildrenCount());
                     }
 
+                }
+            }
+        });
+    }
+    public void removeLike(String postId){
+        DatabaseReference dbRef = database.getReference("/posts");
+        dbRef.child(postId).child("likes").runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Integer currentValue = mutableData.getValue(Integer.class);
+                if (currentValue == null) {
+                    mutableData.setValue(1);
+                } else {
+                    mutableData.setValue(currentValue - 1);
+                }
+
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(
+                    DatabaseError databaseError, boolean committed, DataSnapshot dataSnapshot) {
+                Log.d("LIKES", "onComplete: ");
+            }
+        });
+    }
+    public void addLike(String postId){
+        DatabaseReference dbRef = database.getReference("/posts");
+        dbRef.child(postId).child("likes").runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Integer currentValue = mutableData.getValue(Integer.class);
+                if (currentValue == null) {
+                    mutableData.setValue(1);
+                } else {
+                    mutableData.setValue(currentValue + 1);
+                }
+
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(
+                    DatabaseError databaseError, boolean committed, DataSnapshot dataSnapshot) {
+                Log.d("LIKES", "onComplete: ");
+            }
+        });
+    }
+    public void isLiked(ImageView imageView, TextView textView, String postId){
+        AuthHandler authHandler = new AuthHandler(context);
+        database.getReference("/user").child(authHandler.GetCurrentUser().getUid()).child("likedId").child(postId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DataSnapshot ds = task.getResult();
+                    if (ds.exists()){
+                        textView.setText("1");
+                        imageView.setColorFilter(((Activity) context).getResources().getColor(R.color.red)); // Add tint color
+                    }else{
+                        textView.setText("0");
+                        imageView.setColorFilter(null); // Remove tint color
+                    }
                 }
             }
         });

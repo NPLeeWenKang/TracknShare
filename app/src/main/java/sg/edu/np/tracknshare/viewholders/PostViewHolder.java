@@ -13,6 +13,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     public ImageView UserImg;
     public TextView Username;
     public TextView PostDate;
+    public TextView IsLiked;
     public TextView Likes;
     public ImageView LikesIcon;
     public TextView PostCaption;
@@ -33,6 +34,6 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         ViewComments = itemView.findViewById(R.id.viewComments);
         CommentsIcon = itemView.findViewById(R.id.commentsIcon);
         ShareIcon = itemView.findViewById(R.id.sharePost);
-
+        IsLiked = itemView.findViewById(R.id.isLiked);
     }
 }

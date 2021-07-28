@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.EditText;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,6 +42,15 @@ public class UserDBHandler {
         DatabaseReference dbRef = database.getReference("/user");
         dbRef.child(u.getId()).setValue(u);
     }
+    public void addLike(String userId, String postId){
+        DatabaseReference dbRef = database.getReference("/user");
+        dbRef.child(userId).child("likedId").child(postId).setValue(true);
+    }
+    public void removeLike(String userId, String postId){
+        DatabaseReference dbRef = database.getReference("/user");
+        dbRef.child(userId).child("likedId").child(postId).setValue(null);
+    }
+
     public void SearchUser(String username, ArrayList<User> uList, SearchItemAdapter mAdapter){
         mAdapter.notifyItemRangeRemoved(0,uList.size());
         uList.clear();
@@ -221,7 +231,9 @@ public class UserDBHandler {
     }
     public void UpdateUserDetails(User u){
         DatabaseReference dbRef = database.getReference("/user");
-        dbRef.child(u.getId()).setValue(u);
+        dbRef.child(u.getId()).child("userName").setValue(u.getUserName());
+        dbRef.child(u.getId()).child("mass").setValue(u.getMass());
+        dbRef.child(u.getId()).child("height").setValue(u.getHeight());
     }
     public void GetFriendsList(String id, ArrayList<User> uList, SearchItemAdapter mAdapter){
         uList.clear();

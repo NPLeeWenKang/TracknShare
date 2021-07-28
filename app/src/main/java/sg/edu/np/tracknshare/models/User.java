@@ -16,6 +16,7 @@ public class User {
     private String Mass;
     private String Height;
     private HashMap<String, Boolean> FriendsId;
+    private HashMap<String, Boolean> LikedId;
 
     public String getAccountCreationDate() {
         return AccountCreationDate;
@@ -73,7 +74,15 @@ public class User {
         Height = height;
     }
 
-    public User(String id, String userName, String email, String accountCreationDate, String mass, String height, HashMap<String, Boolean> friendsId) {
+    public HashMap<String, Boolean> getLikedId() {
+        return LikedId;
+    }
+
+    public void setLikedId(HashMap<String, Boolean> likedId) {
+        LikedId = likedId;
+    }
+
+    public User(String id, String userName, String email, String accountCreationDate, String mass, String height, HashMap<String, Boolean> friendsId, HashMap<String, Boolean> likedId) {
         Id = id;
         UserName = userName;
         Email = email;
@@ -81,5 +90,6 @@ public class User {
         Mass = mass;
         Height = height;
         FriendsId = friendsId;
+        LikedId = likedId;
     }
 }
