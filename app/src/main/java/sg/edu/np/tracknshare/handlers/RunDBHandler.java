@@ -63,6 +63,28 @@ public class RunDBHandler {
             }
         });
     }
+//    public void GetMyRunStatistics(String id, Context context){
+//        ArrayList<Run> rList = new ArrayList<>();
+//        DatabaseReference dbRef = database.getReference("/runs");
+//        dbRef.orderByChild("userId").equalTo(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    if (task.getResult().exists()){
+//                        int previousD
+//                        for (DataSnapshot ds : task.getResult().getChildren()){
+//                            Run r = ds.getValue(Run.class);
+//                            rList.add(0, r);
+//                        }
+//                    }
+//                }
+//                else {
+//                    Log.d("firebase", "Error getting data", task.getException());
+//                    ConstraintLayout img = ((Activity) context).findViewById(R.id.error);
+//                }
+//            }
+//        });
+//    }
     public void getRunPoints(String id, GoogleMap googleMap, Context context){
         DatabaseReference dbRef = database.getReference("/runs");
         dbRef.child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {

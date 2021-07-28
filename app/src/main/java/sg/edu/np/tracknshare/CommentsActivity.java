@@ -1,5 +1,6 @@
 package sg.edu.np.tracknshare;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -42,10 +43,25 @@ public class CommentsActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         Intent receivedIntent = getIntent();
-        String id = receivedIntent.getStringExtra("id");
-        Log.d("COMMENTSACTI", "onCreate: "+id);
+        String postId = receivedIntent.getStringExtra("postId");
+        String runId = receivedIntent.getStringExtra("runId");
+        if (postId == null && runId == null){
+            finish();
+        }
+        Log.d("COMMENTSACTI", "onCreate: "+postId);
         PostDBHandler postDBHandler = new PostDBHandler(this);
-        postDBHandler.getPost(id, this);
+        postDBHandler.getPost(postId, this);
+
+        ImageView mapImage = findViewById(R.id.post_Image);
+        mapImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CommentsActivity.this, FullMapActivity.class);
+                intent.putExtra("mapType", "movable");
+                intent.putExtra("id", runId);
+                startActivity(intent);
+            }
+        });
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

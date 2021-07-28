@@ -64,7 +64,7 @@ public class MapsFragment extends Fragment {
                     String mapType = intent.getStringExtra("mapType");
                     String id = intent.getStringExtra("id");
 
-                    Log.e("MAP", "onMapLoaded: ");
+                    Log.e("MAP", "onMapLoaded: "+mapType);
 
                     if (mapType == null){
                         LatLngBounds.Builder builder = new LatLngBounds.Builder();
@@ -87,7 +87,7 @@ public class MapsFragment extends Fragment {
                         setPoints(googleMap, llList);
                     } else{
                         googleMap.getUiSettings().setAllGesturesEnabled(true);
-
+                        Log.e("MAP", "onMapLoaded: "+mapType);
                         RunDBHandler runDBHandler = new RunDBHandler(c);
                         runDBHandler.getRunPoints(id, googleMap, c);
                     }

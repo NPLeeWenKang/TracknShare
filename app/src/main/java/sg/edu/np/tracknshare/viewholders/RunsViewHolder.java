@@ -33,7 +33,7 @@ public class RunsViewHolder extends RecyclerView.ViewHolder {
         Header_Date = itemView.findViewById(R.id.header_date);
         Run_Date= itemView.findViewById(R.id.run_date);
         Header_timing = itemView.findViewById(R.id.header_timing);
-        Run_timing = itemView.findViewById(R.id.run_timing);
+        Run_timing = itemView.findViewById(R.id.run_timing_post);
         Header_pace = itemView.findViewById(R.id.header_pace);
         Run_pace = itemView.findViewById(R.id.run_pace);
         Header_calories = itemView.findViewById(R.id.header_calories);

@@ -71,7 +71,8 @@ public class ProfilePostsAdapter extends RecyclerView.Adapter<ProfilePostViewHol
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, CommentsActivity.class);
-                intent.putExtra("id", p.getPostId());
+                intent.putExtra("postId", p.getPostId());
+                intent.putExtra("runId", p.getRunId());
                 ((Activity) context).startActivity(intent);
                 ((Activity) context).overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
             }
