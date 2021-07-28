@@ -161,6 +161,25 @@ public class UserDBHandler {
             }
         });
     }
+    public void GetMyStatistics(String id, Context context){
+        Log.d("FIREBASE123", "GetUserDetails: "+id);
+        DatabaseReference dbRef = database.getReference("/user");
+        dbRef.child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().exists()){
+                        DataSnapshot ds = task.getResult();
+                        User u = ds.getValue(User.class);
+
+                    }
+                }
+                else {
+                    Log.d("FIREBASE123", "Error getting data", task.getException());
+                }
+            }
+        });
+    }
     public void GetUserDetailsIntoSettings(String id, Context context){
         Log.d("FIREBASE123", "GetUserDetails: "+id);
         DatabaseReference dbRef = database.getReference("/user");
@@ -173,9 +192,13 @@ public class UserDBHandler {
                         User u = ds.getValue(User.class);
                         u.setFriendsId(null);
                         EditText name = ((Activity) context).findViewById(R.id.edit_username);
+                        EditText mass = ((Activity) context).findViewById(R.id.edit_mass);
+                        EditText height = ((Activity) context).findViewById(R.id.edit_height);
                         ImageView imageView = ((Activity) context).findViewById(R.id.add_profile_image);
                         if (name != null){
                             name.setText(u.getUserName());
+                            mass.setText(u.getMass());
+                            height.setText(u.getHeight());
                             Log.d("FIREBASE123", "Error getting data"+ u.getUserName());
                         }
                         StorageHandler storageHandler = new StorageHandler();

@@ -42,6 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/createBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,27 +77,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="Already created an account? "
-            android:textColor="@color/white"
-            android:textSize="13dp"
-            app:layout_constraintStart_toStartOf="@+id/passwordCreate"
-            app:layout_constraintTop_toBottomOf="@+id/passwordCreate" />
-
-        <TextView
-            android:id="@+id/SignUp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sign In"
-            android:textColor="@color/purple"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/textView9"
-            app:layout_constraintStart_toEndOf="@+id/textView9" />
-
         <EditText
             android:id="@+id/usernameCreate"
             android:layout_width="0dp"
@@ -110,6 +90,55 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emailCreate" />
+
+        <EditText
+            android:id="@+id/heightCreate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:hint="Height (m)"
+            android:inputType="numberDecimal"
+            android:textColor="@color/white"
+            android:textColorHighlight="@color/white"
+            android:textColorHint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/massCreate"
+            app:layout_constraintTop_toBottomOf="@+id/passwordCreate" />
+
+        <EditText
+            android:id="@+id/massCreate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:hint="Mass (kg)"
+            android:inputType="numberDecimal"
+            android:textColor="@color/white"
+            android:textColorHighlight="@color/white"
+            android:textColorHint="@color/white"
+            app:layout_constraintEnd_toStartOf="@+id/heightCreate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/passwordCreate" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Already created an account? "
+            android:textColor="@color/white"
+            android:textSize="13dp"
+            app:layout_constraintStart_toStartOf="@+id/passwordCreate"
+            app:layout_constraintTop_toBottomOf="@+id/massCreate" />
+
+        <TextView
+            android:id="@+id/SignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign In"
+            android:textColor="@color/purple"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/textView9"
+            app:layout_constraintStart_toEndOf="@+id/textView9" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

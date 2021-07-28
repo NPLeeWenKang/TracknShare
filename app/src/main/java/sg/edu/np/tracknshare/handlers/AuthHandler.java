@@ -54,8 +54,8 @@ public class AuthHandler {
         FirebaseUser currentUser =  mAuth.getCurrentUser();
         return currentUser;
     }
-    public void CreateEmailPasswordAccount(String email, String password, String username){
-        mAuth.createUserWithEmailAndPassword(email, password)
+    public void CreateEmailPasswordAccount(String password, User u){
+        mAuth.createUserWithEmailAndPassword(u.getEmail(), password)
                 .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -64,7 +64,8 @@ public class AuthHandler {
                             Log.d("AUTH" , "createUserWithEmail:success");
                             FirebaseUser currentUser =  mAuth.getCurrentUser();
                             UserDBHandler db = new UserDBHandler(context);
-                            User u =new User(currentUser.getUid(),username,email,new SimpleDateFormat("dd MMM yyyy").format(Calendar.getInstance().getTime()),null);
+                            u.setId(currentUser.getUid());
+                            u.setAccountCreationDate(new SimpleDateFormat("dd MMM yyyy").format(Calendar.getInstance().getTime()));
                             db.AddUser(u);
 
                             Intent intent = new Intent(context, BaseActivity.class);
@@ -72,13 +73,6 @@ public class AuthHandler {
                             context.startActivity(intent);
                             ((Activity) context).finish();
                         } else {
-//                            try{
-//                                throw task.getException();
-//                            } catch (FirebaseAuthInvalidCredentialsException){
-//FirebaseAuthInvalidUserException FirebaseNetworkException
-
-//                            }
-                            // If sign in fails, display a message to the user.
                             Log.w("AUTH", "createUserWithEmail:failure", task.getException());
 
                         }

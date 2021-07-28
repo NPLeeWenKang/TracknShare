@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,7 +33,7 @@ import sg.edu.np.tracknshare.handlers.UserDBHandler;
 import sg.edu.np.tracknshare.models.User;
 
 public class ChangeProfileActivity extends AppCompatActivity {
-
+    private boolean imageIsChanged = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +59,7 @@ public class ChangeProfileActivity extends AppCompatActivity {
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == Activity.RESULT_OK) {
                             //Detects request codes
+                            imageIsChanged = true;
                             Uri selectedImage = result.getData().getData();
                             Bitmap bitmap = null;
                             try {
@@ -86,17 +88,23 @@ public class ChangeProfileActivity extends AppCompatActivity {
             }
         });
         TextView newName = findViewById(R.id.edit_username);
+        TextView newMass = findViewById(R.id.edit_mass);
+        TextView newHeight = findViewById(R.id.edit_height);
         ImageView settingsBtn = findViewById(R.id.save_profile);
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("SETTINGS", "onClick: Settings");
-                BitmapDrawable bitmapDrawable = ((BitmapDrawable) imageView.getDrawable());
-                Bitmap bitmap = bitmapDrawable.getBitmap();
-                storageHandler.UploadProfileImage(""+auth.GetCurrentUser().getUid(), bitmap);
+                if (imageIsChanged){
+                    BitmapDrawable bitmapDrawable = ((BitmapDrawable) imageView.getDrawable());
+                    Bitmap bitmap = bitmapDrawable.getBitmap();
+                    storageHandler.UploadProfileImage(""+auth.GetCurrentUser().getUid(), bitmap);
+                }
                 User u = new User();
                 u.setUserName(newName.getText().toString());
                 u.setId(auth.GetCurrentUser().getUid());
+                u.setMass(newMass.getText().toString());
+                u.setHeight(newHeight.getText().toString());
                 userDBHandler.UpdateUserDetails(u);
 
                 finish();

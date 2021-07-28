@@ -13,6 +13,8 @@ public class User {
     private String UserName;
     private String Email;
     private String AccountCreationDate;
+    private String Mass;
+    private String Height;
     private HashMap<String, Boolean> FriendsId;
 
     public String getAccountCreationDate() {
@@ -55,11 +57,29 @@ public class User {
         Email = email;
     }
 
-    public User(String id, String userName, String email, String accountCreationDate, HashMap<String, Boolean> friendsId) {
+    public String getMass() {
+        return Mass;
+    }
+
+    public void setMass(String mass) {
+        Mass = mass;
+    }
+
+    public String getHeight() {
+        return Height;
+    }
+
+    public void setHeight(String height) {
+        Height = height;
+    }
+
+    public User(String id, String userName, String email, String accountCreationDate, String mass, String height, HashMap<String, Boolean> friendsId) {
         Id = id;
         UserName = userName;
         Email = email;
         AccountCreationDate = accountCreationDate;
+        Mass = mass;
+        Height = height;
         FriendsId = friendsId;
     }
 }

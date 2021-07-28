@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import sg.edu.np.tracknshare.handlers.AuthHandler;
+import sg.edu.np.tracknshare.models.User;
 
 public class SplashCreateActivity extends AppCompatActivity {
 
@@ -40,15 +41,23 @@ public class SplashCreateActivity extends AppCompatActivity {
         EditText email = findViewById(R.id.emailCreate);
         EditText username = findViewById(R.id.usernameCreate);
         EditText password = findViewById(R.id.passwordCreate);
-
+        EditText mass = findViewById(R.id.massCreate);
+        EditText height = findViewById(R.id.heightCreate);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String emailVal = email.getText().toString();
                 String passwordVal = password.getText().toString();
                 String usernameVal = username.getText().toString();
-                if (!emailVal.equals("") && !passwordVal.equals("") && !usernameVal.equals("")){
-                    auth.CreateEmailPasswordAccount(emailVal,passwordVal,usernameVal);
+                String massVal = mass.getText().toString();
+                String heightVal = height.getText().toString();
+                if (!emailVal.equals("") && !passwordVal.equals("") && !usernameVal.equals("") && !massVal.equals("") && !heightVal.equals("")){
+                    User u = new User();
+                    u.setEmail(emailVal);
+                    u.setUserName(usernameVal);
+                    u.setMass(massVal);
+                    u.setHeight(heightVal);
+                    auth.CreateEmailPasswordAccount(passwordVal, u);
                 }
 
             }
@@ -56,7 +65,7 @@ public class SplashCreateActivity extends AppCompatActivity {
         email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!email.hasFocus() && !password.hasFocus() && !username.hasFocus()) {
+                if (!email.hasFocus() && !password.hasFocus() && !username.hasFocus() && !mass.hasFocus() && !height.hasFocus()) {
                     hideKeyboard(v);
                 }
             }
@@ -64,7 +73,7 @@ public class SplashCreateActivity extends AppCompatActivity {
         password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!email.hasFocus() && !password.hasFocus() && !username.hasFocus()) {
+                if (!email.hasFocus() && !password.hasFocus() && !username.hasFocus() && !mass.hasFocus() && !height.hasFocus()) {
                     hideKeyboard(v);
                 }
             }
@@ -72,7 +81,23 @@ public class SplashCreateActivity extends AppCompatActivity {
         username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!email.hasFocus() && !password.hasFocus() && !username.hasFocus()) {
+                if (!email.hasFocus() && !password.hasFocus() && !username.hasFocus() && !mass.hasFocus() && !height.hasFocus()) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+        mass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!email.hasFocus() && !password.hasFocus() && !username.hasFocus() && !mass.hasFocus() && !height.hasFocus()) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+        height.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!email.hasFocus() && !password.hasFocus() && !username.hasFocus() && !mass.hasFocus() && !height.hasFocus()) {
                     hideKeyboard(v);
                 }
             }
