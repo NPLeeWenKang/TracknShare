@@ -73,6 +73,7 @@ public class ProfilePostsAdapter extends RecyclerView.Adapter<ProfilePostViewHol
                 Intent intent = new Intent(context, CommentsActivity.class);
                 intent.putExtra("postId", p.getPostId());
                 intent.putExtra("runId", p.getRunId());
+                intent.putExtra("userId", p.getUserId());
                 ((Activity) context).startActivity(intent);
                 ((Activity) context).overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
             }

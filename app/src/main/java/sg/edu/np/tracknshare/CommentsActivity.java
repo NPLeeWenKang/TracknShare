@@ -45,6 +45,7 @@ public class CommentsActivity extends AppCompatActivity {
         Intent receivedIntent = getIntent();
         String postId = receivedIntent.getStringExtra("postId");
         String runId = receivedIntent.getStringExtra("runId");
+        String userId = receivedIntent.getStringExtra("userId");
         if (postId == null && runId == null){
             finish();
         }
@@ -53,6 +54,10 @@ public class CommentsActivity extends AppCompatActivity {
         postDBHandler.getPost(postId, this);
 
         ImageView mapImage = findViewById(R.id.post_Image);
+        ImageView userImage = findViewById(R.id.avatarIMG);
+        TextView username = findViewById(R.id.username);
+        TextView date = findViewById(R.id.workoutDate);
+
         mapImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,6 +65,33 @@ public class CommentsActivity extends AppCompatActivity {
                 intent.putExtra("mapType", "movable");
                 intent.putExtra("id", runId);
                 startActivity(intent);
+            }
+        });
+        userImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommentsActivity.this, UserDetailActivity.class);
+                intent.putExtra("id", ""+userId);
+                startActivity(intent);
+                overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
+            }
+        });
+        username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommentsActivity.this, UserDetailActivity.class);
+                intent.putExtra("id", ""+userId);
+                startActivity(intent);
+                overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
+            }
+        });
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommentsActivity.this, UserDetailActivity.class);
+                intent.putExtra("id", ""+userId);
+                startActivity(intent);
+                overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
             }
         });
     }
