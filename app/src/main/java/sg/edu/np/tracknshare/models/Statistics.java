@@ -2,8 +2,8 @@ package sg.edu.np.tracknshare.models;
 
 public class Statistics {
     public String Title;
-    public String Stat1Header;
-    public String Stat2Header;
+    public static String Stat1Header = "Daily Average";
+    public static String Stat2Header = "Total";
     public int Stat1number;
     public int Stat2number;
 

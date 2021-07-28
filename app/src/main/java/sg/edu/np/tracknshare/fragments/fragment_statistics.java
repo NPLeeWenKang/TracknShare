@@ -38,14 +38,8 @@ public class fragment_statistics extends Fragment {
     ViewPager2 viewPager2;
     TabLayout dotsIndicator;
     RecyclerView stats_rv;
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    ArrayList<String> titles= new ArrayList<String>();
 
     public fragment_statistics() {
         // Required empty public constructor
@@ -63,8 +57,6 @@ public class fragment_statistics extends Fragment {
     public static fragment_statistics newInstance(String param1, String param2) {
         fragment_statistics fragment = new fragment_statistics();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,10 +64,6 @@ public class fragment_statistics extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -105,6 +93,9 @@ public class fragment_statistics extends Fragment {
         LinearLayoutManager lm = new LinearLayoutManager(getContext());
         lm.setOrientation(RecyclerView.VERTICAL);
         stats_rv.setLayoutManager(lm); //configure recycler view settings
+        titles.add("steps");
+        titles.add("calories");
+        titles.add("distance(km)");
 
         ArrayList<Statistics> statisticsList = generateStats();
         StatsAdapter adapter = new StatsAdapter(getContext(),statisticsList);
@@ -117,13 +108,13 @@ public class fragment_statistics extends Fragment {
         //2:stat1: Daily avg calories stat2: Total Calories burned
         //3:stat1: Daily avg distance(km) stat2: Total distance so far(km)
 
-        for(int i = 1;i<=3;i++){
+        for(int i = 0;i<3;i++){
             Statistics stat = new Statistics();
-            stat.setTitle("Title"+i);
-            stat.setStat1Header("Header 1");
-            stat.setStat2Header("Header 2");
-            stat.setStat1number(i*5);
-            stat.setStat2number(i*5*2);
+            stat.setTitle(titles.get(i));
+            int stat1 = i*5;//daily avg stat
+            int stat2 = i*5*2; //total stat
+            stat.setStat1number(stat1);
+            stat.setStat2number(stat2);
             stats.add(stat);
 
         }
