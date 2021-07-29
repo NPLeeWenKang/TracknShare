@@ -39,7 +39,7 @@ public class SplashLoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!email.getText().toString().equals("") && !password.getText().toString().equals("")){
-                    auth.SignInWithEmailPassword(email.getText().toString(),password.getText().toString(),errorText);
+                    auth.signInWithEmailPassword(email.getText().toString(),password.getText().toString(),errorText);
                 }
             }
         });

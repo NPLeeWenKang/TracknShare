@@ -16,9 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.adapters.RunsAdapter;
@@ -57,7 +55,7 @@ public class RunsFragment extends Fragment {
 
         RunDBHandler runDB = new RunDBHandler(view.getContext());
         AuthHandler auth = new AuthHandler(view.getContext());
-        runDB.GetRuns(auth.GetCurrentUser().getUid(), rList, runsAdapter, view.getContext());
+        runDB.GetRuns(auth.getCurrentUser().getUid(), rList, runsAdapter, view.getContext());
     }
 
 

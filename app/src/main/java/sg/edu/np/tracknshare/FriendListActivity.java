@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -44,7 +43,7 @@ public class FriendListActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
         UserDBHandler userDB = new UserDBHandler(this);
         AuthHandler auth = new AuthHandler(this);
-        userDB.GetFriendsList(""+auth.GetCurrentUser().getUid(), uList, mAdapter);
+        userDB.GetFriendsList(""+auth.getCurrentUser().getUid(), uList, mAdapter);
     }
 
     @Override

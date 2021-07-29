@@ -17,9 +17,6 @@ import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.adapters.PostsAdapter;
 import sg.edu.np.tracknshare.handlers.AuthHandler;
 import sg.edu.np.tracknshare.handlers.PostDBHandler;
-import sg.edu.np.tracknshare.handlers.RunDBHandler;
-import sg.edu.np.tracknshare.models.Post;
-import sg.edu.np.tracknshare.models.Run;
 import sg.edu.np.tracknshare.models.UserPostViewModel;
 
 public class fragment_general extends Fragment {
@@ -48,6 +45,6 @@ public class fragment_general extends Fragment {
 
         PostDBHandler postDB = new PostDBHandler(view.getContext());
         AuthHandler auth = new AuthHandler(view.getContext());
-        postDB.GetPosts(upList, postAdapter);
+        postDB.getGeneralPosts(upList, postAdapter);
     }
 }

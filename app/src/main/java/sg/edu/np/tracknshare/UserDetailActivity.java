@@ -7,26 +7,21 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import sg.edu.np.tracknshare.adapters.ProfilePostsAdapter;
-import sg.edu.np.tracknshare.adapters.SearchItemAdapter;
 import sg.edu.np.tracknshare.handlers.AuthHandler;
 import sg.edu.np.tracknshare.handlers.PostDBHandler;
 import sg.edu.np.tracknshare.handlers.StorageHandler;
 import sg.edu.np.tracknshare.handlers.UserDBHandler;
-import sg.edu.np.tracknshare.models.Post;
-import sg.edu.np.tracknshare.models.User;
 import sg.edu.np.tracknshare.models.UserPostViewModel;
 
 public class UserDetailActivity extends AppCompatActivity {
@@ -70,11 +65,11 @@ public class UserDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (friends_btn.getText().toString().equals("Remove from Friends")){
                     Toast.makeText(UserDetailActivity.this, "From from Friends", Toast.LENGTH_SHORT).show();
-                    db.RemoveFriends(auth.GetCurrentUser().getUid(), id);
+                    db.RemoveFriends(auth.getCurrentUser().getUid(), id);
                     friends_btn.setText("Add to Friends");
                 }else{
                     Toast.makeText(UserDetailActivity.this, "Added to Friends", Toast.LENGTH_SHORT).show();
-                    db.AddToFriends(auth.GetCurrentUser().getUid(), id);
+                    db.AddToFriends(auth.getCurrentUser().getUid(), id);
                     friends_btn.setText("Remove from Friends");
                 }
             }

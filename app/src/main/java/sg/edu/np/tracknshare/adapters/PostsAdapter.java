@@ -3,18 +3,11 @@ package sg.edu.np.tracknshare.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DateFormat;
@@ -29,7 +22,6 @@ import sg.edu.np.tracknshare.handlers.PostDBHandler;
 import sg.edu.np.tracknshare.handlers.StorageHandler;
 import sg.edu.np.tracknshare.handlers.UserDBHandler;
 import sg.edu.np.tracknshare.models.Post;
-import sg.edu.np.tracknshare.models.Run;
 import sg.edu.np.tracknshare.models.User;
 import sg.edu.np.tracknshare.models.UserPostViewModel;
 import sg.edu.np.tracknshare.viewholders.PostViewHolder;
@@ -130,7 +122,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
         postDBHandler.addLike(postId);
         UserDBHandler userDBHandler = new UserDBHandler(context);
         AuthHandler authHandler = new AuthHandler(context);
-        userDBHandler.addLike(authHandler.GetCurrentUser().getUid(), postId);
+        userDBHandler.addLike(authHandler.getCurrentUser().getUid(), postId);
         holder.IsLiked.setText("1");
     }
     public void removeOneLike(PostViewHolder holder, String postId){
@@ -140,7 +132,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
         postDBHandler.removeLike(postId);
         UserDBHandler userDBHandler = new UserDBHandler(context);
         AuthHandler authHandler = new AuthHandler(context);
-        userDBHandler.removeLike(authHandler.GetCurrentUser().getUid(), postId);
+        userDBHandler.removeLike(authHandler.getCurrentUser().getUid(), postId);
         holder.IsLiked.setText("0");
     }
     @Override

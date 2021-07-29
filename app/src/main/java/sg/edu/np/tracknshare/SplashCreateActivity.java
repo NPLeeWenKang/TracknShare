@@ -1,17 +1,13 @@
 package sg.edu.np.tracknshare;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,7 +53,7 @@ public class SplashCreateActivity extends AppCompatActivity {
                     u.setUserName(usernameVal);
                     u.setMass(massVal);
                     u.setHeight(heightVal);
-                    auth.CreateEmailPasswordAccount(passwordVal, u);
+                    auth.createEmailPasswordAccount(passwordVal, u);
                 }
 
             }

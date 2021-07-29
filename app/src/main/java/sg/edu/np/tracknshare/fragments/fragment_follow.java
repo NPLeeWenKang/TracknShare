@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,15 +13,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.adapters.PostsAdapter;
 import sg.edu.np.tracknshare.handlers.AuthHandler;
 import sg.edu.np.tracknshare.handlers.PostDBHandler;
-import sg.edu.np.tracknshare.models.Post;
 import sg.edu.np.tracknshare.models.UserPostViewModel;
 
 public class fragment_follow extends Fragment {
@@ -52,7 +47,7 @@ public class fragment_follow extends Fragment {
 
         PostDBHandler postDBHandler = new PostDBHandler(view.getContext());
         AuthHandler authHandler = new AuthHandler(view.getContext());
-        postDBHandler.GetFriendsPost(upList, adapter, authHandler.GetCurrentUser().getUid());
+        postDBHandler.GetFriendsPost(upList, adapter, authHandler.getCurrentUser().getUid());
 
     }
 
