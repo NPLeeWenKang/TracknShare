@@ -1,6 +1,5 @@
 package sg.edu.np.tracknshare.fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -55,6 +54,6 @@ public class fragment_mypost extends Fragment {
 
         PostDBHandler postDBHandler = new PostDBHandler(view.getContext());
         AuthHandler auth = new AuthHandler(view.getContext());
-        postDBHandler.GetUserPosts(upList, mAdapter, auth.GetCurrentUser().getUid());
+        postDBHandler.GetUserPosts(upList, mAdapter, auth.getCurrentUser().getUid());
     }
 }

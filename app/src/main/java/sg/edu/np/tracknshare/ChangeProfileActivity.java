@@ -16,13 +16,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.google.firebase.database.core.view.Change;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -98,11 +95,11 @@ public class ChangeProfileActivity extends AppCompatActivity {
                 if (imageIsChanged){
                     BitmapDrawable bitmapDrawable = ((BitmapDrawable) imageView.getDrawable());
                     Bitmap bitmap = bitmapDrawable.getBitmap();
-                    storageHandler.UploadProfileImage(""+auth.GetCurrentUser().getUid(), bitmap);
+                    storageHandler.UploadProfileImage(""+auth.getCurrentUser().getUid(), bitmap);
                 }
                 User u = new User();
                 u.setUserName(newName.getText().toString());
-                u.setId(auth.GetCurrentUser().getUid());
+                u.setId(auth.getCurrentUser().getUid());
                 u.setMass(newMass.getText().toString());
                 u.setHeight(newHeight.getText().toString());
                 userDBHandler.UpdateUserDetails(u);
@@ -135,6 +132,6 @@ public class ChangeProfileActivity extends AppCompatActivity {
         AuthHandler auth = new AuthHandler(ChangeProfileActivity.this);
         UserDBHandler db = new UserDBHandler(ChangeProfileActivity.this);
 
-        db.GetUserDetailsIntoSettings(auth.GetCurrentUser().getUid(), ChangeProfileActivity.this);
+        db.GetUserDetailsIntoSettings(auth.getCurrentUser().getUid(), ChangeProfileActivity.this);
     }
 }

@@ -42,7 +42,7 @@ public class AuthHandler {
         mAuth = FirebaseAuth.getInstance();
         context = c;
     }
-    public boolean IsSignedIn(){
+    public boolean isSignedIn(){
         FirebaseUser currentUser =  mAuth.getCurrentUser();
         if (currentUser == null){
             return false;
@@ -50,23 +50,23 @@ public class AuthHandler {
             return true;
         }
     }
-    public FirebaseUser GetCurrentUser(){
+    public FirebaseUser getCurrentUser(){
         FirebaseUser currentUser =  mAuth.getCurrentUser();
         return currentUser;
     }
-    public void CreateEmailPasswordAccount(String password, User u){
+    public void createEmailPasswordAccount(String password, User u){
+        // Creates an account with email and password
         mAuth.createUserWithEmailAndPassword(u.getEmail(), password)
                 .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("AUTH" , "createUserWithEmail:success");
                             FirebaseUser currentUser =  mAuth.getCurrentUser();
                             UserDBHandler db = new UserDBHandler(context);
                             u.setId(currentUser.getUid());
                             u.setAccountCreationDate(new SimpleDateFormat("dd MMM yyyy").format(Calendar.getInstance().getTime()));
-                            db.AddUser(u);
+                            db.AddUser(u); // Stores data into database
 
                             Intent intent = new Intent(context, BaseActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -79,19 +79,20 @@ public class AuthHandler {
                     }
                 });
     }
-    public void SignInWithEmailPassword(String email, String password, TextView errorText){
+    public void signInWithEmailPassword(String email, String password, TextView errorText){
+        // Sign in using Email password
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Log.d("AUTH", "SUCCESS");
+                            // Success
                             Intent intent = new Intent(context, BaseActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
+                            context.startActivity(intent); // Change to main page
                             ((Activity) context).finish();
                         } else {
-                            Log.d("AUTH", "FAIL"+task.getException());
+                            // Fail
                             try{
                                 throw task.getException();
                             } catch (FirebaseAuthInvalidCredentialsException e){
@@ -109,36 +110,16 @@ public class AuthHandler {
                     }
                 });
     }
-    public void UpdatePassword(String newPassword){
-        FirebaseUser currentUser =  mAuth.getCurrentUser();
-        currentUser.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Log.d("UPDATEPASSWORD", "User password updated.");
-                } else {
-                    Log.d("UPDATEPASSWORD", "FAIL "+task.getException());
-                }
-            }
-        });
-    }
-    public void SendResetEmail(){
+    public void sendResetEmail(){
+        // Sends reset email
         FirebaseUser currentUser =  mAuth.getCurrentUser();
         String emailAddress = currentUser.getEmail() ;
-
-        mAuth.sendPasswordResetEmail(emailAddress)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
+        mAuth.sendPasswordResetEmail(emailAddress).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d("EMAIL", "Email sent.");
-                        } else{
-                            Log.d("EMAIL", ""+task.getException());
-                        }
-                    }
+                    public void onComplete(@NonNull Task<Void> task) { }
                 });
     }
-    public void SignOut(){
+    public void signOut(){
         mAuth.signOut();
     }
 }

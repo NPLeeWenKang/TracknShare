@@ -17,12 +17,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import sg.edu.np.tracknshare.CommentsActivity;
-import sg.edu.np.tracknshare.FullMapActivity;
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.handlers.AuthHandler;
 import sg.edu.np.tracknshare.handlers.StorageHandler;
 import sg.edu.np.tracknshare.models.Post;
-import sg.edu.np.tracknshare.models.Run;
 import sg.edu.np.tracknshare.models.User;
 import sg.edu.np.tracknshare.models.UserPostViewModel;
 import sg.edu.np.tracknshare.viewholders.ProfilePostViewHolder;
@@ -65,7 +63,7 @@ public class ProfilePostsAdapter extends RecyclerView.Adapter<ProfilePostViewHol
         int red = Color.RED;
         int white = Color.WHITE;
         AuthHandler auth = new AuthHandler(context);
-        Log.d("POSTADAPTOR", "onBindViewHolder: "+(u.getId().equals(auth.GetCurrentUser().getUid())));
+        Log.d("POSTADAPTOR", "onBindViewHolder: "+(u.getId().equals(auth.getCurrentUser().getUid())));
 
         holder.View.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +76,7 @@ public class ProfilePostsAdapter extends RecyclerView.Adapter<ProfilePostViewHol
                 ((Activity) context).overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
             }
         });
-        if (!u.getId().equals(auth.GetCurrentUser().getUid())){
+        if (!u.getId().equals(auth.getCurrentUser().getUid())){
             holder.Likes.setText(""+p.getLikes());
             holder.LikesIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_heart));
             holder.LikesIcon.setOnClickListener(new View.OnClickListener(){

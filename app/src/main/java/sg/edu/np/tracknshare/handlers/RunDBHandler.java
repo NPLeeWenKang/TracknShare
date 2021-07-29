@@ -86,6 +86,7 @@ public class RunDBHandler {
 //        });
 //    }
     public void getRunPoints(String id, GoogleMap googleMap, Context context){
+        // Sets up map and plots the run
         DatabaseReference dbRef = database.getReference("/runs");
         dbRef.child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -121,12 +122,14 @@ public class RunDBHandler {
         });
     }
     public void GetRuns(String id, ArrayList<Run> rList, RunsAdapter mAdapter, Context context){
+        // Get all the runs current user has
         DatabaseReference dbRef = database.getReference("/runs");
         dbRef.orderByChild("userId").equalTo(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 ConstraintLayout progress = ((Activity) context).findViewById(R.id.progress_bar);
                 if (progress != null){
+                    // Remove progress bar
                     progress.setVisibility(View.INVISIBLE);
                 }
                 if (task.isSuccessful()) {
@@ -136,21 +139,20 @@ public class RunDBHandler {
                             Run r = ds.getValue(Run.class);
                             rList.add(0, r);
                         }
-                        Log.d("KEYCODE", "onKey: UPDATE");
-                        Log.d("firebase", String.valueOf(task.getResult().getValue()));
                         mAdapter.notifyDataSetChanged();
                     }
                     else{
                         ConstraintLayout img = ((Activity) context).findViewById(R.id.invalid_runs);
                         if (img != null){
+                            // Display "No Runs" message
                             img.setVisibility(View.VISIBLE);
                         }
                     }
                 }
                 else {
-                    Log.d("firebase", "Error getting data", task.getException());
                     ConstraintLayout img = ((Activity) context).findViewById(R.id.error);
                     if (img != null){
+                        // Display error message
                         img.setVisibility(View.VISIBLE);
                     }
 

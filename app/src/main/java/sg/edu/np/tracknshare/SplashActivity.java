@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 
 import sg.edu.np.tracknshare.handlers.AuthHandler;
 
@@ -23,7 +22,7 @@ public class SplashActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         AuthHandler auth = new AuthHandler(this);
-        if (auth.IsSignedIn()){
+        if (auth.isSignedIn()){
             Intent intent = new Intent(SplashActivity.this, BaseActivity.class);
             startActivity(intent);
             finish();
@@ -33,7 +32,7 @@ public class SplashActivity extends AppCompatActivity {
         cL.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                auth.SignOut();
+                auth.signOut();
                 Intent intent;
                 if (getSharedPreferences("isChecked", MODE_PRIVATE).getBoolean("firstTimeLogin",true)==true){
                     intent = new Intent(SplashActivity.this, SplashDescriptionActivity.class);

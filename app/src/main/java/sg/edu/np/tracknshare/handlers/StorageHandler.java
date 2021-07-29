@@ -29,21 +29,28 @@ public class StorageHandler {
     public StorageHandler(){}
 
     public void UploadRunImage(long imageId, Bitmap bm){
-        Log.d("GENERATEID", "GenerateId: "+imageId);
+        // Upload image of runs
         StorageReference imagesRef = storageRef.child("images");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
         imagesRef.child(""+imageId).putBytes(data);
     }
+    public void UploadProfileImage(String id, Bitmap bm){
+        // Upload profile picture
+        StorageReference imagesRef = storageRef.child("profileIMG");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+        imagesRef.child(id).putBytes(data);
+    }
     public void LoadFileToApp(String imageId, Context c, ImageView imageRef){
-        Log.d("GENERATEID", "LoadFileToApp: "+imageId);
+        // Loads map image into imageview
         StorageReference imagesRef = storageRef.child("images/"+imageId);
         imagesRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()){
-                    Log.d("GENERATEID", "LoadFileToApp: "+task.getResult().toString());
                     Glide.with(c)
                             .load(task.getResult().toString())
                             .into(imageRef);
@@ -56,13 +63,12 @@ public class StorageHandler {
 
     }
     public void LoadProfileImageToApp(String imageId, Context c, ImageView imageRef){
-        Log.d("GENERATEID", "LoadProfileImageToApp: "+imageId);
+        // Loads profile pic into imageview
         StorageReference imagesRef = storageRef.child("profileIMG/"+imageId);
         imagesRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()){
-                    Log.d("GENERATEID", "LoadProfileImageToApp: "+task.getResult().toString());
                     Glide.with(c)
                             .load(task.getResult().toString())
                             .into(imageRef);
@@ -74,18 +80,4 @@ public class StorageHandler {
         });
 
     }
-    public void UploadProfileImage(String id, Bitmap bm){
-        StorageReference imagesRef = storageRef.child("profileIMG");
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] data = baos.toByteArray();
-        imagesRef.child(id).putBytes(data);
-    }
-    public long GenerateId(){
-        Calendar calendar = Calendar.getInstance();
-        long timeMilli = calendar.getTimeInMillis();
-        Log.d("GENERATEID", "GenerateId: "+timeMilli);
-        return  timeMilli;
-    }
-
 }

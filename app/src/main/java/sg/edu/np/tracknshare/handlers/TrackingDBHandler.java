@@ -45,6 +45,7 @@ public class TrackingDBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
     public void delelteAll(){
+        // Clear's local database
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_USERS, null, null);
         db.close();
@@ -54,6 +55,7 @@ public class TrackingDBHandler extends SQLiteOpenHelper {
         Log.e("Location", "delete "+pList.size());
     }
     public void addRun(double lat, double longd) {
+        // Adds lat lng to local database
         Log.e("Location", "add"+lat+"-"+longd);
         ContentValues values = new ContentValues();
         values.put(COLUMN_LAT, lat);
@@ -64,6 +66,7 @@ public class TrackingDBHandler extends SQLiteOpenHelper {
         db.close();
     }
     public ArrayList<MyLatLng> getAllPoints(){
+        // Gets all lat lng points
         String query = "SELECT * FROM "+ TABLE_USERS;
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -81,6 +84,7 @@ public class TrackingDBHandler extends SQLiteOpenHelper {
         return pList;
     }
     public int getCount(){
+        // Get the number of lat lng points
         String query = "SELECT * FROM "+ TABLE_USERS;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);

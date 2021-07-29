@@ -57,7 +57,7 @@ public class SettingsActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 AuthHandler auth = new AuthHandler(SettingsActivity.this);
-                                auth.SendResetEmail();
+                                auth.sendResetEmail();
                                 Toast.makeText(SettingsActivity.this, "Email Sent", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                             }

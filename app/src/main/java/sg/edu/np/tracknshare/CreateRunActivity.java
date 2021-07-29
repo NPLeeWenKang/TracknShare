@@ -1,26 +1,16 @@
 package sg.edu.np.tracknshare;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -28,11 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLngBounds;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -71,7 +57,7 @@ public class CreateRunActivity extends AppCompatActivity {
 
         Calendar calendar = Calendar.getInstance();
         long timeMilli = calendar.getTimeInMillis();
-        Run r = new Run(auth.GetCurrentUser().getUid(), ""+timeMilli,""+timeMilli,timeMilli,getTimeInS(),getDistance(),1,getPace(),trackingDB.getAllPoints());
+        Run r = new Run(auth.getCurrentUser().getUid(), ""+timeMilli,""+timeMilli,timeMilli,getTimeInS(),getDistance(),1,getPace(),trackingDB.getAllPoints());
 
         DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy h:ma");
 
@@ -79,7 +65,7 @@ public class CreateRunActivity extends AppCompatActivity {
         timeText.setText("" + getTimeInS() + " seconds");
         distanceText.setText(String.format("%.4f", getDistance()) + "km");
         paceText.setText("" + String.format("%.2f", getPace()) + " m/s");
-        caloriesText.setText("NULL");
+        caloriesText.setText(""+getCalories());
 
         ImageView settingsBtn = findViewById(R.id.save_profile);
         settingsBtn.setOnClickListener(new View.OnClickListener() {
@@ -150,8 +136,8 @@ public class CreateRunActivity extends AppCompatActivity {
         TrackingDBHandler trackingDB = new TrackingDBHandler(CreateRunActivity.this);
         RunDBHandler runsDB = new RunDBHandler(CreateRunActivity.this);
 
-        long id = storageHandler.GenerateId();
-        Run r = new Run(auth.GetCurrentUser().getUid(), ""+id,""+id,id,getTimeInS(),getDistance(),1,getPace(),trackingDB.getAllPoints());
+        long id = Calendar.getInstance().getTimeInMillis();
+        Run r = new Run(auth.getCurrentUser().getUid(), ""+id,""+id,id,getTimeInS(),getDistance(),1,getPace(),trackingDB.getAllPoints());
         runsDB.AddRun(r);
 
         GoogleMap.SnapshotReadyCallback callback = new GoogleMap.SnapshotReadyCallback() {
@@ -205,5 +191,11 @@ public class CreateRunActivity extends AppCompatActivity {
         long time = getTimeInS();
         double speed = distance / time; //simple formula to calculate pace...
         return speed;
+    }
+    public int getCalories(){
+        //The CONSTANT is derived from this website
+        //https://www.healthline.com/health/calories-burned-walking#::text=Calories%20burned%20per%20mile,Daniel%20V.
+        int calories = (int) Math.rint((getDistance() / 1.609) * 84.85);
+        return calories;
     }
 }

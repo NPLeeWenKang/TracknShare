@@ -17,14 +17,11 @@ import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.adapters.PostsAdapter;
 import sg.edu.np.tracknshare.handlers.AuthHandler;
 import sg.edu.np.tracknshare.handlers.PostDBHandler;
-import sg.edu.np.tracknshare.handlers.RunDBHandler;
-import sg.edu.np.tracknshare.models.Post;
-import sg.edu.np.tracknshare.models.Run;
 import sg.edu.np.tracknshare.models.UserPostViewModel;
 
 public class fragment_general extends Fragment {
     private ArrayList<UserPostViewModel> upList = new ArrayList<>();
-
+    private PostsAdapter postAdapter;
     public fragment_general() {
         //Required empty public constructor
     }
@@ -40,14 +37,17 @@ public class fragment_general extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         RecyclerView rv = view.findViewById(R.id.rvPost);
-        PostsAdapter postAdapter = new PostsAdapter(view.getContext(),upList);
+        postAdapter = new PostsAdapter(view.getContext(),upList);
         LinearLayoutManager lm = new LinearLayoutManager(view.getContext());
         rv.setLayoutManager(lm);
         rv.setAdapter(postAdapter);
-        postAdapter.notifyDataSetChanged();
+    }
 
-        PostDBHandler postDB = new PostDBHandler(view.getContext());
-        AuthHandler auth = new AuthHandler(view.getContext());
-        postDB.GetPosts(upList, postAdapter);
+    @Override
+    public void onResume() {
+        super.onResume();
+        PostDBHandler postDBHandler = new PostDBHandler(getContext());
+        AuthHandler authHandler = new AuthHandler(getContext());
+        postDBHandler.GetFriendsPost(upList, postAdapter, authHandler.getCurrentUser().getUid());
     }
 }

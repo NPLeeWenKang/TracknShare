@@ -3,9 +3,7 @@ package sg.edu.np.tracknshare.handlers;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.widget.EditText;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,20 +13,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 import sg.edu.np.tracknshare.R;
-import sg.edu.np.tracknshare.adapters.PostsAdapter;
 import sg.edu.np.tracknshare.adapters.SearchItemAdapter;
-import sg.edu.np.tracknshare.fragments.SearchFragment;
-import sg.edu.np.tracknshare.models.Post;
 import sg.edu.np.tracknshare.models.User;
-import sg.edu.np.tracknshare.models.UserPostViewModel;
 
 public class UserDBHandler {
     private final String dbUrl = "https://testapp-bc30f-default-rtdb.asia-southeast1.firebasedatabase.app";
@@ -119,7 +111,7 @@ public class UserDBHandler {
     }
     private void isFriends(String id, Context context){
         AuthHandler authHandler = new AuthHandler(context);
-        database.getReference("/user").child(authHandler.GetCurrentUser().getUid()).child("friendsId").child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        database.getReference("/user").child(authHandler.getCurrentUser().getUid()).child("friendsId").child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {

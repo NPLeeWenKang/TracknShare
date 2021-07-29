@@ -18,28 +18,6 @@
         app:layout_constraintTop_toBottomOf="@+id/postCaption" />
 
     <TextView
-        android:id="@+id/viewComments"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="View Comments"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView8"
-        app:layout_constraintStart_toStartOf="@+id/postImage"
-        app:layout_constraintTop_toBottomOf="@+id/postImage" />
-
-    <ImageView
-        android:id="@+id/sharePost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/commentsIcon"
-        app:layout_constraintEnd_toEndOf="@+id/postImage"
-        app:layout_constraintTop_toTopOf="@+id/commentsIcon"
-        app:srcCompat="@android:drawable/ic_menu_send" />
-
-    <TextView
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -105,16 +83,6 @@
         app:layout_constraintEnd_toStartOf="@+id/likesImg"
         app:layout_constraintTop_toTopOf="@+id/likesImg" />
 
-    <ImageView
-        android:id="@+id/commentsIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/viewComments"
-        app:layout_constraintStart_toEndOf="@+id/viewComments"
-        app:layout_constraintTop_toTopOf="@+id/viewComments"
-        app:srcCompat="@drawable/ic_comment" />
-
     <androidx.cardview.widget.CardView
         android:id="@+id/avatar"
         android:layout_width="45dp"
@@ -140,9 +108,10 @@
         android:layout_height="5dp"
         android:alpha="0.1"
         android:background="@color/black"
-        app:tint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/line" />
+        app:layout_constraintTop_toBottomOf="@+id/postImage"
+        app:srcCompat="@drawable/line"
+        app:tint="@color/black" />
 </androidx.constraintlayout.widget.ConstraintLayout>
