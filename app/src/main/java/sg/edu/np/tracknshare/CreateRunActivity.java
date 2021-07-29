@@ -79,7 +79,7 @@ public class CreateRunActivity extends AppCompatActivity {
         timeText.setText("" + getTimeInS() + " seconds");
         distanceText.setText(String.format("%.4f", getDistance()) + "km");
         paceText.setText("" + String.format("%.2f", getPace()) + " m/s");
-        caloriesText.setText("NULL");
+        caloriesText.setText(""+getCalories());
 
         ImageView settingsBtn = findViewById(R.id.save_profile);
         settingsBtn.setOnClickListener(new View.OnClickListener() {
@@ -205,5 +205,11 @@ public class CreateRunActivity extends AppCompatActivity {
         long time = getTimeInS();
         double speed = distance / time; //simple formula to calculate pace...
         return speed;
+    }
+    public int getCalories(){
+        //The CONSTANT is derived from this website
+        //https://www.healthline.com/health/calories-burned-walking#::text=Calories%20burned%20per%20mile,Daniel%20V.
+        int calories = (int) Math.rint((getDistance() / 1.609) * 84.85);
+        return calories;
     }
 }
