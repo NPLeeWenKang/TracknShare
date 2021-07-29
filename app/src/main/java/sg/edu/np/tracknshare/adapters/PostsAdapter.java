@@ -59,6 +59,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
         holder.PostDate.setText(dateFormat.format(p.getPostDate()));
         holder.Likes.setText(""+p.getLikes());
         holder.PostCaption.setText(p.getCaption());
+        //link drawables to imageView widgets
         holder.UserImg.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_avatar));
         holder.CommentsIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_comment));
         holder.LikesIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_heart));

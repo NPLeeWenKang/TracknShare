@@ -84,7 +84,7 @@ public class fragment_statistics extends Fragment {
         viewPager2.setAdapter(statisticsFragmentAdapter);
 
         new TabLayoutMediator(dotsIndicator,viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
+            @Override   //connect dot indicator tab layout to viewPager2
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) { }
         }).attach();
 

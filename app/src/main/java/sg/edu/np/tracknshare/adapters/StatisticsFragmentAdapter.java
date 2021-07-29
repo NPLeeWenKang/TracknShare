@@ -19,6 +19,7 @@ public class StatisticsFragmentAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
+        //assign different fragments of graphs
         switch(position){
             case 0://fragment for run steps
                 return new fragment_TotalRuns();
