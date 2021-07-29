@@ -333,7 +333,11 @@ public class PostDBHandler {
                         TextView postDate = ((Activity) context).findViewById(R.id.workoutDate);
                         TextView likes = ((Activity) context).findViewById(R.id.likes);
                         TextView postCaption = ((Activity) context).findViewById(R.id.postCaption);
+                        ImageView likeIcon = ((Activity) context).findViewById(R.id.likesImg);
+                        TextView isLiked = ((Activity) context).findViewById(R.id.isLiked);
                         DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy h:mma");
+
+                        isLiked(likeIcon, isLiked, p.getPostId());
 
                         if (postDate  != null && likes != null && postCaption != null){
                             postDate.setText(dateFormat.format(p.getPostDate()));

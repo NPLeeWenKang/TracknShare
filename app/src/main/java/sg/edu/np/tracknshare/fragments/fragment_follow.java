@@ -3,6 +3,7 @@ package sg.edu.np.tracknshare.fragments;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import sg.edu.np.tracknshare.models.UserPostViewModel;
 
 public class fragment_follow extends Fragment {
     ArrayList<UserPostViewModel> upList = new ArrayList<>();
-
+    private PostsAdapter adapter;
     public fragment_follow() {
         //Required empty public constructor
     }
@@ -39,28 +40,17 @@ public class fragment_follow extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         RecyclerView rv = view.findViewById(R.id.rvPost);
-        PostsAdapter adapter = new PostsAdapter(view.getContext(),upList);
+        adapter = new PostsAdapter(view.getContext(),upList);
         LinearLayoutManager lm = new LinearLayoutManager(view.getContext());
         rv.setLayoutManager(lm);
         rv.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+    }
 
-        PostDBHandler postDBHandler = new PostDBHandler(view.getContext());
-        AuthHandler authHandler = new AuthHandler(view.getContext());
+    @Override
+    public void onResume() {
+        super.onResume();
+        PostDBHandler postDBHandler = new PostDBHandler(getContext());
+        AuthHandler authHandler = new AuthHandler(getContext());
         postDBHandler.GetFriendsPost(upList, adapter, authHandler.getCurrentUser().getUid());
-
     }
-
-    public void SharePost(String caption, Uri imageUri){
-        /*this function calls the sharesheet API to share the posts to
-        other social messaging apps*/
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_STREAM,imageUri);
-        sendIntent.setType("image/jpeg");
-
-        Intent sharePost = Intent.createChooser(sendIntent,"hello");
-        startActivity(sharePost);
-    }
-
 }

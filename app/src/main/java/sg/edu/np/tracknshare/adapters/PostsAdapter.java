@@ -52,7 +52,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
         holder.Likes.setText(""+p.getLikes());
         holder.PostCaption.setText(p.getCaption());
         holder.UserImg.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_avatar));
-        holder.CommentsIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_comment));
         holder.LikesIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_heart));
 
         StorageHandler storageHandler = new StorageHandler();
@@ -100,7 +99,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
                 ((Activity) view.getContext()).overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
             }
         });
-        int dBLikes = p.getLikes();
         holder.LikesIcon.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
