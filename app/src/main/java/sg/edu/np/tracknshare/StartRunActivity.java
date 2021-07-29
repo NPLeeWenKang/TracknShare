@@ -1,26 +1,20 @@
 package sg.edu.np.tracknshare;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -32,28 +26,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.airbnb.lottie.LottieAnimationView;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import pub.devrel.easypermissions.AppSettingsDialog;
-import pub.devrel.easypermissions.EasyPermissions;
 import sg.edu.np.tracknshare.handlers.AuthHandler;
 import sg.edu.np.tracknshare.handlers.RunDBHandler;
-import sg.edu.np.tracknshare.handlers.StorageHandler;
 import sg.edu.np.tracknshare.handlers.TrackingDBHandler;
 import sg.edu.np.tracknshare.models.MyLatLng;
-import sg.edu.np.tracknshare.models.Run;
 
 //This class is the main activity where the following are done
 //Step Counting - records steps per run and saves it to the local DB
@@ -65,8 +46,8 @@ public class StartRunActivity extends AppCompatActivity{
     private SensorManager sensorManager = null;
     long seconds = 0;
     boolean running = false;
-    int previousTotalSteps = 0;
-    int totalSteps = 0;
+    int previousTotalSteps;
+    int totalSteps;
     int currentSteps;
     private AlertDialog dialog;
     public boolean isMapEnabled(Context c){
@@ -87,6 +68,10 @@ public class StartRunActivity extends AppCompatActivity{
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        resetSteps();
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        loadData();
     }
 
     @Override
@@ -157,6 +142,7 @@ public class StartRunActivity extends AppCompatActivity{
 
             seconds = diffInSec;
             running = true;
+            stepCounter();
             runTimer();
 
         }
@@ -174,6 +160,7 @@ public class StartRunActivity extends AppCompatActivity{
                     editor.putLong("initialTime", initialMS);
                     editor.apply();
 
+                    stepCounter();
                     runTimer();
                     Toast.makeText(StartRunActivity.this, "Start Run!", Toast.LENGTH_SHORT).show();
                 } else{
@@ -393,6 +380,64 @@ public class StartRunActivity extends AppCompatActivity{
         dialog.show();
     }
     //StepCounter codes
+    public void stepCounter(){
+        TextView steps = findViewById(R.id.steps);
+        SensorEventListener sensorEventListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                if(running){
+                    totalSteps = (int) event.values[0];
+                    currentSteps = totalSteps - previousTotalSteps;
+                    steps.setText(""+currentSteps + " steps");
+                    //Textview keeps flickering between 2 extreme values...
+                }
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+        };
+        Sensor stepSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        if (stepSensor == null) {
+            // This will give a toast message to the user if there is no sensor in the device
+            Toast.makeText(StartRunActivity.this, "No sensor detected on this device", Toast.LENGTH_SHORT).show();
+        } else {
+            // Rate suitable for the user interface
+            sensorManager.registerListener(sensorEventListener, stepSensor, SensorManager.SENSOR_DELAY_UI);
+        }
+    }
+
+    public void resetSteps(){
+        TextView tv_stepsTaken = findViewById(R.id.steps);
+        Button resetBtn = findViewById(R.id.reset);
+        resetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(StartRunActivity.this, "Long tap to reset", Toast.LENGTH_SHORT).show();
+            }
+        });
+        resetBtn.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                previousTotalSteps = totalSteps;
+                tv_stepsTaken.setText(""+0);
+                saveData();
+                return true;
+            }
+        });
+    }
+    public void saveData(){
+        SharedPreferences sharedPreferences = getSharedPreferences("steps", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("key1", previousTotalSteps);
+        editor.apply();
+    }
+    public void loadData(){
+        SharedPreferences sharedPreferences = getSharedPreferences("steps", Context.MODE_PRIVATE);
+        int savedData = sharedPreferences.getInt("key1", 0);
+        previousTotalSteps = savedData;
+    }
 
     public double getDistance(){
         TrackingDBHandler trackingDB = new TrackingDBHandler(this);
