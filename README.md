@@ -22,9 +22,9 @@ Run statistics consists of :
  Our app allows runners to share posts beyond this platform to external apps i.e Instagram, WhatsApp, Gmail etc.
  
 # 2. Contributors
-1. **Name**: Mahshukurrahman
+1. **Name**: Mahshukurrahman |
    **Student ID**: S10204884H
-2. **Name**: Alan Antony James
+2. **Name**: Alan Antony James |
    **Student ID**: S10207327J
   
 # 3. Roles & Contributions
@@ -47,6 +47,7 @@ Run statistics consists of :
  **Contributions**
   -Implemented the Google Maps using Google Maps SDK for Android
   -Figured out how to calculate data such as Calories, Steps, Total time during running (Timer) and Distance travelled as well as the speed / pace of each run and implemented it
+  -The calculation of steps was calculated using the Step Sensor in Android
   -Implemented the Background Service to make sure that the tracking of location and data is going on in the background even when the app is destroyed.
   
   # 4. Appendices
@@ -66,4 +67,8 @@ Run statistics consists of :
 **Bargraphs**
  
 **Sharesheet API**
+
+**Google Maps SDK**
+
+**Motion Sensors**
  
