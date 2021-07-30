@@ -111,8 +111,8 @@ public class fragment_statistics extends Fragment {
         for(int i = 0;i<3;i++){
             Statistics stat = new Statistics();
             stat.setTitle(titles.get(i));
-            int stat1 = i*5;//daily avg stat
-            int stat2 = i*5*2; //total stat
+            int stat1 = (i+2)*5;//daily avg stat
+            int stat2 = (i+3*5)*7; //total stat
             stat.setStat1number(stat1);
             stat.setStat2number(stat2);
             stats.add(stat);
