@@ -28,7 +28,7 @@ public class StorageHandler {
     private final StorageReference storageRef = storage.getReference();
     public StorageHandler(){}
 
-    public void UploadRunImage(long imageId, Bitmap bm){
+    public void UploadRunImage(String imageId, Bitmap bm){
         // Upload image of runs
         StorageReference imagesRef = storageRef.child("images");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

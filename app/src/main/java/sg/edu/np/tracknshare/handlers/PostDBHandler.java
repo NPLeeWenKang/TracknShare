@@ -375,12 +375,14 @@ public class PostDBHandler {
                         TextView pace = ((Activity) context).findViewById(R.id.run_pace_post);
                         TextView timing = ((Activity) context).findViewById(R.id.run_timing_post);
                         TextView calories = ((Activity) context).findViewById(R.id.run_calories_post);
+                        TextView steps = ((Activity) context).findViewById(R.id.run_steps_post);
 
-                        if (distance  != null && pace != null && timing != null && calories != null){
-                            distance.setText("" + String.format("%.4f", r.getRunDistance()));
+                        if (distance  != null && pace != null && timing != null && calories != null && steps != null){
+                            distance.setText("" + String.format("%.4f", r.getRunDistance()) + " km");
                             pace.setText("" + String.format("%.2f", r.getRunPace()) + " m/s");
-                            timing.setText(""+r.getRunDuration());
-                            calories.setText(""+r.getRunCalories());
+                            timing.setText(""+r.getRunDuration()  + " s");
+                            calories.setText(""+r.getRunCalories()  + " kcal");
+                            steps.setText(""+r.getRunSteps());
                         }
                     }
                 }

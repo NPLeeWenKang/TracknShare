@@ -205,19 +205,17 @@ public class StartRunActivity extends AppCompatActivity{
                                         editor.apply();
 
                                         SharedPreferences stepsSharedPref = getSharedPreferences("steps", Context.MODE_PRIVATE);
+                                        int initialSteps = stepsSharedPref.getInt("initialSteps", 0);
+                                        int finalSteps = stepsSharedPref.getInt("totalSteps", 0);
+                                        int stepsOfRun = finalSteps - initialSteps;
                                         SharedPreferences.Editor stepEditor = stepsSharedPref.edit();
                                         stepEditor.clear();
                                         stepEditor.apply();
 
-                                        long initialTime = sharedPreferences.getLong("initialTime", 0);
-                                        long finalTime = sharedPreferences.getLong("finalTime", 0);
-                                        long diffTime = (finalTime - initialTime);
-                                        long diffInSec = TimeUnit.MILLISECONDS.toSeconds(diffTime);
-
-                                        Log.e("FINAL", "onClick: " +diffInSec);
                                         Toast.makeText(StartRunActivity.this, "Stopped Run!", Toast.LENGTH_SHORT).show();
 
                                         Intent intent = new Intent(StartRunActivity.this, CreateRunActivity.class);
+                                        intent.putExtra("numSteps", stepsOfRun);
                                         startActivity(intent);
                                     }
                                 });

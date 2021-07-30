@@ -50,6 +50,7 @@ public class CreateRunActivity extends AppCompatActivity {
         TextView distanceText = findViewById(R.id.create_run_distance);
         TextView paceText = findViewById(R.id.create_run_pace);
         TextView caloriesText = findViewById(R.id.create_run_calories);
+        TextView stepsText = findViewById(R.id.create_run_steps);
 
         StorageHandler storageHandler = new StorageHandler();
         TrackingDBHandler trackingDB = new TrackingDBHandler(CreateRunActivity.this);
@@ -57,7 +58,7 @@ public class CreateRunActivity extends AppCompatActivity {
 
         Calendar calendar = Calendar.getInstance();
         long timeMilli = calendar.getTimeInMillis();
-        Run r = new Run(auth.getCurrentUser().getUid(), ""+timeMilli,""+timeMilli,timeMilli,getTimeInS(),getDistance(),1,getPace(),trackingDB.getAllPoints());
+        Run r = new Run(auth.getCurrentUser().getUid(), ""+timeMilli,timeMilli, ""+timeMilli,getTimeInS(),getDistance(),getCalories(),getPace(), getStep(), trackingDB.getAllPoints());
 
         DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy h:ma");
 
@@ -66,12 +67,13 @@ public class CreateRunActivity extends AppCompatActivity {
         distanceText.setText(String.format("%.4f", getDistance()) + "km");
         paceText.setText("" + String.format("%.2f", getPace()) + " m/s");
         caloriesText.setText(""+getCalories());
+        stepsText.setText(""+r.getRunSteps());
 
         ImageView settingsBtn = findViewById(R.id.save_profile);
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                performSave();
+                performSave(r);
                 finish();
             }
         });
@@ -130,14 +132,12 @@ public class CreateRunActivity extends AppCompatActivity {
         });
         dialog.show();
     }
-    public void performSave(){
+    public void performSave(Run r){
         StorageHandler storageHandler = new StorageHandler();
         AuthHandler auth = new AuthHandler(CreateRunActivity.this);
         TrackingDBHandler trackingDB = new TrackingDBHandler(CreateRunActivity.this);
         RunDBHandler runsDB = new RunDBHandler(CreateRunActivity.this);
 
-        long id = Calendar.getInstance().getTimeInMillis();
-        Run r = new Run(auth.getCurrentUser().getUid(), ""+id,""+id,id,getTimeInS(),getDistance(),1,getPace(),trackingDB.getAllPoints());
         runsDB.AddRun(r);
 
         GoogleMap.SnapshotReadyCallback callback = new GoogleMap.SnapshotReadyCallback() {
@@ -146,7 +146,7 @@ public class CreateRunActivity extends AppCompatActivity {
             @Override
             public void onSnapshotReady(Bitmap snapshot) {
                 bitmap = snapshot;
-                storageHandler.UploadRunImage(id, bitmap);
+                storageHandler.UploadRunImage(""+r.getRunId(), bitmap);
             }
         };
 
@@ -212,5 +212,11 @@ public class CreateRunActivity extends AppCompatActivity {
         //https://www.healthline.com/health/calories-burned-walking#::text=Calories%20burned%20per%20mile,Daniel%20V.
         int calories = (int) Math.rint((getDistance() / 1.609) * 84.85);
         return calories;
+    }
+
+
+    public int getStep(){
+        Intent intent = getIntent();
+        return intent.getIntExtra("stepsOfRun", 0);
     }
 }
