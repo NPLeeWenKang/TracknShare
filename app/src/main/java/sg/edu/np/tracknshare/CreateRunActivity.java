@@ -152,6 +152,9 @@ public class CreateRunActivity extends AppCompatActivity {
 
         MapsFragment.map.snapshot(callback);
     }
+
+    //Gets the distance from the local database
+
     public double getDistance(){
         TrackingDBHandler trackingDB = new TrackingDBHandler(this);
         ArrayList<MyLatLng> pointsList = trackingDB.getAllPoints();
@@ -164,8 +167,11 @@ public class CreateRunActivity extends AppCompatActivity {
         }
         return totalDistance;
     }
+
+    //Method for converting the distance to Km
+
     public double convertToKm(MyLatLng p1, MyLatLng p2){
-        // Uses havasine formula to get distance
+        // Uses Havasine formula to get distance
         // https://cloud.google.com/blog/products/maps-platform/how-calculate-distances-map-maps-javascript-api
 
         int earthRadius = 6371;
@@ -178,6 +184,9 @@ public class CreateRunActivity extends AppCompatActivity {
 
         return distance;
     }
+
+    //Gets the time between the user clicks on the start button and stop button to display the total time taken up by the user.
+
     public long getTimeInS(){
         SharedPreferences sharedPreferences = getSharedPreferences("tracking", Context.MODE_PRIVATE);
         long initialTime = sharedPreferences.getLong("initialTime", 0);
@@ -186,12 +195,18 @@ public class CreateRunActivity extends AppCompatActivity {
         long diffInSec = TimeUnit.MILLISECONDS.toSeconds(diffTime);
         return diffInSec;
     }
+
+    //Gets the speed / pace from the distance and time
+
     public double getPace(){
         double distance = getDistance() * 1000;
         long time = getTimeInS();
         double speed = distance / time; //simple formula to calculate pace...
         return speed;
     }
+
+    //Method for calculating the calories
+
     public int getCalories(){
         //The CONSTANT is derived from this website
         //https://www.healthline.com/health/calories-burned-walking#::text=Calories%20burned%20per%20mile,Daniel%20V.

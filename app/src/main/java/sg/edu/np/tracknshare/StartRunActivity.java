@@ -37,7 +37,7 @@ import sg.edu.np.tracknshare.handlers.TrackingDBHandler;
 import sg.edu.np.tracknshare.models.MyLatLng;
 
 //This class is the main activity where the following are done
-//Step Counting - records steps per run and saves it to the local DB
+//Step Counting - records steps per run and saves it to the SharedPreferences
 //Timer - The timer runs when the user starts the run and stops when the user clicks stop run.
 
 public class StartRunActivity extends AppCompatActivity{
@@ -57,6 +57,7 @@ public class StartRunActivity extends AppCompatActivity{
         }
         return true;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +75,9 @@ public class StartRunActivity extends AppCompatActivity{
         loadData();
     }
 
+    /*Most of the function in this code is to be run when the users device is not awake / active. So we are using Foreground Service to track
+    the data */
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -84,12 +88,12 @@ public class StartRunActivity extends AppCompatActivity{
             createDialogForPermission();
         }
 
-        AuthHandler auth = new AuthHandler(this);
-        RunDBHandler runsDB = new RunDBHandler(this);
         TrackingDBHandler trackingDB = new TrackingDBHandler(this);
 
         Button startBtn = findViewById(R.id.startRun);
         TextView timer = findViewById(R.id.timer);
+
+        //Checks to see whether GPS is enabled or not and prompts the user with a dialog option
 
         if (!isMapEnabled(this)){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -122,6 +126,9 @@ public class StartRunActivity extends AppCompatActivity{
             dialog.show();
         }
 
+        /*Checks whether service is running in the Background and if not gets the UI ready to start a service and if yes continues with the Timer
+        Step Counter*/
+
         if (!tU.isMyServiceRunning(TrackingService.class, StartRunActivity.this)){
             startBtn.setText("Start");
             timer.setText("0:00:00");
@@ -144,8 +151,10 @@ public class StartRunActivity extends AppCompatActivity{
             running = true;
             stepCounter();
             runTimer();
-
         }
+
+       /* User clicks on the "Start" button and the program starts the Service and starts tracking the Step Counter and the Timer*/
+
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,6 +185,9 @@ public class StartRunActivity extends AppCompatActivity{
                             @Override
                             public void onShow(DialogInterface dialogInterface) {
                                 Button posButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+
+                                //Stops the service, step tracker and the timer when positive button is clicked
+
                                 posButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -215,6 +227,9 @@ public class StartRunActivity extends AppCompatActivity{
                         });
                         dialog.show();
                     }else{
+
+                        //To save the run and draw the route we need at least 2 LatLng. So if there's no enough LatLng this code block is triggered
+
                         AlertDialog.Builder builder = new AlertDialog.Builder(StartRunActivity.this);
                         builder.setMessage("Not enough points saved.")
                                 .setCancelable(true)
@@ -240,6 +255,8 @@ public class StartRunActivity extends AppCompatActivity{
             }
         });
     }
+
+    //These blocks are for permissions handling
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -379,7 +396,9 @@ public class StartRunActivity extends AppCompatActivity{
         });
         dialog.show();
     }
-    //StepCounter codes
+
+    //StepCounter codes. The stepCounter uses the STEP_COUNTER sensor to capture users steps while walking
+
     public void stepCounter(){
         TextView steps = findViewById(R.id.steps);
         SensorEventListener sensorEventListener = new SensorEventListener() {
@@ -407,6 +426,8 @@ public class StartRunActivity extends AppCompatActivity{
             sensorManager.registerListener(sensorEventListener, stepSensor, SensorManager.SENSOR_DELAY_UI);
         }
     }
+
+    //The following blocks reset the steps count to 0 when the user clicks on the reset button and saves the data to SharedPreferences.
 
     public void resetSteps(){
         TextView tv_stepsTaken = findViewById(R.id.steps);
@@ -438,32 +459,4 @@ public class StartRunActivity extends AppCompatActivity{
         int savedData = sharedPreferences.getInt("key1", 0);
         previousTotalSteps = savedData;
     }
-
-    public double getDistance(){
-        TrackingDBHandler trackingDB = new TrackingDBHandler(this);
-        ArrayList<MyLatLng> pointsList = trackingDB.getAllPoints();
-        double totalDistance = 0;
-        for (int i = 0; i < pointsList.size() - 1; i++) {
-            MyLatLng src = pointsList.get(i);
-            MyLatLng dest = pointsList.get(i + 1);
-            // mMap is the Map Object
-            totalDistance += convertToKm(src, dest);
-        }
-        return totalDistance;
-    }
-    public double convertToKm(MyLatLng p1, MyLatLng p2){
-        // Uses havasine formula to get distance
-        // https://cloud.google.com/blog/products/maps-platform/how-calculate-distances-map-maps-javascript-api
-
-        int earthRadius = 6371;
-        double rLat1 = p1.latitude * (Math.PI / 100);
-        double rLat2 = p2.latitude * (Math.PI / 100);
-
-        double diffLat = rLat1 - rLat2;
-        double diffLng = (p1.longitude - p2.longitude) * (Math.PI / 100);
-        double distance = 2 * earthRadius * Math.asin(Math.sqrt(Math.sin(diffLat / 2) * Math.sin(diffLat / 2) + Math.cos(rLat1) * Math.cos(rLat2) * Math.sin(diffLng / 2) * Math.sin(diffLng / 2)));
-
-        return distance;
-    }
-
 }

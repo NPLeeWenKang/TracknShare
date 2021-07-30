@@ -47,7 +47,6 @@ import sg.edu.np.tracknshare.models.MyLatLng;
 public class MapsFragment extends Fragment {
     public static GoogleMap map;
     private Context c;
-    LatLng updateLatLng = new LatLng(0, 0);
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
         /**
          * Manipulates the map once available.
@@ -70,7 +69,7 @@ public class MapsFragment extends Fragment {
                 ArrayList<MyLatLng> llList = trackingDB.getAllPoints();
                 for (int i = 0; i <= llList.size() - 1; i++) {
                     LatLng latLng = new LatLng(llList.get(i).latitude, llList.get(i).longitude);// in this line put you lat and long
-                    builder.include(latLng);  //add latlng to builder
+                    builder.include(latLng);  //add LatLng to builder
                 }
                 LatLngBounds bounds = builder.build();
 
@@ -96,7 +95,6 @@ public class MapsFragment extends Fragment {
                 }
             });
             map = googleMap;
-            //getCurrentLocation(googleMap);
         }
 
     };
@@ -120,6 +118,7 @@ public class MapsFragment extends Fragment {
         }
     }
 
+    //This method is used to set points on the map according to the starting and ending location.
     static public void setPoints(GoogleMap googleMap, ArrayList<MyLatLng> llList){
         googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(llList.get(0).latitude, llList.get(0).longitude))

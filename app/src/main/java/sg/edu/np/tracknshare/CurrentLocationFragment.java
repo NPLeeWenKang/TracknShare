@@ -32,6 +32,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 public class CurrentLocationFragment extends Fragment {
 
+    //This fragment is used to generate a map with a marker on the users current location.
+    //It uses the FusedLocationProviderClient GPS to get the current location of the users device.
+
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         /**
@@ -80,6 +83,7 @@ public class CurrentLocationFragment extends Fragment {
         }
         super.onViewCreated(view, savedInstanceState);
     }
+
     @SuppressLint("MissingPermission")
     public void getCurrentLocation(GoogleMap googleMap){
         FusedLocationProviderClient client = new FusedLocationProviderClient(getActivity());

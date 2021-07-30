@@ -41,6 +41,8 @@ import java.util.ArrayList;
 import sg.edu.np.tracknshare.handlers.TrackingDBHandler;
 import sg.edu.np.tracknshare.models.MyLatLng;
 
+//This file is not used anywhere what to do with this ah?
+
 public class FullMapFragment extends Fragment {
     public static GoogleMap map;
     private Context c;

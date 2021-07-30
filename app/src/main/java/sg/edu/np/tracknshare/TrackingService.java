@@ -29,8 +29,10 @@ import sg.edu.np.tracknshare.handlers.TrackingDBHandler;
 
 //This class tracks the location in the background using FusedLocationProviderClient
 //It runs as a foreground service until the user clicks on the stop run button.
+//It shows a notification on the top bar indicating that the service is running.
 
 public class TrackingService extends Service {
+
     TrackingDBHandler db = new TrackingDBHandler(this);
     boolean running = false;
     FusedLocationProviderClient client;
