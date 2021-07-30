@@ -48,7 +48,7 @@ Run statistics consists of :
   - Implemented the Google Maps using Google Maps SDK for Android.
   - Figured out how to calculate data such as Calories, Steps, Total time during running (Timer) and Distance travelled as well as the speed / pace of each run and implemented it
   - The calculation of steps was calculated using the [Step Sensor](https://developer.android.com/reference/android/hardware/Sensor#TYPE_STEP_COUNTER) in Android
-  - Implemented the [Foreground Service](https://developer.android.com/guide/components/foreground-services)to make sure that the tracking of location and data is going on in the background even when the app is destroyed.
+  - Implemented the [Foreground Service](https://developer.android.com/guide/components/foreground-services) to make sure that the tracking of location and data is going on in the background even when the app is destroyed.
   
   # 4. Appendices
   
