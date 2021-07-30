@@ -9,8 +9,9 @@ public class Run {
     private String ImageId;
     private long RunDuration; //timing calculated in milliseconds
     private double RunDistance;
-    private double RunCalories;
+    private int RunCalories;
     private double RunPace;
+    private int RunSteps;
     private ArrayList<MyLatLng> points;
 
     public String getImageId() {
@@ -61,11 +62,11 @@ public class Run {
         RunDistance = runDistance;
     }
 
-    public double getRunCalories() {
+    public int getRunCalories() {
         return RunCalories;
     }
 
-    public void setRunCalories(double runCalories) {
+    public void setRunCalories(int runCalories) {
         RunCalories = runCalories;
     }
 
@@ -85,7 +86,15 @@ public class Run {
         this.points = points;
     }
 
-    public Run(String userId, String runId, String imageId, long runDate, long runDuration, double runDistance, double runCalories, double runPace, ArrayList<MyLatLng> points) {
+    public int getRunSteps() {
+        return RunSteps;
+    }
+
+    public void setRunSteps(int runSteps) {
+        RunSteps = runSteps;
+    }
+
+    public Run(String userId, String runId, long runDate, String imageId, long runDuration, double runDistance, int runCalories, double runPace, int runSteps, ArrayList<MyLatLng> points) {
         UserId = userId;
         RunId = runId;
         RunDate = runDate;
@@ -94,6 +103,7 @@ public class Run {
         RunDistance = runDistance;
         RunCalories = runCalories;
         RunPace = runPace;
+        RunSteps = runSteps;
         this.points = points;
     }
 

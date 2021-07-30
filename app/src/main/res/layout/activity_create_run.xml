@@ -5,6 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CreateRunActivity">
+
+    <TextView
+        android:id="@+id/create_run_steps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/textView22"
+        app:layout_constraintTop_toBottomOf="@+id/textView22" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Number of steps"
+        app:layout_constraintStart_toStartOf="@+id/create_run_pace"
+        app:layout_constraintTop_toBottomOf="@+id/create_run_pace" />
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"

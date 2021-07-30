@@ -30,7 +30,6 @@ public class RunsViewHolder extends RecyclerView.ViewHolder {
         MapImage = itemView.findViewById(R.id.run_image);
         Header_distance = itemView.findViewById(R.id.header_distance);
         Run_distance = itemView.findViewById(R.id.run_distance);
-        Header_Date = itemView.findViewById(R.id.header_date);
         Run_Date= itemView.findViewById(R.id.run_date);
         Header_timing = itemView.findViewById(R.id.header_timing);
         Run_timing = itemView.findViewById(R.id.run_timing_post);

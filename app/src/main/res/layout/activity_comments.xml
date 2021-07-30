@@ -41,15 +41,17 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.cardview.widget.CardView
@@ -143,7 +145,6 @@
                 android:id="@+id/header_distance_post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:clickable="false"
                 android:padding="2dp"
@@ -152,6 +153,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:drawableTint="@color/orange"
+                app:layout_constraintEnd_toStartOf="@+id/header_timing_post"
                 app:layout_constraintStart_toStartOf="@+id/post_Image"
                 app:layout_constraintTop_toBottomOf="@+id/post_Image" />
 
@@ -169,6 +171,7 @@
                 android:id="@+id/run_distance_post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/header_distance_post"
                 app:layout_constraintStart_toStartOf="@+id/header_distance_post"
                 app:layout_constraintTop_toBottomOf="@+id/header_distance_post" />
 
@@ -176,12 +179,13 @@
                 android:id="@+id/header_timing_post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:padding="2dp"
                 android:text="@string/Header_Timing"
                 android:textIsSelectable="false"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/header_steps_post"
                 app:layout_constraintStart_toEndOf="@+id/header_distance_post"
                 app:layout_constraintTop_toTopOf="@+id/header_distance_post" />
 
@@ -189,6 +193,7 @@
                 android:id="@+id/run_timing_post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/header_timing_post"
                 app:layout_constraintStart_toStartOf="@+id/header_timing_post"
                 app:layout_constraintTop_toBottomOf="@+id/header_timing_post" />
 
@@ -202,7 +207,8 @@
                 android:textIsSelectable="false"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/header_distance_post"
+                app:layout_constraintEnd_toStartOf="@+id/header_pace_post"
+                app:layout_constraintStart_toStartOf="@+id/post_Image"
                 app:layout_constraintTop_toBottomOf="@+id/run_distance_post" />
 
             <TextView
@@ -212,6 +218,7 @@
 
                 android:layout_marginBottom="25dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/header_calories_post"
                 app:layout_constraintStart_toStartOf="@+id/header_calories_post"
                 app:layout_constraintTop_toBottomOf="@+id/header_calories_post" />
 
@@ -225,13 +232,37 @@
                 android:textIsSelectable="false"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/header_timing_post"
+                app:layout_constraintEnd_toEndOf="@+id/post_Image"
+                app:layout_constraintStart_toEndOf="@+id/header_calories_post"
                 app:layout_constraintTop_toTopOf="@+id/header_calories_post" />
+
+            <TextView
+                android:id="@+id/run_steps_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/header_steps_post"
+                app:layout_constraintStart_toStartOf="@+id/header_steps_post"
+                app:layout_constraintTop_toBottomOf="@+id/header_steps_post" />
+
+            <TextView
+                android:id="@+id/header_steps_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:text="@string/Header_pace"
+                android:textAllCaps="false"
+                android:textIsSelectable="false"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/post_Image"
+                app:layout_constraintStart_toEndOf="@+id/header_timing_post"
+                app:layout_constraintTop_toTopOf="@+id/header_timing_post" />
 
             <TextView
                 android:id="@+id/run_pace_post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/header_pace_post"
                 app:layout_constraintStart_toStartOf="@+id/header_pace_post"
                 app:layout_constraintTop_toBottomOf="@+id/header_pace_post" />
         </androidx.constraintlayout.widget.ConstraintLayout>
