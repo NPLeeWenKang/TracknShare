@@ -30,37 +30,32 @@ public class TrackingUtility {
         }
     }
     public boolean HasPerms(Context c){
+        Log.d("BUILDVERS", "HasPerms: "+Build.VERSION.SDK_INT + " "+Build.VERSION_CODES.Q);
         if (Build.VERSION.SDK_INT<Build.VERSION_CODES.Q){
             boolean accessFine = ContextCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-            boolean accessActivity = ContextCompat.checkSelfPermission(c, Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_GRANTED;
             boolean accessCoarse = ContextCompat.checkSelfPermission(c, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
             Log.d("PERMS", "HasPerms: "+accessFine+" "+accessCoarse);
-            Log.d("PERMS", "HasPerms: "+(accessFine && accessCoarse));
-            return  accessFine && accessCoarse && accessActivity;
+            return  accessFine && accessCoarse;
         } else{
             boolean accessFine = ContextCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
             boolean accessActivity = ContextCompat.checkSelfPermission(c, Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_GRANTED;
             boolean accessCoarse = ContextCompat.checkSelfPermission(c, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-//            boolean accessBackground = ContextCompat.checkSelfPermission(c, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED;
-//            Log.d("PERMS", "HasPerms: "+accessFine+" "+accessCoarse+" "+accessBackground);
-//            Log.d("PERMS", "HasPerms: "+(accessFine && accessCoarse && accessBackground));
+            Log.d("PERMS", "HasPerms: "+accessFine+" "+accessCoarse+" "+accessActivity);
             return  accessFine && accessCoarse && accessActivity;
+
         }
     }
     public boolean PermsDeniedPermemently(Context c){
         if (Build.VERSION.SDK_INT<Build.VERSION_CODES.Q){
             boolean accessFine = ActivityCompat.shouldShowRequestPermissionRationale((Activity) c, Manifest.permission.ACCESS_FINE_LOCATION);
-            boolean accessActivity = ContextCompat.checkSelfPermission(c, Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_GRANTED;
             boolean accessCoarse = ActivityCompat.shouldShowRequestPermissionRationale((Activity) c, Manifest.permission.ACCESS_COARSE_LOCATION);
             Log.d("PERMS", "PermsDeniedPermemently: "+accessFine+" "+accessCoarse);
-            return  !(accessFine && accessCoarse && accessActivity);
+            return  !(accessFine && accessCoarse);
         } else{
             boolean accessFine = ActivityCompat.shouldShowRequestPermissionRationale((Activity) c, Manifest.permission.ACCESS_FINE_LOCATION);
             boolean accessActivity = ContextCompat.checkSelfPermission(c, Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_GRANTED;
             boolean accessCoarse = ActivityCompat.shouldShowRequestPermissionRationale((Activity) c, Manifest.permission.ACCESS_COARSE_LOCATION);
-//            boolean accessBackground = ActivityCompat.shouldShowRequestPermissionRationale((Activity) c, Manifest.permission.ACCESS_BACKGROUND_LOCATION);
-//            Log.d("PERMS", "PermsDeniedPermemently: "+accessFine+" "+accessCoarse+" "+accessBackground);
-//            Log.d("PERMS", "PermsDeniedPermemently: "+(accessFine && accessCoarse && accessBackground));
+            Log.d("PERMS", "PermsDeniedPermemently: "+accessFine+" "+accessCoarse+" "+accessActivity);
             return  !(accessFine && accessCoarse && accessActivity);
         }
     }
@@ -68,7 +63,7 @@ public class TrackingUtility {
         if (Build.VERSION.SDK_INT<Build.VERSION_CODES.Q){
             ActivityCompat.requestPermissions((Activity) c,
                     new String[] {Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACTIVITY_RECOGNITION},
+                    Manifest.permission.ACCESS_COARSE_LOCATION},
                     1);
         } else{
             ActivityCompat.requestPermissions((Activity) c,

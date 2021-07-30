@@ -83,7 +83,6 @@ public class StartRunActivity extends AppCompatActivity{
         super.onResume();
 
         TrackingUtility tU = new TrackingUtility();
-        Log.d("PERMS", "HasPerms1: "+tU.HasPerms(this));
         if (!tU.HasPerms(this)){
             createDialogForPermission();
         }
@@ -265,6 +264,11 @@ public class StartRunActivity extends AppCompatActivity{
         TrackingUtility tU = new TrackingUtility();
         if (tU.HasPerms(StartRunActivity.this)){
             dialog.dismiss();
+            // refresh page
+            finish();
+            overridePendingTransition(0, 0);
+            startActivity(getIntent());
+            overridePendingTransition(0, 0);
         } else if (tU.PermsDeniedPermemently(StartRunActivity.this)){
             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             Uri uri = Uri.fromParts("package", getPackageName(), null);
@@ -290,6 +294,7 @@ public class StartRunActivity extends AppCompatActivity{
                 posButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        Log.d("PERMS", "onClick: ");
                         tU.requestPermission(StartRunActivity.this);
                     }
                 });

@@ -35,7 +35,7 @@ public class CurrentLocationFragment extends Fragment {
     //This fragment is used to generate a map with a marker on the users current location.
     //It uses the FusedLocationProviderClient GPS to get the current location of the users device.
 
-    private OnMapReadyCallback callback = new OnMapReadyCallback() {
+    public OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         /**
          * Manipulates the map once available.
@@ -57,20 +57,20 @@ public class CurrentLocationFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        new PermissionHelper().startPermissionRequest(getActivity(), new PermissionInterface() {
-            @Override
-            public void onGranted(boolean granted) {
-                if (granted) {
-                    SupportMapFragment mapFragment =
-                            (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-                    if (mapFragment != null) {
-                        mapFragment.getMapAsync(callback);
-                    }
-                } else {
-                    Toast.makeText(getActivity(), "App need permission to run", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, Manifest.permission.ACCESS_FINE_LOCATION);
+//        new PermissionHelper().startPermissionRequest(getActivity(), new PermissionInterface() {
+//            @Override
+//            public void onGranted(boolean granted) {
+//                if (granted) {
+//                    SupportMapFragment mapFragment =
+//                            (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+//                    if (mapFragment != null) {
+//                        mapFragment.getMapAsync(callback);
+//                    }
+//                } else {
+//                    Toast.makeText(getActivity(), "App need permission to run", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        }, Manifest.permission.ACCESS_FINE_LOCATION);
         return inflater.inflate(R.layout.fragment_maps, container, false);
     }
 
