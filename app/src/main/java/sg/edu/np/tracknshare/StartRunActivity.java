@@ -26,15 +26,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import sg.edu.np.tracknshare.handlers.AuthHandler;
-import sg.edu.np.tracknshare.handlers.RunDBHandler;
 import sg.edu.np.tracknshare.handlers.TrackingDBHandler;
-import sg.edu.np.tracknshare.models.MyLatLng;
 
 //This class is the main activity where the following are done
 //Step Counting - records steps per run and saves it to the SharedPreferences
@@ -46,7 +42,7 @@ public class StartRunActivity extends AppCompatActivity{
     private SensorManager sensorManager = null;
     long seconds = 0;
     boolean running = false;
-    int previousTotalSteps;
+    int initialSteps;
     int totalSteps;
     int currentSteps;
     private AlertDialog dialog;
@@ -69,10 +65,8 @@ public class StartRunActivity extends AppCompatActivity{
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        resetSteps();
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        loadData();
     }
 
     /*Most of the function in this code is to be run when the users device is not awake / active. So we are using Foreground Service to track
@@ -129,10 +123,14 @@ public class StartRunActivity extends AppCompatActivity{
         Step Counter*/
 
         if (!tU.isMyServiceRunning(TrackingService.class, StartRunActivity.this)){
+            // No run in progress
             startBtn.setText("Start");
             timer.setText("0:00:00");
+            TextView steps = findViewById(R.id.steps);
+            steps.setText("0 steps");
             seconds = 0;
         } else{
+            // Run is in progress
             startBtn.setText("Stop");
             SharedPreferences sharedPreferences = getSharedPreferences("tracking", Context.MODE_PRIVATE);
             long initialTime = sharedPreferences.getLong("initialTime", 0);
@@ -148,6 +146,9 @@ public class StartRunActivity extends AppCompatActivity{
 
             seconds = diffInSec;
             running = true;
+
+            SharedPreferences stepsSharedPref = getSharedPreferences("steps", Context.MODE_PRIVATE);
+            initialSteps = stepsSharedPref.getInt("initialSteps",0);
             stepCounter();
             runTimer();
         }
@@ -202,6 +203,11 @@ public class StartRunActivity extends AppCompatActivity{
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
                                         editor.putLong("finalTime", finalMS);
                                         editor.apply();
+
+                                        SharedPreferences stepsSharedPref = getSharedPreferences("steps", Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor stepEditor = stepsSharedPref.edit();
+                                        stepEditor.clear();
+                                        stepEditor.apply();
 
                                         long initialTime = sharedPreferences.getLong("initialTime", 0);
                                         long finalTime = sharedPreferences.getLong("finalTime", 0);
@@ -386,6 +392,11 @@ public class StartRunActivity extends AppCompatActivity{
                         sendCommandToService(Constants.ACTION_STOP_SERVICE);
                         running = false;
                         handler.removeCallbacksAndMessages(null);
+                        SharedPreferences stepsSharedPref = getSharedPreferences("steps", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = stepsSharedPref.edit();
+                        editor.clear();
+                        editor.apply();
+
                         dialog.dismiss();
                         finish();
                     }
@@ -410,10 +421,27 @@ public class StartRunActivity extends AppCompatActivity{
             @Override
             public void onSensorChanged(SensorEvent event) {
                 if(running){
+                    SharedPreferences stepsSharedPref = getSharedPreferences("steps", Context.MODE_PRIVATE);
+                    if (stepsSharedPref.getInt("initialSteps", -1) == -1){
+                        Log.d("STEPSLOL", "onSensorChanged: SET");
+                        initialSteps = (int) event.values[0];
+
+                        SharedPreferences.Editor editor = stepsSharedPref.edit();
+                        editor.putInt("initialSteps", initialSteps);
+                        editor.apply();
+                    }
+
                     totalSteps = (int) event.values[0];
-                    currentSteps = totalSteps - previousTotalSteps;
+                    currentSteps = totalSteps - initialSteps;
                     steps.setText(""+currentSteps + " steps");
-                    //Textview keeps flickering between 2 extreme values...
+
+                    Log.d("STEPSLOL", "onSensorChanged: "+totalSteps+" "+ initialSteps);
+                    if (totalSteps != 0){
+                        SharedPreferences.Editor editor = stepsSharedPref.edit();
+                        editor.putInt("totalSteps", totalSteps);
+                        editor.apply();
+                    }
+
                 }
             }
 
@@ -430,38 +458,5 @@ public class StartRunActivity extends AppCompatActivity{
             // Rate suitable for the user interface
             sensorManager.registerListener(sensorEventListener, stepSensor, SensorManager.SENSOR_DELAY_UI);
         }
-    }
-
-    //The following blocks reset the steps count to 0 when the user clicks on the reset button and saves the data to SharedPreferences.
-
-    public void resetSteps(){
-        TextView tv_stepsTaken = findViewById(R.id.steps);
-        Button resetBtn = findViewById(R.id.reset);
-        resetBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(StartRunActivity.this, "Long tap to reset", Toast.LENGTH_SHORT).show();
-            }
-        });
-        resetBtn.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                previousTotalSteps = totalSteps;
-                tv_stepsTaken.setText(""+0);
-                saveData();
-                return true;
-            }
-        });
-    }
-    public void saveData(){
-        SharedPreferences sharedPreferences = getSharedPreferences("steps", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("key1", previousTotalSteps);
-        editor.apply();
-    }
-    public void loadData(){
-        SharedPreferences sharedPreferences = getSharedPreferences("steps", Context.MODE_PRIVATE);
-        int savedData = sharedPreferences.getInt("key1", 0);
-        previousTotalSteps = savedData;
     }
 }
