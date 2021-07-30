@@ -33,13 +33,13 @@ Run statistics consists of :
  **Developer** : Mahshukurrahman
  
  **Contributions**:
-  - Drafted the TracknShare App Icon[^1] with Adobe Illustrator
+  - Drafted the [TracknShare App Icon](https://github.com/NPLeeWenKang/TracknShare/blob/master/app/src/main/ic_launcher-playstore.png) with [Adobe Illustrator](https://www.adobe.com/sg/products/illustrator.html)
   - Implemented some of the Model Entity classes like Posts.java,User.java and Run.java
-  - Drafted storyboards for the App UI[^2]
-  - Implemented the viewholders and recycler views[^3] for Social Media posts feed, Statistics Dashboard[^4]
-  - ViewPager2 and Tab Layouts for Posts[^5] and Runner Profile[^6]
-  - [MPAndroidCharts Library for Bargraphs][^7](https://github.com/PhilJay/MPAndroidChart)
-  - Implemented [Sharesheet API][^8](https://developer.android.com/training/sharing/send)
+  - Drafted storyboards for the App UI
+  - Implemented the viewholders and recycler views for Social Media posts feed, Statistics Dashboard
+  - ViewPager2 and Tab Layouts for Posts and Runner Profile 
+  - [MPAndroidCharts Library for Bargraphs](https://github.com/PhilJay/MPAndroidChart)
+  - Implemented [Sharesheet API](https://developer.android.com/training/sharing/send)
   
  ## Google-Maps and Fitness Data
  **Developer**: Alan Antony James
@@ -56,18 +56,19 @@ Run statistics consists of :
   
  **TracknShare App Icon**
  
- **Storyboards**
- 
- **Social Media Feed**
- 
- **Statistics Dashboard**
- 
-**ViewPager2 - Profile**
- 
-**Bargraphs**
- 
-**Sharesheet API**
+![Statistics Dashboard.mp4](https://user-images.githubusercontent.com/73008987/127649810-6622caf4-93a5-4a89-ba2c-a84a99d8fed5.mp4)
 
-**[Google Maps SDK](https://developers.google.com/maps/documentation/android-sdk/overview)**
 
+ **Bargraphs** , **Statistics Dashboard**
  
+ ![profile](https://user-images.githubusercontent.com/73008987/127648035-076f56c1-2f50-4c8b-8ec5-9e2da99795c4.png)
+ 
+ **ViewPager2 - Profile**
+ 
+ ![sharesheet](https://user-images.githubusercontent.com/73008987/127647675-9eea376c-a22b-4f4d-9c2a-b0ef18c00af3.png)
+
+ **Sharesheet API**
+
+ **[Google Maps SDK](https://developers.google.com/maps/documentation/android-sdk/overview)**
+
+ **[Flaticons vector graphics**](https://www.flaticon.com/)
