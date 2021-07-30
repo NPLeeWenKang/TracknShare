@@ -6,7 +6,7 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="Post_button_text">Create Post</string>
-    <string name="Header_distance">Distance(km)</string>
+    <string name="Header_distance">Distance</string>
     <string name="Header_Timing">Timing</string>
     <string name="Header_calories">Calories burned(kcal)</string>
     <string name="Header_pace">Pace</string>
@@ -15,4 +15,5 @@
     <string name="header_runs">Total runs</string>
     <string name="header_calories_chart">Calories burned(kcal)</string>
     <string name="header_pace_chart">Run Paces</string>
+    <string name ="header_steps">Steps</string>
 </resources>
