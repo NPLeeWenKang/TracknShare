@@ -1,5 +1,6 @@
 package sg.edu.np.tracknshare.adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -30,6 +31,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import sg.edu.np.tracknshare.CreatePostActivity;
 import sg.edu.np.tracknshare.CreateRunActivity;
@@ -58,21 +60,23 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder>  {
         return new RunsViewHolder(view);
     }
 
+    @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n", "DefaultLocale"})
     @Override
     public void onBindViewHolder(@NonNull RunsViewHolder holder, int position) {
         Run r = runs.get(position);
         StorageHandler storageHandler = new StorageHandler();
-        DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy h:ma");
+        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy h:maa");
         storageHandler.LoadFileToApp(r.getImageId(), context, holder.MapImage);
 
         holder.Run_Date.setText(dateFormat.format(r.getRunDate()));
-        holder.Run_distance.setText(String.format("%.4f", r.getRunDistance()));
+        holder.Run_distance.setText(String.format("%.4f", r.getRunDistance()) + "km");
         holder.Run_calories.setText(""+r.getRunCalories());
         holder.Run_timing.setText(""+r.getRunDuration());
         holder.Run_pace.setText("" + String.format("%.2f", r.getRunPace()) + " m/s");
+        holder.Run_steps.setText(""+400);// bind run steps to this widget
         Log.d("PACE", "onBindViewHolder: "+r.getRunPace());
-        holder.Share_button.setImageDrawable(context.getResources().getDrawable(R.drawable.share));
-        holder.post_button.setImageDrawable(context.getResources().getDrawable(R.drawable.writing));
+        holder.Share_button.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_share_24));
+        holder.post_button.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_post_add_24));
         saveImage(holder.MapImage.getDrawable());
 
         holder.MapImage.setOnClickListener(new View.OnClickListener() {
@@ -108,14 +112,14 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder>  {
 
                     StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().build()); //set external app-sharing permissions
 
-                    File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),System.currentTimeMillis()+".png");
+                    File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Run_"+Calendar.getInstance().toString() +".png");
                    //String file_path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/tracknshare/";
                     //File dir = new File(file_path);
                     //dir.mkdirs();
                     //File file = new File(dir,System.currentTimeMillis()+".png");
                     FileOutputStream fileOutputStream = new FileOutputStream(file);
                     bitmap.compress(Bitmap.CompressFormat.PNG,90,fileOutputStream);
-                    file.setReadable(true,false);
+                    file.setReadable(true,true);
                     Log.d("uri",file.toURI().toString());
                     fileOutputStream.flush();
                     fileOutputStream.close();

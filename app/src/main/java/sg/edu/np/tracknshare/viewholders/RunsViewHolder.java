@@ -14,7 +14,7 @@ public class RunsViewHolder extends RecyclerView.ViewHolder {
     public ImageView MapImage;
     public TextView Header_distance;
     public TextView Run_distance;
-    public TextView Header_Date;
+    public ImageView Header_Date;
     public TextView Run_Date;
     public TextView Header_timing;
     public TextView Run_timing;
@@ -22,6 +22,8 @@ public class RunsViewHolder extends RecyclerView.ViewHolder {
     public TextView Run_pace;
     public TextView Header_calories;
     public TextView Run_calories;
+    public TextView Run_steps;
+    public TextView Header_steps;
     public ImageView Share_button;
     public ImageView post_button;
     public RunsViewHolder(@NonNull View itemView) {
@@ -30,7 +32,7 @@ public class RunsViewHolder extends RecyclerView.ViewHolder {
         MapImage = itemView.findViewById(R.id.run_image);
         Header_distance = itemView.findViewById(R.id.header_distance);
         Run_distance = itemView.findViewById(R.id.run_distance);
-        Header_Date = itemView.findViewById(R.id.header_date);
+        Header_Date = itemView.findViewById(R.id.date_icon);
         Run_Date= itemView.findViewById(R.id.run_date);
         Header_timing = itemView.findViewById(R.id.header_timing);
         Run_timing = itemView.findViewById(R.id.run_timing_post);
@@ -40,5 +42,8 @@ public class RunsViewHolder extends RecyclerView.ViewHolder {
         Run_calories = itemView.findViewById(R.id.run_calories);
         Share_button = itemView.findViewById(R.id.share);
         post_button = itemView.findViewById(R.id.post_logo);
+        Header_steps = itemView.findViewById(R.id.steps_header);
+        Run_steps = itemView.findViewById(R.id.run_steps);
+
     }
 }

@@ -23,44 +23,36 @@
         android:id="@+id/header_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:clickable="false"
         android:padding="2dp"
         android:text="@string/Header_distance"
         android:textIsSelectable="false"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-        app:drawableTint="@color/orange"
-        app:layout_constraintStart_toStartOf="@+id/header_date"
-        app:layout_constraintTop_toBottomOf="@+id/run_date" />
+        app:layout_constraintEnd_toStartOf="@+id/steps_header"
+        app:layout_constraintHorizontal_bias="0.45"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date_icon" />
 
     <TextView
         android:id="@+id/run_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/header_distance"
         app:layout_constraintStart_toStartOf="@+id/header_distance"
         app:layout_constraintTop_toBottomOf="@+id/header_distance" />
-
-    <TextView
-        android:id="@+id/header_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:padding="2dp"
-        android:text="Date"
-        android:textIsSelectable="false"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/run_image"
-        app:layout_constraintTop_toBottomOf="@+id/run_image" />
 
     <TextView
         android:id="@+id/run_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/header_date"
-        app:layout_constraintTop_toBottomOf="@+id/header_date" />
+        android:layout_marginStart="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/date_icon"
+        app:layout_constraintStart_toEndOf="@+id/date_icon"
+        app:layout_constraintTop_toTopOf="@+id/date_icon" />
 
     <TextView
         android:id="@+id/header_timing"
@@ -69,16 +61,21 @@
         android:padding="2dp"
         android:text="@string/Header_Timing"
         android:textIsSelectable="false"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/steps_header"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/header_distance"
-        app:layout_constraintTop_toTopOf="@+id/header_distance" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/steps_header"
+        app:layout_constraintTop_toTopOf="@+id/steps_header" />
 
     <TextView
         android:id="@+id/run_timing_post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/header_timing"
         app:layout_constraintStart_toStartOf="@+id/header_timing"
         app:layout_constraintTop_toBottomOf="@+id/header_timing" />
 
@@ -86,21 +83,26 @@
         android:id="@+id/header_calories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:padding="2dp"
-        android:text="Calories burned(kcal)"
+        android:text="Burnt (kcal)"
         android:textIsSelectable="false"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/header_distance"
+        app:layout_constraintEnd_toStartOf="@+id/header_pace"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/run_distance" />
 
     <TextView
         android:id="@+id/run_calories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="10dp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/header_calories"
         app:layout_constraintStart_toStartOf="@+id/header_calories"
         app:layout_constraintTop_toBottomOf="@+id/header_calories" />
 
@@ -112,47 +114,107 @@
         android:text="@string/Header_pace"
         android:textAllCaps="false"
         android:textIsSelectable="false"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/header_timing"
+        app:layout_constraintBottom_toBottomOf="@+id/header_calories"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/header_calories"
         app:layout_constraintTop_toTopOf="@+id/header_calories" />
 
     <TextView
         android:id="@+id/run_pace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/header_pace"
         app:layout_constraintStart_toStartOf="@+id/header_pace"
         app:layout_constraintTop_toBottomOf="@+id/header_pace" />
 
-    <ImageView
-        android:id="@+id/share"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toEndOf="@+id/run_image"
-        app:layout_constraintTop_toTopOf="@+id/post_title"
-        app:srcCompat="@drawable/share" />
 
     <TextView
         android:id="@+id/post_title"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="8dp"
         android:paddingEnd="2dp"
-        android:paddingBottom="8dp"
         android:text="post"
-        android:textAllCaps="true"
+        android:textAllCaps="false"
         android:textSize="15sp"
-        app:layout_constraintEnd_toStartOf="@+id/post_logo"
-        app:layout_constraintTop_toTopOf="@+id/header_date" />
+        app:layout_constraintBottom_toBottomOf="@+id/post_logo"
+        app:layout_constraintEnd_toStartOf="@+id/share"
+        app:layout_constraintStart_toEndOf="@+id/post_logo"
+        app:layout_constraintTop_toTopOf="@+id/post_logo" />
 
     <ImageView
         android:id="@+id/post_logo"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintEnd_toStartOf="@+id/share"
+        app:layout_constraintBottom_toBottomOf="@+id/run_date"
+        app:layout_constraintEnd_toStartOf="@+id/post_title"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/run_date"
+        app:layout_constraintTop_toTopOf="@+id/run_date"
+        app:srcCompat="@drawable/ic_baseline_post_add_24" />
+
+    <ImageView
+        android:id="@+id/share"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        app:layout_constraintBottom_toBottomOf="@+id/post_title"
+        app:layout_constraintStart_toEndOf="@+id/post_title"
         app:layout_constraintTop_toTopOf="@+id/post_title"
-        app:srcCompat="@drawable/writing" />
+        app:layout_constraintVertical_bias="0.266"
+        app:srcCompat="@drawable/ic_baseline_share_24" />
+
+    <TextView
+        android:id="@+id/share_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="20dp"
+        android:text="Share"
+        app:layout_constraintBottom_toBottomOf="@+id/share"
+        app:layout_constraintEnd_toEndOf="@+id/run_image"
+        app:layout_constraintStart_toEndOf="@+id/share"
+        app:layout_constraintTop_toTopOf="@+id/share" />
+
+    <TextView
+        android:id="@+id/steps_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:text="@string/header_steps"
+        android:textIsSelectable="false"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/header_distance"
+        app:layout_constraintEnd_toStartOf="@+id/header_timing"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/header_distance"
+        app:layout_constraintTop_toTopOf="@+id/header_distance" />
+
+    <TextView
+        android:id="@+id/run_steps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/steps_header"
+        app:layout_constraintStart_toStartOf="@+id/steps_header"
+        app:layout_constraintTop_toBottomOf="@+id/steps_header" />
+
+    <ImageView
+        android:id="@+id/date_icon"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/run_image"
+        app:layout_constraintTop_toBottomOf="@+id/run_image"
+        app:srcCompat="@drawable/ic_baseline_access_time_filled_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
