@@ -44,7 +44,7 @@ Run statistics consists of :
  ## Google-Maps and Fitness Data
  **Developer**: Alan Antony James
 
- **Contributions**
+ **Contributions**:
   -Implemented the Google Maps using Google Maps SDK for Android
   -Figured out how to calculate data such as Calories, Steps, Total time during running (Timer) and Distance travelled as well as the speed / pace of each run and implemented it
   -The calculation of steps was calculated using the Step Sensor in Android
