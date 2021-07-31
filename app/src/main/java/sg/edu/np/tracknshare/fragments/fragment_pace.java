@@ -17,6 +17,8 @@ import com.github.mikephil.charting.data.BarEntry;
 import java.util.ArrayList;
 
 import sg.edu.np.tracknshare.R;
+import sg.edu.np.tracknshare.handlers.AuthHandler;
+import sg.edu.np.tracknshare.handlers.RunDBHandler;
 import sg.edu.np.tracknshare.models.Bargraph;
 
 /**
@@ -28,8 +30,7 @@ public class fragment_pace extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private Bargraph paceGraph;
-    private BarChart paceChart;
+    private Bargraph Bargraph;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -72,16 +73,12 @@ public class fragment_pace extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        paceGraph = new Bargraph(); //instantiate object
-        paceChart = getView().findViewById(R.id.pace_chart);
-        // retrieve pace of runs from database here and attach to list
-        ArrayList<BarEntry> data = new ArrayList<>();
-        data.add(new BarEntry(3,5));
-        data.add(new BarEntry(4,16));
-        data.add(new BarEntry(5,3));
-        data.add(new BarEntry(6,25));
-        //------------------------------------------------//
-        int BarColor = Color.GREEN;
-        paceGraph.setChart(data, paceChart,BarColor);
+        BarChart barChart = getView().findViewById(R.id.pace_bar);
+
+        Bargraph = new Bargraph();
+
+        RunDBHandler runDBHandler = new RunDBHandler(getContext());
+        AuthHandler authHandler = new AuthHandler(getContext());
+        runDBHandler.getPacesForBarGraph(authHandler.getCurrentUser().getUid(), Bargraph, barChart);
     }
 }

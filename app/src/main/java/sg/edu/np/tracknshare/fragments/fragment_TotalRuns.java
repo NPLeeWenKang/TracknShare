@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import sg.edu.np.tracknshare.R;
+import sg.edu.np.tracknshare.handlers.AuthHandler;
+import sg.edu.np.tracknshare.handlers.RunDBHandler;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,6 +77,8 @@ public class fragment_TotalRuns extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Button run_count =  view.findViewById(R.id.run_count);
         run_count.setBackgroundTintList(null);//hide the background tint
-
+        RunDBHandler runDBHandler = new RunDBHandler(getContext());
+        AuthHandler authHandler = new AuthHandler(getContext());
+        runDBHandler.getCount(authHandler.getCurrentUser().getUid(), run_count);
     }
 }

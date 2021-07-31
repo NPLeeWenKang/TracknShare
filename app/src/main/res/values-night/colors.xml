@@ -9,5 +9,26 @@
     <color name="white">#FFFFFFFF</color>
     <color name="orange">#FFA900</color>
     <color name="purple">#9800FF</color>
-    <color name="text">#FFFFFFFF</color>
+    <color name="text">#FF000000</color>
+    <color name="primaryColor">#5c6bc0</color>
+    <color name = "lime">#08c440</color>
+    <color name="rust">#D97054</color>
+    <color name="drab">#324755</color>
+    <color name="sage">#97bcbf</color>
+    <color name="fossil">#c8d1d3</color>
+    <color name="sand">#b9b0a2</color>
+    <color name="red">#ff3333</color>
+    <color name="primaryLightColor">#8e99f3</color>
+
+    <color name="primaryDarkColor">#26418f</color>
+
+    <color name="secondaryColor">#fafafa</color>
+
+    <color name="secondaryLightColor">#ffffff</color>
+
+    <color name="secondaryDarkColor">#c7c7c7</color>
+
+    <color name="primaryTextColor">#ffffff</color>
+
+    <color name="secondaryTextColor">#000000</color>
 </resources>

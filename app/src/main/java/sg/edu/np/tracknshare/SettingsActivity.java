@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import sg.edu.np.tracknshare.handlers.AuthHandler;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -57,7 +59,9 @@ public class SettingsActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 AuthHandler auth = new AuthHandler(SettingsActivity.this);
-                                auth.sendResetEmail();
+                                FirebaseUser currentUser =  auth.getCurrentUser();
+                                String emailAddress = currentUser.getEmail();
+                                auth.sendResetEmail(emailAddress);
                                 Toast.makeText(SettingsActivity.this, "Email Sent", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                             }

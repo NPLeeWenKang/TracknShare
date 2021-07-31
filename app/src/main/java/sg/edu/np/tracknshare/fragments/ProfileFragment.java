@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.lang.reflect.Field;
+
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.adapters.ProfileFragmentAdapter;
 import sg.edu.np.tracknshare.handlers.AuthHandler;
@@ -91,6 +93,15 @@ public class ProfileFragment extends Fragment {
         viewPager2.setAdapter(profileFragmentAdapter);
         viewPager2.setSaveEnabled(false);
         TabLayout tabLayout = view.findViewById(R.id.profiletabLayout);
+
+        Field mFling;
+        try {
+            Field rvField = ViewPager2.class.getDeclaredField("mFling");
+            rvField.setAccessible(true);
+            rvField.set(viewPager2, 30);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
         new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override

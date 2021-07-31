@@ -9,7 +9,8 @@
     <string name="Header_distance">Distance</string>
     <string name="Header_Timing">Timing</string>
     <string name="Header_calories">Calories burned(kcal)</string>
-    <string name="Header_pace">Pace</string>
+    <string name="Header_pace">Pace (m/s)</string>
+    <string name="Header_steps">Steps</string>
     <string name="post_caption">Caption</string>
     <string name="header_steps_chart">Steps of previous runs</string>
     <string name="header_runs">Total runs</string>

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,12 +20,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import sg.edu.np.tracknshare.BaseActivity;
+import sg.edu.np.tracknshare.SplashLoginActivity;
 import sg.edu.np.tracknshare.models.User;
 
 import static android.provider.Settings.Global.getString;
@@ -74,7 +77,15 @@ public class AuthHandler {
                             ((Activity) context).finish();
                         } else {
                             Log.w("AUTH", "createUserWithEmail:failure", task.getException());
-
+                            try{
+                                throw task.getException();
+                            } catch (FirebaseAuthWeakPasswordException e){
+                                Toast.makeText(context, "Error - Password too weak", Toast.LENGTH_SHORT).show();
+                            } catch (FirebaseNetworkException e){
+                                Toast.makeText(context, "Error - network error)", Toast.LENGTH_SHORT).show();
+                            } catch (Exception e){
+                                Toast.makeText(context, "Unknown Error Occurred", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 });
@@ -96,25 +107,23 @@ public class AuthHandler {
                             try{
                                 throw task.getException();
                             } catch (FirebaseAuthInvalidCredentialsException e){
-                                errorText.setText("Error - Invalid password or email");
+                                Toast.makeText(context, "Error - Invalid password or email", Toast.LENGTH_SHORT).show();
                             }catch (FirebaseAuthInvalidUserException e){
-                                errorText.setText("Error - email not registered in System");
+                                Toast.makeText(context, "Error - email not registered in System", Toast.LENGTH_SHORT).show();
                             }
                             catch (FirebaseNetworkException e){
-                                errorText.setText("Error - network error)");
+                                Toast.makeText(context, "Error - network error)", Toast.LENGTH_SHORT).show();
                             } catch (Exception e){
-                                errorText.setText("Unknown Error Occured");
+                                Toast.makeText(context, "Unknown Error Occurred", Toast.LENGTH_SHORT).show();
                             }
 
                         }
                     }
                 });
     }
-    public void sendResetEmail(){
+    public void sendResetEmail(String email){
         // Sends reset email
-        FirebaseUser currentUser =  mAuth.getCurrentUser();
-        String emailAddress = currentUser.getEmail() ;
-        mAuth.sendPasswordResetEmail(emailAddress).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) { }
                 });

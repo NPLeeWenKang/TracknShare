@@ -16,7 +16,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/circle"
-            android:text="27"
             android:textColor="@color/primaryColor"
             android:textSize="30pt"
             app:backgroundTint="#FFFFFF"

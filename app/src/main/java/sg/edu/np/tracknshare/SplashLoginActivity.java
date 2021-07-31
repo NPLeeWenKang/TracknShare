@@ -1,9 +1,12 @@
 package sg.edu.np.tracknshare;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -12,6 +15,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.zip.Inflater;
 
 import sg.edu.np.tracknshare.handlers.AuthHandler;
 
@@ -32,6 +40,7 @@ public class SplashLoginActivity extends AppCompatActivity {
         EditText password = findViewById(R.id.passwordCreate);
         TextView errorText = findViewById(R.id.error_msg);
         TextView signUpText = findViewById(R.id.SignUp);
+        TextView forgotPasswordText = findViewById(R.id.forgot_password);
         ImageView passwordImg = findViewById(R.id.passwordVis);
 
 
@@ -65,6 +74,48 @@ public class SplashLoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(SplashLoginActivity.this, SplashCreateActivity.class);
                 startActivity(intent);
+            }
+        });
+        forgotPasswordText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View ediTextView = getLayoutInflater().inflate(R.layout.alert_edittext, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(SplashLoginActivity.this);
+                builder.setMessage("Request for to reset password?")
+                        .setCancelable(true)
+                        .setPositiveButton("Yes", null)
+                        .setNegativeButton("No", null)
+                        .setView(ediTextView);
+                AlertDialog dialog = builder.create();
+                dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialogInterface) {
+                        Button posButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                        posButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                EditText input = ediTextView.findViewById(R.id.edittextfield);
+                                if (!input.getText().toString().equals("")){
+                                    String emailAddress = input.getText().toString();
+                                    auth.sendResetEmail(emailAddress);
+                                    dialog.dismiss();
+                                    Toast.makeText(SplashLoginActivity.this, "Email Sent", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    dialog.dismiss();
+                                    Toast.makeText(SplashLoginActivity.this, "Email not valid", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                        Button negButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+                        negButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                            }
+                        });
+                    }
+                });
+                dialog.show();
             }
         });
         passwordImg.setOnClickListener(new View.OnClickListener() {

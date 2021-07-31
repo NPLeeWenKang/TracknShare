@@ -2,6 +2,7 @@ package sg.edu.np.tracknshare.handlers;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarEntry;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,6 +35,7 @@ import sg.edu.np.tracknshare.adapters.RunsAdapter;
 import sg.edu.np.tracknshare.adapters.SearchItemAdapter;
 import sg.edu.np.tracknshare.adapters.StatsAdapter;
 import sg.edu.np.tracknshare.fragments.SearchFragment;
+import sg.edu.np.tracknshare.models.Bargraph;
 import sg.edu.np.tracknshare.models.MyLatLng;
 import sg.edu.np.tracknshare.models.Run;
 import sg.edu.np.tracknshare.models.Statistics;
@@ -95,6 +99,75 @@ public class RunDBHandler {
                         statisticsList.add(distance);
                         statisticsList.add(calories);
                         adapter.notifyDataSetChanged();
+                    }
+                }
+                else {
+                    Log.d("firebase", "Error getting data", task.getException());
+                }
+            }
+        });
+    }
+    public void getStepsForBarGraph(String id, Bargraph bargraph, BarChart barChart){
+        DatabaseReference dbRef = database.getReference("/runs");
+        dbRef.orderByChild("userId").equalTo(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().exists()){
+                        int count = 0;
+                        ArrayList<BarEntry> data = new ArrayList<>();
+                        for (DataSnapshot ds : task.getResult().getChildren()){
+                            Run r = ds.getValue(Run.class);
+                            data.add(new BarEntry(count, r.getRunSteps()));
+                            count++;
+                        }
+                        bargraph.setChart(data,barChart, Color.BLACK);
+                    }
+                }
+                else {
+                    Log.d("firebase", "Error getting data", task.getException());
+                }
+            }
+        });
+    }
+    public void getCaloriesForBarGraph(String id, Bargraph bargraph, BarChart barChart){
+        DatabaseReference dbRef = database.getReference("/runs");
+        dbRef.orderByChild("userId").equalTo(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().exists()){
+                        int count = 0;
+                        ArrayList<BarEntry> data = new ArrayList<>();
+                        for (DataSnapshot ds : task.getResult().getChildren()){
+                            Run r = ds.getValue(Run.class);
+                            data.add(new BarEntry(count, r.getRunCalories()));
+                            count++;
+                        }
+                        bargraph.setChart(data,barChart, Color.BLACK);
+                    }
+                }
+                else {
+                    Log.d("firebase", "Error getting data", task.getException());
+                }
+            }
+        });
+    }
+    public void getPacesForBarGraph(String id, Bargraph bargraph, BarChart barChart){
+        DatabaseReference dbRef = database.getReference("/runs");
+        dbRef.orderByChild("userId").equalTo(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().exists()){
+                        int count = 0;
+                        ArrayList<BarEntry> data = new ArrayList<>();
+                        for (DataSnapshot ds : task.getResult().getChildren()){
+                            Run r = ds.getValue(Run.class);
+                            data.add(new BarEntry(count, (float) r.getRunPace()));
+                            count++;
+                        }
+                        bargraph.setChart(data,barChart, Color.BLACK);
                     }
                 }
                 else {

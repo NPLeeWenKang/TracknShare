@@ -17,6 +17,8 @@ import com.github.mikephil.charting.data.BarEntry;
 import java.util.ArrayList;
 
 import sg.edu.np.tracknshare.R;
+import sg.edu.np.tracknshare.handlers.AuthHandler;
+import sg.edu.np.tracknshare.handlers.RunDBHandler;
 import sg.edu.np.tracknshare.models.Bargraph;
 
 /**
@@ -26,8 +28,7 @@ import sg.edu.np.tracknshare.models.Bargraph;
  */
 public class fragment_calories extends Fragment {
 
-    private Bargraph calorieGraph;
-    private BarChart calorieChart;
+    private Bargraph Bargraph;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -78,17 +79,14 @@ public class fragment_calories extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        calorieGraph = new Bargraph(); //instantiate object
-        calorieChart = getView().findViewById(R.id.calories_chart);
-        // retrieve stats of calories from database here and attach to list
-        ArrayList<BarEntry> data = new ArrayList<>();
-        data.add(new BarEntry(3,34));
-        data.add(new BarEntry(4,55));
-        data.add(new BarEntry(5,74));
-        data.add(new BarEntry(6,25));
-        //-------------------------------------//
-        int BarColor = Color.CYAN;
-        calorieGraph.setChart(data, calorieChart,BarColor);
+        super.onViewCreated(view, savedInstanceState);
+        BarChart barChart = getView().findViewById(R.id.calories_bar);
+
+        Bargraph = new Bargraph();
+
+        RunDBHandler runDBHandler = new RunDBHandler(getContext());
+        AuthHandler authHandler = new AuthHandler(getContext());
+        runDBHandler.getCaloriesForBarGraph(authHandler.getCurrentUser().getUid(), Bargraph, barChart);
 
     }
 }

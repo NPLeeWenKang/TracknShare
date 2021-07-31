@@ -31,16 +31,23 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-        <activity android:name=".UserDetailActivity"/>
-        <activity android:name=".FriendListActivity" />
-        <activity android:name=".FullMapActivity" />
-        <activity android:name=".CreateRunActivity" />
-        <activity android:name=".ChangeProfileActivity" />
-        <activity android:name=".SettingsActivity" />
+        <activity android:name=".UserDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".FriendListActivity"
+            android:screenOrientation="portrait"  />
+        <activity android:name=".FullMapActivity"
+            android:screenOrientation="portrait"  />
+        <activity android:name=".CreateRunActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ChangeProfileActivity"
+            android:screenOrientation="portrait"  />
+        <activity android:name=".SettingsActivity"
+            android:screenOrientation="portrait"  />
         <activity
             android:name=".CreatePostActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".StartRunActivity" />
+        <activity android:name=".StartRunActivity"
+            android:screenOrientation="portrait"  />
         <activity
             android:name=".SplashDescriptionActivity"
             android:screenOrientation="portrait" />

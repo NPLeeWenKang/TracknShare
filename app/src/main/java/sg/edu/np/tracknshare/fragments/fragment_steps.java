@@ -17,6 +17,8 @@ import com.github.mikephil.charting.data.BarEntry;
 import java.util.ArrayList;
 
 import sg.edu.np.tracknshare.R;
+import sg.edu.np.tracknshare.handlers.AuthHandler;
+import sg.edu.np.tracknshare.handlers.RunDBHandler;
 import sg.edu.np.tracknshare.models.Bargraph;
 
 /**
@@ -77,15 +79,9 @@ public class fragment_steps extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         BarChart barChart = getView().findViewById(R.id.steps_bar);
 
-        //generating bar data
-        ArrayList<BarEntry> data = new ArrayList<>();
-        data.add(new BarEntry(1,200));
-        data.add(new BarEntry(2,500));
-        data.add(new BarEntry(3,350));
-        data.add(new BarEntry(4,700));
-        data.add(new BarEntry(5,150));
         Bargraph = new Bargraph();
-        int barColors = Color.BLACK;
-        Bargraph.setChart(data,barChart,barColors); //create bar graph
+        RunDBHandler runDBHandler = new RunDBHandler(getContext());
+        AuthHandler authHandler = new AuthHandler(getContext());
+        runDBHandler.getStepsForBarGraph(authHandler.getCurrentUser().getUid(), Bargraph, barChart);
     }
 }
