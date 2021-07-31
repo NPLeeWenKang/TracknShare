@@ -73,11 +73,8 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder>  {
         holder.Run_calories.setText(""+r.getRunCalories());
         holder.Run_timing.setText(""+r.getRunDuration());
         holder.Run_pace.setText("" + String.format("%.2f", r.getRunPace()) + " m/s");
-        holder.Run_steps.setText(""+400);// bind run steps to this widget
+        holder.Run_steps.setText(""+r.getRunSteps());// bind run steps to this widget
         Log.d("PACE", "onBindViewHolder: "+r.getRunPace());
-        holder.Share_button.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_share_24));
-        holder.post_button.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_post_add_24));
-        saveImage(holder.MapImage.getDrawable());
 
         holder.MapImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +86,7 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder>  {
             }
         });
 
-        holder.post_button.setOnClickListener(new View.OnClickListener() {
+        holder.postConst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // "Share internally to TracknShare app"
@@ -98,7 +95,7 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder>  {
                 context.startActivity(intent);
             }
         });
-        holder.Share_button.setOnClickListener(new View.OnClickListener() {
+        holder.shareConst.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -141,27 +138,6 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder>  {
         });
     }
 
-    public Drawable saveImage(Drawable d) {
-        return d;
-    }
-
-//    private Uri getBitmapFromView(Bitmap bmp){
-//        Uri bitmapUri = null;
-//        try{
-////            File file = new File(context.getExternalCacheDir(),System.currentTimeMillis()+".png");
-////            FileOutputStream fileOutputStream = new FileOutputStream(file);
-////            bmp.compress(Bitmap.CompressFormat.PNG,90,fileOutputStream);
-////            file.setReadable(true,false);
-////            fileOutputStream.flush();
-//            //bitmapUri = Uri.fromFile(file);
-//
-//        }
-//        catch(IOException e){
-//            e.printStackTrace();
-//        }
-//        Log.d("ERROR",bitmapUri.toString());
-//        return bitmapUri;
-//    }
     @Override
     public int getItemCount() {
         return runs.size();

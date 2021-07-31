@@ -30,9 +30,11 @@ import sg.edu.np.tracknshare.MapsFragment;
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.adapters.RunsAdapter;
 import sg.edu.np.tracknshare.adapters.SearchItemAdapter;
+import sg.edu.np.tracknshare.adapters.StatsAdapter;
 import sg.edu.np.tracknshare.fragments.SearchFragment;
 import sg.edu.np.tracknshare.models.MyLatLng;
 import sg.edu.np.tracknshare.models.Run;
+import sg.edu.np.tracknshare.models.Statistics;
 import sg.edu.np.tracknshare.models.User;
 import java.util.Calendar;
 
@@ -63,28 +65,44 @@ public class RunDBHandler {
             }
         });
     }
-//    public void GetMyRunStatistics(String id, Context context){
-//        ArrayList<Run> rList = new ArrayList<>();
-//        DatabaseReference dbRef = database.getReference("/runs");
-//        dbRef.orderByChild("userId").equalTo(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    if (task.getResult().exists()){
-//                        int previousD
-//                        for (DataSnapshot ds : task.getResult().getChildren()){
-//                            Run r = ds.getValue(Run.class);
-//                            rList.add(0, r);
-//                        }
-//                    }
-//                }
-//                else {
-//                    Log.d("firebase", "Error getting data", task.getException());
-//                    ConstraintLayout img = ((Activity) context).findViewById(R.id.error);
-//                }
-//            }
-//        });
-//    }
+    public void getMyRunStatistics(String id,  ArrayList<Statistics> statisticsList, StatsAdapter adapter){
+        statisticsList.clear();
+        DatabaseReference dbRef = database.getReference("/runs");
+        dbRef.orderByChild("userId").equalTo(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().exists()){
+                        int totalSteps = 0;
+                        double totalDistance = 0;
+                        int totalCalories = 0;
+                        for (DataSnapshot ds : task.getResult().getChildren()){
+                            Run r = ds.getValue(Run.class);
+                            totalSteps += r.getRunSteps();
+                            totalDistance += r.getRunDistance();
+                            totalCalories += r.getRunCalories();
+                        }
+                        long numRuns = task.getResult().getChildrenCount();
+                        int averageSteps = totalSteps / (int) numRuns;
+                        double averageDistance = totalDistance / numRuns;
+                        int averageCalories = totalCalories / (int) numRuns;
+                        Log.d("STATISTICS", "onComplete: "+averageDistance+" "+averageCalories);
+                        Statistics steps = new Statistics("Steps", averageSteps+"", totalSteps+"");
+                        Statistics distance = new Statistics("Distance", String.format("%.2f", averageDistance)+" km", String.format("%.2f", totalDistance)+" km");
+                        Statistics calories = new Statistics("Calories", averageCalories+" kcal", totalCalories+" kcal");
+
+                        statisticsList.add(steps);
+                        statisticsList.add(distance);
+                        statisticsList.add(calories);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+                else {
+                    Log.d("firebase", "Error getting data", task.getException());
+                }
+            }
+        });
+    }
     public void getRunPoints(String id, GoogleMap googleMap, Context context){
         // Sets up map and plots the run
         DatabaseReference dbRef = database.getReference("/runs");

@@ -2,10 +2,10 @@ package sg.edu.np.tracknshare.models;
 
 public class Statistics {
     public String Title;
-    public static String Stat1Header = "Daily Average";
-    public static String Stat2Header = "Total";
-    public int Stat1number;
-    public int Stat2number;
+    public String Stat1Header = "Average";
+    public String Stat2Header = "Total";
+    public String Stat1number;
+    public String Stat2number;
 
     public String getTitle() {
         return Title;
@@ -31,19 +31,25 @@ public class Statistics {
         Stat2Header = stat2Header;
     }
 
-    public int getStat1number() {
+    public String getStat1number() {
         return Stat1number;
     }
 
-    public void setStat1number(int stat1number) {
+    public void setStat1number(String stat1number) {
         Stat1number = stat1number;
     }
 
-    public int getStat2number() {
+    public String getStat2number() {
         return Stat2number;
     }
 
-    public void setStat2number(int stat2number) {
+    public void setStat2number(String stat2number) {
+        Stat2number = stat2number;
+    }
+
+    public Statistics(String title, String stat1number, String stat2number) {
+        Title = title;
+        Stat1number = stat1number;
         Stat2number = stat2number;
     }
 }
