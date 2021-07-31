@@ -40,7 +40,7 @@ public class RunsFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        //
+
         Log.d("state","PAUSED");
     }
 
@@ -72,7 +72,7 @@ public class RunsFragment extends Fragment {
                     .setAnchorView(R.id.fab);
                     snackbar.show();//one-time event
 
-            sharedPreferences.edit().clear().commit();//to avoid snackbar from appearing repetitively
+            sharedPreferences.edit().clear().apply();//to avoid snackbar from appearing repetitively
 
         }
 

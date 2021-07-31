@@ -55,9 +55,6 @@ public class SearchFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        View include = ((Activity) context).findViewById(R.id.include);
-//
-//        //include.setLayoutParams("@layout/search_navbar");
 
 
         UserDBHandler db = new UserDBHandler(context);
