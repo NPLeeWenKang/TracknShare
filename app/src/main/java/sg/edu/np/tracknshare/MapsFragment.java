@@ -55,46 +55,50 @@ public class MapsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
+            googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+                @Override
+                public void onMapLoaded() {
+                    Intent intent = ((Activity) c).getIntent();
+                    String mapType = intent.getStringExtra("mapType");
+                    String id = intent.getStringExtra("id");
 
-            Intent intent = ((Activity) c).getIntent();
-            String mapType = intent.getStringExtra("mapType");
-            String id = intent.getStringExtra("id");
+                    Log.e("MAP", "onMapLoaded: "+mapType);
 
-            Log.e("MAP", "onMapLoaded: "+mapType);
+                    if (mapType == null){
+                        LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-            if (mapType == null){
-                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                        TrackingDBHandler trackingDB = new TrackingDBHandler(c);
+                        ArrayList<MyLatLng> llList = trackingDB.getAllPoints();
+                        for (int i = 0; i <= llList.size() - 1; i++) {
+                            LatLng latLng = new LatLng(llList.get(i).latitude, llList.get(i).longitude);// in this line put you lat and long
+                            builder.include(latLng);  //add LatLng to builder
+                        }
+                        LatLngBounds bounds = builder.build();
 
-                TrackingDBHandler trackingDB = new TrackingDBHandler(c);
-                ArrayList<MyLatLng> llList = trackingDB.getAllPoints();
-                for (int i = 0; i <= llList.size() - 1; i++) {
-                    LatLng latLng = new LatLng(llList.get(i).latitude, llList.get(i).longitude);// in this line put you lat and long
-                    builder.include(latLng);  //add LatLng to builder
-                }
-                LatLngBounds bounds = builder.build();
+                        int padding = 150; // offset from edges of the map in pixels
+                        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
 
-                int padding = 150; // offset from edges of the map in pixels
-                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+                        googleMap.moveCamera(cu);
 
-                googleMap.moveCamera(cu);
+                        googleMap.getUiSettings().setAllGesturesEnabled(false);
 
-                googleMap.getUiSettings().setAllGesturesEnabled(false);
+                        setPoints(googleMap, llList);
+                    } else{
+                        googleMap.getUiSettings().setAllGesturesEnabled(true);
+                        Log.e("MAP", "onMapLoaded: "+mapType);
+                        RunDBHandler runDBHandler = new RunDBHandler(c);
+                        runDBHandler.getRunPoints(id, googleMap, c);
+                    }
 
-                setPoints(googleMap, llList);
-            } else{
-                googleMap.getUiSettings().setAllGesturesEnabled(true);
-                Log.e("MAP", "onMapLoaded: "+mapType);
-                RunDBHandler runDBHandler = new RunDBHandler(c);
-                runDBHandler.getRunPoints(id, googleMap, c);
-            }
+                    googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 
-            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-
-                public boolean onMarkerClick(Marker marker) {
-                    return true;
+                        public boolean onMarkerClick(Marker marker) {
+                            return true;
+                        }
+                    });
+                    map = googleMap;
                 }
             });
-            map = googleMap;
         }
 
     };
