@@ -77,18 +77,19 @@ Run statistics consists of :
   
   # 4. Appendices
 
-  **TracknShare App Icon**
-  ![TracknShare App Icon]<img src="/app/src/main/ic_launcher-playstore.png" width="100">
+  **TracknShare App Icon**</br>
+  <img src="/app/src/main/ic_launcher-playstore.png" width="100">
   
-  **Bargraphs** , **Statistics Dashboard**
-  ![Statistics Dashboard.mp4](https://user-images.githubusercontent.com/73008987/127649810-6622caf4-93a5-4a89-ba2c-a84a99d8fed5.mp4)
+  **Bargraphs** , **Statistics Dashboard**</br>
+  <img src="https://user-images.githubusercontent.com/73008987/127649810-6622caf4-93a5-4a89-ba2c-a84a99d8fed5.mp4" width="300">
+  
 
-  **Profile**
-  ![profile]<img src="https://user-images.githubusercontent.com/73008987/127648035-076f56c1-2f50-4c8b-8ec5-9e2da99795c4.png" width="100">
+  **Profile**</br>
+  <img src="https://user-images.githubusercontent.com/73008987/127648035-076f56c1-2f50-4c8b-8ec5-9e2da99795c4.png" width="300">
  
  
-  **Sharesheet API**
-  ![sharesheet](https://user-images.githubusercontent.com/73008987/127647675-9eea376c-a22b-4f4d-9c2a-b0ef18c00af3.png)
+  **Sharesheet API**</br>
+  <img src="https://user-images.githubusercontent.com/73008987/127647675-9eea376c-a22b-4f4d-9c2a-b0ef18c00af3.png" width="300">
 
   **Links** :
   - Google Maps SDK: https://developers.google.com/maps/documentation/android-sdk/overview)
