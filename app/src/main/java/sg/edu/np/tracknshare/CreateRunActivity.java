@@ -64,7 +64,11 @@ public class CreateRunActivity extends AppCompatActivity {
         DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy h:ma");
 
         dateText.setText(dateFormat.format(timeMilli));
-        timeText.setText("" + getTimeInS() + " seconds");
+
+        long hour = r.getRunDuration() / 3600;
+        long min = (r.getRunDuration() % 3600) / 60;
+        long sec = (r.getRunDuration() % 3600) % 60;
+        timeText.setText(hour+":"+min+":"+sec);
         distanceText.setText(String.format("%.4f", getDistance()) + "km");
         paceText.setText("" + String.format("%.2f", getPace()) + " m/s");
         caloriesText.setText(""+getCalories());

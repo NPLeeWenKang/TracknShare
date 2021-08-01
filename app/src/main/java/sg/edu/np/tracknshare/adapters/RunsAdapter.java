@@ -60,7 +60,10 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder>  {
         holder.Run_Date.setText(dateFormat.format(r.getRunDate()));
         holder.Run_distance.setText(String.format("%.4f", r.getRunDistance()) + "km");
         holder.Run_calories.setText(""+r.getRunCalories());
-        holder.Run_timing.setText(""+r.getRunDuration());
+        long hour = r.getRunDuration() / 3600;
+        long min = (r.getRunDuration() % 3600) / 60;
+        long sec = (r.getRunDuration() % 3600) % 60;
+        holder.Run_timing.setText(hour+":"+min+":"+sec);
         holder.Run_pace.setText("" + String.format("%.2f", r.getRunPace()) + " m/s");
         holder.Run_steps.setText(""+r.getRunSteps());// bind run steps to this widget
         Log.d("PACE", "onBindViewHolder: "+r.getRunPace());

@@ -380,7 +380,10 @@ public class PostDBHandler {
                         if (distance  != null && pace != null && timing != null && calories != null && steps != null){
                             distance.setText("" + String.format("%.4f", r.getRunDistance()) + " km");
                             pace.setText("" + String.format("%.2f", r.getRunPace()) + " m/s");
-                            timing.setText(""+r.getRunDuration()  + " s");
+                            long hour = r.getRunDuration() / 3600;
+                            long min = (r.getRunDuration() % 3600) / 60;
+                            long sec = (r.getRunDuration() % 3600) % 60;
+                            timing.setText(hour+":"+min+":"+sec);
                             calories.setText(""+r.getRunCalories()  + " kcal");
                             steps.setText(""+r.getRunSteps());
                         }
