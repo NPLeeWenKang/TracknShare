@@ -81,7 +81,7 @@ Run statistics consists of :
   <img src="/app/src/main/ic_launcher-playstore.png" width="100">
   
   **Bargraphs** , **Statistics Dashboard**</br>
-  <img src="https://user-images.githubusercontent.com/73008987/127649810-6622caf4-93a5-4a89-ba2c-a84a99d8fed5.mp4" width="300">
+  https://user-images.githubusercontent.com/73008987/127649810-6622caf4-93a5-4a89-ba2c-a84a99d8fed5.mp4
   
 
   **Profile**</br>
