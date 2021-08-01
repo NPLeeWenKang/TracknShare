@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import sg.edu.np.tracknshare.FriendListActivity;
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.UserDetailActivity;
 import sg.edu.np.tracknshare.handlers.StorageHandler;
@@ -40,7 +39,7 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemViewHolder
         holder.username.setText(u.getUserName());
 
         StorageHandler storageHandler = new StorageHandler();
-        storageHandler.LoadProfileImageToApp(u.getId(),context,holder.image);
+        storageHandler.loadProfileImageToApp(u.getId(),context,holder.image);
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

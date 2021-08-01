@@ -16,19 +16,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.ArrayList;
 
-import sg.edu.np.tracknshare.BaseActivity;
 import sg.edu.np.tracknshare.FriendListActivity;
 import sg.edu.np.tracknshare.R;
-import sg.edu.np.tracknshare.SettingsActivity;
 import sg.edu.np.tracknshare.adapters.SearchItemAdapter;
 import sg.edu.np.tracknshare.handlers.UserDBHandler;
 import sg.edu.np.tracknshare.models.User;
@@ -80,7 +76,7 @@ public class SearchFragment extends Fragment {
                 String str = editable.toString();
                 if (!str.equals("")){
                     Log.d("ONKEY", "afterTextChanged: "+str);
-                    db.SearchUser(str, uList, mAdapter);
+                    db.searchUser(str, uList, mAdapter);
                 }else{
                     uList.clear();
                     mAdapter.notifyDataSetChanged();

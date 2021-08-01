@@ -52,11 +52,11 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         UserDBHandler db = new UserDBHandler(view.getContext());
         AuthHandler auth = new AuthHandler(view.getContext());
-        db.GetMyDetails(auth.getCurrentUser().getUid(), view.getContext());
+        db.getMyDetails(auth.getCurrentUser().getUid(), view.getContext());
 
         StorageHandler storageHandler = new StorageHandler();
         ImageView imageView = view.findViewById(R.id.avatarIMG);
-        storageHandler.LoadProfileImageToApp(auth.getCurrentUser().getUid(), view.getContext(), imageView);
+        storageHandler.loadProfileImageToApp(auth.getCurrentUser().getUid(), view.getContext(), imageView);
 
         ProfileFragmentAdapter profileFragmentAdapter = new ProfileFragmentAdapter(getChildFragmentManager(),getLifecycle());
         ViewPager2 viewPager2 = view.findViewById(R.id.profilePager);

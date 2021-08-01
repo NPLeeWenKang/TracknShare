@@ -138,7 +138,7 @@ public class CreateRunActivity extends AppCompatActivity {
         TrackingDBHandler trackingDB = new TrackingDBHandler(CreateRunActivity.this);
         RunDBHandler runsDB = new RunDBHandler(CreateRunActivity.this);
 
-        runsDB.AddRun(r);
+        runsDB.addRun(r);
 
         GoogleMap.SnapshotReadyCallback callback = new GoogleMap.SnapshotReadyCallback() {
             Bitmap bitmap;
@@ -146,7 +146,7 @@ public class CreateRunActivity extends AppCompatActivity {
             @Override
             public void onSnapshotReady(Bitmap snapshot) {
                 bitmap = snapshot;
-                storageHandler.UploadRunImage(""+r.getRunId(), bitmap);
+                storageHandler.uploadRunImage(""+r.getRunId(), bitmap);
             }
         };
 

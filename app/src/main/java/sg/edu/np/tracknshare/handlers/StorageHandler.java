@@ -28,7 +28,7 @@ public class StorageHandler {
     private final StorageReference storageRef = storage.getReference();
     public StorageHandler(){}
 
-    public void UploadRunImage(String imageId, Bitmap bm){
+    public void uploadRunImage(String imageId, Bitmap bm){
         // Upload image of runs
         StorageReference imagesRef = storageRef.child("images");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -36,7 +36,7 @@ public class StorageHandler {
         byte[] data = baos.toByteArray();
         imagesRef.child(""+imageId).putBytes(data);
     }
-    public void UploadProfileImage(String id, Bitmap bm){
+    public void uploadProfileImage(String id, Bitmap bm){
         // Upload profile picture
         StorageReference imagesRef = storageRef.child("profileIMG");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -44,7 +44,7 @@ public class StorageHandler {
         byte[] data = baos.toByteArray();
         imagesRef.child(id).putBytes(data);
     }
-    public void LoadFileToApp(String imageId, Context c, ImageView imageRef){
+    public void loadFileToApp(String imageId, Context c, ImageView imageRef){
         // Loads map image into imageview
         StorageReference imagesRef = storageRef.child("images/"+imageId);
         imagesRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
@@ -62,7 +62,7 @@ public class StorageHandler {
         });
 
     }
-    public void LoadProfileImageToApp(String imageId, Context c, ImageView imageRef){
+    public void loadProfileImageToApp(String imageId, Context c, ImageView imageRef){
         // Loads profile pic into imageview
         StorageReference imagesRef = storageRef.child("profileIMG/"+imageId);
         imagesRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {

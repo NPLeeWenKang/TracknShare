@@ -56,8 +56,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
         holder.LikesIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_heart));
 
         StorageHandler storageHandler = new StorageHandler();
-        storageHandler.LoadFileToApp(p.getRunId(), context, holder.PostImg);
-        storageHandler.LoadProfileImageToApp(u.getId(), context, holder.UserImg);
+        storageHandler.loadFileToApp(p.getRunId(), context, holder.PostImg);
+        storageHandler.loadProfileImageToApp(u.getId(), context, holder.UserImg);
 
         PostDBHandler postDBHandler = new PostDBHandler(context);
         postDBHandler.isLiked(holder.LikesIcon, holder.IsLiked, p.getPostId());

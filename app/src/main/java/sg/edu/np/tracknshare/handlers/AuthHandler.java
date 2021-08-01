@@ -8,11 +8,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseNetworkException;
@@ -27,11 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import sg.edu.np.tracknshare.BaseActivity;
-import sg.edu.np.tracknshare.SplashLoginActivity;
 import sg.edu.np.tracknshare.models.User;
-
-import static android.provider.Settings.Global.getString;
-
 
 
 public class AuthHandler {
@@ -69,7 +62,7 @@ public class AuthHandler {
                             UserDBHandler db = new UserDBHandler(context);
                             u.setId(currentUser.getUid());
                             u.setAccountCreationDate(new SimpleDateFormat("dd MMM yyyy").format(Calendar.getInstance().getTime()));
-                            db.AddUser(u); // Stores data into database
+                            db.addUser(u); // Stores data into database
 
                             Intent intent = new Intent(context, BaseActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

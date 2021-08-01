@@ -50,7 +50,7 @@ public class RunDBHandler {
     public RunDBHandler(Context c){
         context = c;
     }
-    public void AddRun(Run r){
+    public void addRun(Run r){
         Log.d("GENERATEID", "AddRun: "+r.getImageId());
         DatabaseReference dbRef = database.getReference("/runs");
         dbRef.child(""+r.getRunId()).setValue(r);
@@ -70,6 +70,7 @@ public class RunDBHandler {
         });
     }
     public void getMyRunStatistics(String id,  ArrayList<Statistics> statisticsList, StatsAdapter adapter){
+        // getting general statistics about a user's run
         statisticsList.clear();
         DatabaseReference dbRef = database.getReference("/runs");
         dbRef.orderByChild("userId").equalTo(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -108,6 +109,7 @@ public class RunDBHandler {
         });
     }
     public void getStepsForBarGraph(String id, Bargraph bargraph, BarChart barChart){
+        // populates the bar graph with steps
         DatabaseReference dbRef = database.getReference("/runs");
         dbRef.orderByChild("userId").equalTo(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -131,6 +133,7 @@ public class RunDBHandler {
         });
     }
     public void getCaloriesForBarGraph(String id, Bargraph bargraph, BarChart barChart){
+        // populates the bar graph with calories
         DatabaseReference dbRef = database.getReference("/runs");
         dbRef.orderByChild("userId").equalTo(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -154,6 +157,7 @@ public class RunDBHandler {
         });
     }
     public void getPacesForBarGraph(String id, Bargraph bargraph, BarChart barChart){
+        // populates the bar graph with paces
         DatabaseReference dbRef = database.getReference("/runs");
         dbRef.orderByChild("userId").equalTo(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -212,7 +216,7 @@ public class RunDBHandler {
             }
         });
     }
-    public void GetRuns(String id, ArrayList<Run> rList, RunsAdapter mAdapter, Context context){
+    public void getRuns(String id, ArrayList<Run> rList, RunsAdapter mAdapter, Context context){
         // Get all the runs current user has
         DatabaseReference dbRef = database.getReference("/runs");
         dbRef.orderByChild("userId").equalTo(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {

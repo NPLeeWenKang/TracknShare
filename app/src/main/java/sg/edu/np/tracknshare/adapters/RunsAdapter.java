@@ -2,15 +2,11 @@ package sg.edu.np.tracknshare.adapters;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
@@ -19,25 +15,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import sg.edu.np.tracknshare.CreatePostActivity;
-import sg.edu.np.tracknshare.CreateRunActivity;
 import sg.edu.np.tracknshare.FullMapActivity;
 import sg.edu.np.tracknshare.R;
-import sg.edu.np.tracknshare.fragments.CreatePostFragment;
 import sg.edu.np.tracknshare.handlers.StorageHandler;
 import sg.edu.np.tracknshare.models.Run;
 import sg.edu.np.tracknshare.viewholders.RunsViewHolder;
@@ -66,7 +55,7 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder>  {
         Run r = runs.get(position);
         StorageHandler storageHandler = new StorageHandler();
         @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy h:maa");
-        storageHandler.LoadFileToApp(r.getImageId(), context, holder.MapImage);
+        storageHandler.loadFileToApp(r.getImageId(), context, holder.MapImage);
 
         holder.Run_Date.setText(dateFormat.format(r.getRunDate()));
         holder.Run_distance.setText(String.format("%.4f", r.getRunDistance()) + "km");

@@ -42,11 +42,11 @@ public class UserDetailActivity extends AppCompatActivity {
 
         UserDBHandler db = new UserDBHandler(this);
         AuthHandler auth = new AuthHandler(this);
-        db.GetUserDetails(id, this);
+        db.getUserDetails(id, this);
 
         StorageHandler storageHandler = new StorageHandler();
         ImageView imageView = findViewById(R.id.avatarIMG);
-        storageHandler.LoadProfileImageToApp(id, this, imageView);
+        storageHandler.loadProfileImageToApp(id, this, imageView);
 
         RecyclerView recyclerView = findViewById(R.id.rv_profile_post);
         ProfilePostsAdapter mAdapter = new ProfilePostsAdapter(this, upList);
@@ -57,7 +57,7 @@ public class UserDetailActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
 
         PostDBHandler postDBHandler = new PostDBHandler(this);
-        postDBHandler.GetUserPosts(upList, mAdapter, id);
+        postDBHandler.getUserPosts(upList, mAdapter, id);
 
         Button friends_btn = findViewById(R.id.friends_btn);
         friends_btn.setOnClickListener(new View.OnClickListener() {
@@ -65,11 +65,11 @@ public class UserDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (friends_btn.getText().toString().equals("Remove from Friends")){
                     Toast.makeText(UserDetailActivity.this, "From from Friends", Toast.LENGTH_SHORT).show();
-                    db.RemoveFriends(auth.getCurrentUser().getUid(), id);
+                    db.removeFriends(auth.getCurrentUser().getUid(), id);
                     friends_btn.setText("Add to Friends");
                 }else{
                     Toast.makeText(UserDetailActivity.this, "Added to Friends", Toast.LENGTH_SHORT).show();
-                    db.AddToFriends(auth.getCurrentUser().getUid(), id);
+                    db.addToFriends(auth.getCurrentUser().getUid(), id);
                     friends_btn.setText("Remove from Friends");
                 }
             }

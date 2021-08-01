@@ -43,7 +43,7 @@ public class CreatePostActivity extends AppCompatActivity {
         Log.d("CREATEPOST", "onCreate: "+img.getWidth());
 
         StorageHandler storageDB = new StorageHandler();
-        storageDB.LoadFileToApp(runId, this, img);
+        storageDB.loadFileToApp(runId, this, img);
 
         ImageView settingsBtn = findViewById(R.id.post_run);
         settingsBtn.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +72,7 @@ public class CreatePostActivity extends AppCompatActivity {
 
         long id = Calendar.getInstance().getTimeInMillis();
         Post p = new Post(auth.getCurrentUser().getUid(), ""+id, runId, id, 0, caption);
-        PostsDB.AddPost(p);
+        PostsDB.addPost(p);
         //set Success value to create Snackbar
         SharedPreferences.Editor sharedPref = getSharedPreferences("PostStatus",MODE_PRIVATE).edit();
         sharedPref.putBoolean("Success",true);

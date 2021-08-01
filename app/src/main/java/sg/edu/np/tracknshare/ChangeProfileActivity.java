@@ -95,14 +95,14 @@ public class ChangeProfileActivity extends AppCompatActivity {
                 if (imageIsChanged){
                     BitmapDrawable bitmapDrawable = ((BitmapDrawable) imageView.getDrawable());
                     Bitmap bitmap = bitmapDrawable.getBitmap();
-                    storageHandler.UploadProfileImage(""+auth.getCurrentUser().getUid(), bitmap);
+                    storageHandler.uploadProfileImage(""+auth.getCurrentUser().getUid(), bitmap);
                 }
                 User u = new User();
                 u.setUserName(newName.getText().toString());
                 u.setId(auth.getCurrentUser().getUid());
                 u.setMass(newMass.getText().toString());
                 u.setHeight(newHeight.getText().toString());
-                userDBHandler.UpdateUserDetails(u);
+                userDBHandler.updateUserDetails(u);
 
                 finish();
                 overridePendingTransition(R.anim.end_enter, R.anim.end_exit);
@@ -132,6 +132,6 @@ public class ChangeProfileActivity extends AppCompatActivity {
         AuthHandler auth = new AuthHandler(ChangeProfileActivity.this);
         UserDBHandler db = new UserDBHandler(ChangeProfileActivity.this);
 
-        db.GetUserDetailsIntoSettings(auth.getCurrentUser().getUid(), ChangeProfileActivity.this);
+        db.getUserDetailsIntoSettings(auth.getCurrentUser().getUid(), ChangeProfileActivity.this);
     }
 }

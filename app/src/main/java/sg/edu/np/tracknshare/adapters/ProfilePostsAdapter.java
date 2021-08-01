@@ -57,7 +57,7 @@ public class ProfilePostsAdapter extends RecyclerView.Adapter<ProfilePostViewHol
 
 
         StorageHandler storageHandler = new StorageHandler();
-        storageHandler.LoadFileToApp(p.getRunId(), context, holder.PostImg);
+        storageHandler.loadFileToApp(p.getRunId(), context, holder.PostImg);
 
         isSelected = false;
         int red = Color.RED;

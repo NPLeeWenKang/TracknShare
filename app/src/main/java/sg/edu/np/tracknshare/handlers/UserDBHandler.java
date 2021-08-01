@@ -29,21 +29,25 @@ public class UserDBHandler {
     public  UserDBHandler(Context c){
         context = c;
     }
-    public void AddUser(User u){
-        Log.d("SAVEUSERDB", "AddUser: "+u.getAccountCreationDate());
+    public void addUser(User u){
+        // adds new user to db
         DatabaseReference dbRef = database.getReference("/user");
         dbRef.child(u.getId()).setValue(u);
     }
     public void addLike(String userId, String postId){
+        // adds which posts the user has liked
+        // prevents users from liking the same post twice
         DatabaseReference dbRef = database.getReference("/user");
         dbRef.child(userId).child("likedId").child(postId).setValue(true);
     }
     public void removeLike(String userId, String postId){
+        // removes which posts the user has liked
         DatabaseReference dbRef = database.getReference("/user");
         dbRef.child(userId).child("likedId").child(postId).setValue(null);
     }
 
-    public void SearchUser(String username, ArrayList<User> uList, SearchItemAdapter mAdapter){
+    public void searchUser(String username, ArrayList<User> uList, SearchItemAdapter mAdapter){
+        // search users based on their username
         mAdapter.notifyItemRangeRemoved(0,uList.size());
         uList.clear();
         DatabaseReference dbRef = database.getReference("/user");
@@ -60,9 +64,6 @@ public class UserDBHandler {
                                 uList.add(u);
                             }
                         }
-                        Log.d("KEYCODE", "onKey: UPDATE "+username);
-                        Log.d("firebase", String.valueOf(task.getResult().getValue()));
-
                         mAdapter.notifyDataSetChanged();
                     }else{
                         mAdapter.notifyDataSetChanged();
@@ -74,8 +75,66 @@ public class UserDBHandler {
             }
         });
     }
-    public void GetUserDetails(String id, Context context){
-        Log.d("FIREBASE123", "GetUserDetails: "+id);
+    public void getUserDetails(String id, Context context){
+        // get other user's details
+        DatabaseReference dbRef = database.getReference("/user");
+        dbRef.child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().exists()){
+                        // sets the TextView and button for other user's profile page
+                        DataSnapshot ds = task.getResult();
+                        User u = ds.getValue(User.class);
+                        u.setFriendsId(null);
+                        TextView numPosts = ((Activity) context).findViewById(R.id.numPosts);
+                        TextView numRuns = ((Activity) context).findViewById(R.id.numRuns);
+                        TextView accountCreationDate = ((Activity) context).findViewById(R.id.accountCreationDate);
+                        if (accountCreationDate != null && numPosts != null && numRuns != null){
+                            // populates top details bar
+                            ((AppCompatActivity) context).getSupportActionBar().setTitle(u.getUserName());
+                            PostDBHandler postDBHandler = new PostDBHandler(context);
+                            postDBHandler.getCount(u.getId(),numPosts);
+                            RunDBHandler runDBHandler = new RunDBHandler(context);
+                            runDBHandler.getCount(u.getId(),numRuns);
+                            if (u.getAccountCreationDate() != null)
+                            {
+                                accountCreationDate.setText(u.getAccountCreationDate());
+                            }
+                        }
+                        isFriends(id, context); // checks whether current user is friends with selected user
+                    }
+                }
+                else {
+                    Log.d("FIREBASE123", "Error getting data", task.getException());
+                }
+            }
+        });
+    }
+    private void isFriends(String id, Context context){
+        // checks if current user is friends with selected user
+        AuthHandler authHandler = new AuthHandler(context);
+        database.getReference("/user").child(authHandler.getCurrentUser().getUid()).child("friendsId").child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DataSnapshot ds = task.getResult();
+                    if (ds.exists()){ // friends
+                        TextView tv = ((Activity) context).findViewById(R.id.friends_btn);
+                        tv.setText("Remove from Friends");
+                    }else{ // not friends
+                        TextView tv = ((Activity) context).findViewById(R.id.friends_btn);
+                        tv.setText("Add to Friends");
+                    }
+                }
+            }
+        });
+
+
+    }
+
+    public void getMyDetails(String id, Context context){
+        // gets current user's details
         DatabaseReference dbRef = database.getReference("/user");
         dbRef.child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -89,7 +148,7 @@ public class UserDBHandler {
                         TextView numRuns = ((Activity) context).findViewById(R.id.numRuns);
                         TextView accountCreationDate = ((Activity) context).findViewById(R.id.accountCreationDate);
                         if (accountCreationDate != null && numPosts != null && numRuns != null){
-                            ((AppCompatActivity) context).getSupportActionBar().setTitle(u.getUserName());
+                            // populates top details bar
                             PostDBHandler postDBHandler = new PostDBHandler(context);
                             postDBHandler.getCount(u.getId(),numPosts);
                             RunDBHandler runDBHandler = new RunDBHandler(context);
@@ -98,62 +157,6 @@ public class UserDBHandler {
                             {
                                 accountCreationDate.setText(u.getAccountCreationDate());
                             }
-                            Log.d("FIREBASE123", "Error getting data"+ u.getAccountCreationDate());
-                        }
-                        isFriends(id, context);
-                    }
-                }
-                else {
-                    Log.d("FIREBASE123", "Error getting data", task.getException());
-                }
-            }
-        });
-    }
-    private void isFriends(String id, Context context){
-        AuthHandler authHandler = new AuthHandler(context);
-        database.getReference("/user").child(authHandler.getCurrentUser().getUid()).child("friendsId").child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DataSnapshot ds = task.getResult();
-                    if (ds.exists()){
-                        TextView tv = ((Activity) context).findViewById(R.id.friends_btn);
-                        tv.setText("Remove from Friends");
-                    }else{
-                        TextView tv = ((Activity) context).findViewById(R.id.friends_btn);
-                        tv.setText("Add to Friends");
-                    }
-                }
-            }
-        });
-
-
-    }
-
-    public void GetMyDetails(String id, Context context){
-        Log.d("FIREBASE123", "GetUserDetails: "+id);
-        DatabaseReference dbRef = database.getReference("/user");
-        dbRef.child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (task.isSuccessful()) {
-                    if (task.getResult().exists()){
-                        DataSnapshot ds = task.getResult();
-                        User u = ds.getValue(User.class);
-                        u.setFriendsId(null);
-                        TextView numPosts = ((Activity) context).findViewById(R.id.numPosts);
-                        TextView numRuns = ((Activity) context).findViewById(R.id.numRuns);
-                        TextView accountCreationDate = ((Activity) context).findViewById(R.id.accountCreationDate);
-                        if (accountCreationDate != null){
-                            PostDBHandler postDBHandler = new PostDBHandler(context);
-                            postDBHandler.getCount(u.getId(),numPosts);
-                            RunDBHandler runDBHandler = new RunDBHandler(context);
-                            runDBHandler.getCount(u.getId(),numRuns);
-                            if (u.getAccountCreationDate() != null)
-                            {
-                                accountCreationDate.setText(u.getAccountCreationDate());
-                            }
-                            Log.d("FIREBASE123", "Error getting data"+ u.getUserName());
                         }
                     }
                 }
@@ -163,33 +166,15 @@ public class UserDBHandler {
             }
         });
     }
-    public void GetMyStatistics(String id, Context context){
-        Log.d("FIREBASE123", "GetUserDetails: "+id);
+    public void getUserDetailsIntoSettings(String id, Context context){
+        // displays user details in settings
         DatabaseReference dbRef = database.getReference("/user");
         dbRef.child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
                     if (task.getResult().exists()){
-                        DataSnapshot ds = task.getResult();
-                        User u = ds.getValue(User.class);
-
-                    }
-                }
-                else {
-                    Log.d("FIREBASE123", "Error getting data", task.getException());
-                }
-            }
-        });
-    }
-    public void GetUserDetailsIntoSettings(String id, Context context){
-        Log.d("FIREBASE123", "GetUserDetails: "+id);
-        DatabaseReference dbRef = database.getReference("/user");
-        dbRef.child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (task.isSuccessful()) {
-                    if (task.getResult().exists()){
+                        // populates EditText with current user details
                         DataSnapshot ds = task.getResult();
                         User u = ds.getValue(User.class);
                         u.setFriendsId(null);
@@ -201,10 +186,9 @@ public class UserDBHandler {
                             name.setText(u.getUserName());
                             mass.setText(u.getMass());
                             height.setText(u.getHeight());
-                            Log.d("FIREBASE123", "Error getting data"+ u.getUserName());
                         }
                         StorageHandler storageHandler = new StorageHandler();
-                        storageHandler.LoadProfileImageToApp(u.getId(), context, imageView);
+                        storageHandler.loadProfileImageToApp(u.getId(), context, imageView);
                     }
                 }
                 else {
@@ -213,44 +197,42 @@ public class UserDBHandler {
             }
         });
     }
-    public void AddToFriends(String userId, String friendId){
+    public void addToFriends(String userId, String friendId){
+        // adds selected user to friends
         DatabaseReference dbRef = database.getReference("/user");
         dbRef.child(userId).child("friendsId").child(friendId).setValue(true);
     }
-    public void RemoveFriends(String userId, String friendId){
+    public void removeFriends(String userId, String friendId){
+        // removes selected user from friends
         DatabaseReference dbRef = database.getReference("/user");
         dbRef.child(userId).child("friendsId").child(friendId).setValue(null);
     }
-    public void UpdateUserDetails(User u){
+    public void updateUserDetails(User u){
+        // update user details
         DatabaseReference dbRef = database.getReference("/user");
         dbRef.child(u.getId()).child("userName").setValue(u.getUserName());
         dbRef.child(u.getId()).child("mass").setValue(u.getMass());
         dbRef.child(u.getId()).child("height").setValue(u.getHeight());
     }
-    public void GetFriendsList(String id, ArrayList<User> uList, SearchItemAdapter mAdapter){
+    // ---------------------------------
+    public void getFriendsList(String id, ArrayList<User> uList, SearchItemAdapter mAdapter){
+        // get and display all users in friends list
         uList.clear();
         DatabaseReference dbRef = database.getReference("/user");
         dbRef.child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
-                    Log.d("ADDFRIEND", "onComplete: ");
                     if (task.getResult().exists()){
                         DataSnapshot ds = task.getResult();
                         User u = ds.getValue(User.class);
-//                        ArrayList<String> temp = new ArrayList<>();
-//                        for (DataSnapshot friendsDS :ds.child("friendsId").getChildren()){
-//                            temp.add(friendsDS.getKey());
-//                        }
-//                        u.setFriendsId(temp);
-                        Log.d("ADDFRIEND", "onComplete: "+ u.getFriendsId());
                         if (u.getFriendsId() != null){
                             long length = u.getFriendsId().size();
                             long currentLength = 1;
                             ArrayList<String> sList = new ArrayList<>(u.getFriendsId().keySet());
                             for (int i = 0; i <= sList.size()-1;i++){
-                                Log.d("ADDFRIEND", "onComplete: "+u.getFriendsId().get(i));
-                                GetFriend(sList.get(i), length, currentLength, uList, mAdapter);
+                                // get friends details
+                                getFriend(sList.get(i), length, currentLength, uList, mAdapter);
                                 currentLength++;
                             }
                         }
@@ -262,7 +244,8 @@ public class UserDBHandler {
             }
         });
     }
-    private void GetFriend(String userId, long length, long currentLength, ArrayList<User> uList, SearchItemAdapter mAdapter){
+    private void getFriend(String userId, long length, long currentLength, ArrayList<User> uList, SearchItemAdapter mAdapter){
+        // get friends details
         DatabaseReference dbRef = database.getReference("/user");
         dbRef.child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -272,13 +255,10 @@ public class UserDBHandler {
                         DataSnapshot ds = task.getResult();
                         User u = ds.getValue(User.class);
                         uList.add(0, u);
-                        Log.d("ADDFRIEND", "onComplete: "+ (length - currentLength));
                         if (length - currentLength == 0){
                             mAdapter.notifyDataSetChanged();
                         }
-
                     }
-
                 }
                 else {
                     Log.d("firebase", "Error getting data", task.getException());

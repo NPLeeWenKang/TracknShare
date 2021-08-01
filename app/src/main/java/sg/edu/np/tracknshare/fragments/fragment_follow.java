@@ -1,9 +1,6 @@
 package sg.edu.np.tracknshare.fragments;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +48,6 @@ public class fragment_follow extends Fragment {
         super.onResume();
         PostDBHandler postDBHandler = new PostDBHandler(getContext());
         AuthHandler authHandler = new AuthHandler(getContext());
-        postDBHandler.GetFriendsPost(upList, adapter, authHandler.getCurrentUser().getUid());
+        postDBHandler.getFriendsPost(upList, adapter, authHandler.getCurrentUser().getUid());
     }
 }

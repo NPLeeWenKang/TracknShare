@@ -43,7 +43,7 @@ public class PostDBHandler {
     public PostDBHandler(Context c){
         context = c;
     }
-    public void AddPost(Post p){
+    public void addPost(Post p){
         DatabaseReference dbRef = database.getReference("/posts");
         dbRef.child(""+p.getPostId()).setValue(p);
     }
@@ -128,7 +128,7 @@ public class PostDBHandler {
         });
     }
     // -------------------------------------------
-    public void GetFriendsPost(ArrayList<UserPostViewModel> upList, PostsAdapter mAdapter, String userId){
+    public void getFriendsPost(ArrayList<UserPostViewModel> upList, PostsAdapter mAdapter, String userId){
         // Gets friends' post and refreshed the recycler view adaptor
         upList.clear();
         DatabaseReference dbRef = database.getReference("/user");
@@ -153,7 +153,7 @@ public class PostDBHandler {
                         long totalFriends = friends.size();
                         long currentFiendCount = 1;
                         for (String friendId : friends){
-                            GetFriends(upList, mAdapter, friendId, totalFriends, currentFiendCount);
+                            getFriends(upList, mAdapter, friendId, totalFriends, currentFiendCount);
                             currentFiendCount++;
                         }
                     }
@@ -171,7 +171,7 @@ public class PostDBHandler {
             }
         });
     }
-    private void GetFriends(ArrayList<UserPostViewModel> upList, PostsAdapter mAdapter, String friendId, long totalFriends, long currentFriendCount){
+    private void getFriends(ArrayList<UserPostViewModel> upList, PostsAdapter mAdapter, String friendId, long totalFriends, long currentFriendCount){
         // Gets
         DatabaseReference dbRef = database.getReference("/user");
         dbRef.child(friendId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -253,7 +253,7 @@ public class PostDBHandler {
                         long currentLength = 1;
                         for (DataSnapshot ds : task.getResult().getChildren()){
                             Post p = ds.getValue(Post.class);
-                            GetUser(p.getUserId(), p, length,currentLength, upList, mAdapter);
+                            getUser(p.getUserId(), p, length,currentLength, upList, mAdapter);
                             currentLength++;
                         }
                     }
@@ -269,7 +269,7 @@ public class PostDBHandler {
             }
         });
     }
-    public void GetUserPosts(ArrayList<UserPostViewModel> upList, ProfilePostsAdapter mAdapter, String id){
+    public void getUserPosts(ArrayList<UserPostViewModel> upList, ProfilePostsAdapter mAdapter, String id){
         // Gets post from a specific user
         DatabaseReference dbRef = database.getReference("/posts");
         dbRef.orderByChild("userId").equalTo(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -282,7 +282,7 @@ public class PostDBHandler {
                         long currentLength = 1;
                         for (DataSnapshot ds : task.getResult().getChildren()){
                             Post p = ds.getValue(Post.class);
-                            GetUser(p.getUserId(), p, length,currentLength, upList, mAdapter);
+                            getUser(p.getUserId(), p, length,currentLength, upList, mAdapter);
                             currentLength++;
                         }
                     }
@@ -294,7 +294,7 @@ public class PostDBHandler {
             }
         });
     }
-    private void GetUser(String userId, Post p, long length, long currentLength, ArrayList<UserPostViewModel> upList, RecyclerView.Adapter mAdapter){
+    private void getUser(String userId, Post p, long length, long currentLength, ArrayList<UserPostViewModel> upList, RecyclerView.Adapter mAdapter){
         DatabaseReference dbRef = database.getReference("/user");
         dbRef.child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -369,7 +369,7 @@ public class PostDBHandler {
                         ImageView runImage = ((Activity) context).findViewById(R.id.post_Image);
                         StorageHandler storageHandler = new StorageHandler();
                         if (runImage != null){
-                            storageHandler.LoadFileToApp(r.getImageId(), context, runImage);
+                            storageHandler.loadFileToApp(r.getImageId(), context, runImage);
                         }
                         TextView distance = ((Activity) context).findViewById(R.id.run_distance_post);
                         TextView pace = ((Activity) context).findViewById(R.id.run_pace_post);
@@ -407,7 +407,7 @@ public class PostDBHandler {
                         StorageHandler storageHandler = new StorageHandler();
 
                         if (avatarImage != null && name != null){
-                            storageHandler.LoadProfileImageToApp(u.getId(), context, avatarImage);
+                            storageHandler.loadProfileImageToApp(u.getId(), context, avatarImage);
                             name.setText(u.getUserName());
                         }
                     }
