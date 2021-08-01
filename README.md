@@ -93,4 +93,4 @@ Run statistics consists of :
 
   **Links** :
   - Google Maps SDK: https://developers.google.com/maps/documentation/android-sdk/overview)
-  - Flaticon: Flaticons vector graphics**](https://www.flaticon.com/
+  - Flaticon: https://www.flaticon.com/
