@@ -222,6 +222,6 @@ public class CreateRunActivity extends AppCompatActivity {
 
     public int getStep(){
         Intent intent = getIntent();
-        return intent.getIntExtra("stepsOfRun", 0);
+        return intent.getIntExtra("numSteps", 0);
     }
 }

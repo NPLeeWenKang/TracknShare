@@ -22,9 +22,11 @@ Run statistics consists of :
  Our app allows runners to share posts beyond this platform to external apps i.e Instagram, WhatsApp, Gmail etc.
  
 # 2. Contributors
-1. **Name**: Mahshukurrahman |
+2. **Name**: Lee Wen Kang|
+   **Student ID**: S10203100B
+2. **Name**: Mahshukurrahman |
    **Student ID**: S10204884H
-2. **Name**: Alan Antony James |
+3. **Name**: Alan Antony James |
    **Student ID**: S10207327J
   
 # 3. Roles & Contributions
