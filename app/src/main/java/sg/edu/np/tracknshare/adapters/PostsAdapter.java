@@ -114,8 +114,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
                     removeOneLike(holder, p.getPostId());
                 }
             }
-
-
         });
     }
     public void addOneLike(PostViewHolder holder, String postId){

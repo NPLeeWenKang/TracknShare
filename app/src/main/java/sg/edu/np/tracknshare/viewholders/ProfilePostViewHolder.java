@@ -17,9 +17,7 @@ public class ProfilePostViewHolder extends RecyclerView.ViewHolder {
     public ImageView LikesIcon;
     public TextView PostCaption;
     public ImageView PostImg;
-    public TextView ViewComments;
-    public ImageView CommentsIcon;
-    public ImageView ShareIcon;
+    public TextView IsLiked;
     public ProfilePostViewHolder(View itemView){
         super(itemView);
         View = itemView;
@@ -29,5 +27,6 @@ public class ProfilePostViewHolder extends RecyclerView.ViewHolder {
         LikesIcon = itemView.findViewById(R.id.likesImg);
         PostCaption = itemView.findViewById(R.id.postCaption);
         PostImg = itemView.findViewById(R.id.postImage);
+        IsLiked = itemView.findViewById(R.id.isLiked);
     }
 }

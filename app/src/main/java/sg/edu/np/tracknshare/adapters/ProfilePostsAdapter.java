@@ -19,10 +19,13 @@ import java.util.ArrayList;
 import sg.edu.np.tracknshare.CommentsActivity;
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.handlers.AuthHandler;
+import sg.edu.np.tracknshare.handlers.PostDBHandler;
 import sg.edu.np.tracknshare.handlers.StorageHandler;
+import sg.edu.np.tracknshare.handlers.UserDBHandler;
 import sg.edu.np.tracknshare.models.Post;
 import sg.edu.np.tracknshare.models.User;
 import sg.edu.np.tracknshare.models.UserPostViewModel;
+import sg.edu.np.tracknshare.viewholders.PostViewHolder;
 import sg.edu.np.tracknshare.viewholders.ProfilePostViewHolder;
 
 public class ProfilePostsAdapter extends RecyclerView.Adapter<ProfilePostViewHolder> {
@@ -61,6 +64,9 @@ public class ProfilePostsAdapter extends RecyclerView.Adapter<ProfilePostViewHol
 
         AuthHandler auth = new AuthHandler(context);
 
+        PostDBHandler postDBHandler = new PostDBHandler(context);
+        postDBHandler.isLiked(holder.LikesIcon, holder.IsLiked, p.getPostId()); // determines if current user should be able to like
+
         holder.View.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,31 +82,41 @@ public class ProfilePostsAdapter extends RecyclerView.Adapter<ProfilePostViewHol
             holder.Likes.setText(""+p.getLikes());
             holder.LikesIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_heart));
             holder.LikesIcon.setOnClickListener(new View.OnClickListener(){
-                int likes = p.getLikes();
-
-                int clickCount = 0;
                 @Override
                 public void onClick(View v) {
-                    int l = likes;
-                    clickCount += 1;
-                    if(clickCount > 0){//to prevent unnecessary minusing of like as initial isClicked is false
-                        if(!isSelected){ // unselected to selected:turns red,likes + 1,
-                        }
-
-                        else{   // selected to unselected:turns white,likes - 1,
-                        }
-
-                        p.setLikes(likes);
-                        holder.Likes.setText(""+likes);
+                    if (holder.IsLiked.getText().toString().equals("0"))
+                    {
+                        addOneLike(holder, p.getPostId());
+                    }else{
+                        removeOneLike(holder, p.getPostId());
                     }
-
                 }
-
-
             });
         }
 
 
+    }
+    public void addOneLike(ProfilePostViewHolder holder, String postId){
+        // adds a like to the database and changes like icon color to red
+        holder.Likes.setText(""+(Integer.parseInt(holder.Likes.getText().toString())+1));
+        holder.LikesIcon.setColorFilter(((Activity) context).getResources().getColor(R.color.red)); // Add tint color
+        PostDBHandler postDBHandler = new PostDBHandler(context);
+        postDBHandler.addLike(postId);
+        UserDBHandler userDBHandler = new UserDBHandler(context);
+        AuthHandler authHandler = new AuthHandler(context);
+        userDBHandler.addLike(authHandler.getCurrentUser().getUid(), postId);
+        holder.IsLiked.setText("1");
+    }
+    public void removeOneLike(ProfilePostViewHolder holder, String postId){
+        // removes a like from the database and changes like icon color to normal
+        holder.Likes.setText(""+(Integer.parseInt(holder.Likes.getText().toString())-1));
+        holder.LikesIcon.setColorFilter(null); // remove tint color
+        PostDBHandler postDBHandler = new PostDBHandler(context);
+        postDBHandler.removeLike(postId);
+        UserDBHandler userDBHandler = new UserDBHandler(context);
+        AuthHandler authHandler = new AuthHandler(context);
+        userDBHandler.removeLike(authHandler.getCurrentUser().getUid(), postId);
+        holder.IsLiked.setText("0");
     }
     @Override
     public int getItemCount() {

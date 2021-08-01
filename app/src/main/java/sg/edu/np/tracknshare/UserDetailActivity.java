@@ -26,6 +26,7 @@ import sg.edu.np.tracknshare.models.UserPostViewModel;
 
 public class UserDetailActivity extends AppCompatActivity {
     private ArrayList<UserPostViewModel> upList = new ArrayList<>();
+    ProfilePostsAdapter mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,15 +52,12 @@ public class UserDetailActivity extends AppCompatActivity {
         storageHandler.loadProfileImageToApp(id, this, imageView);
 
         RecyclerView recyclerView = findViewById(R.id.rv_profile_post);
-        ProfilePostsAdapter mAdapter = new ProfilePostsAdapter(this, upList);
+        mAdapter = new ProfilePostsAdapter(this, upList);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
 
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
-
-        PostDBHandler postDBHandler = new PostDBHandler(this);
-        postDBHandler.getUserPosts(upList, mAdapter, id);
 
         Button friends_btn = findViewById(R.id.friends_btn);
         friends_btn.setOnClickListener(new View.OnClickListener() {
@@ -78,8 +76,17 @@ public class UserDetailActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent receivingEnd = getIntent();
+        String id = receivingEnd.getStringExtra("id");
+        PostDBHandler postDBHandler = new PostDBHandler(this);
+        postDBHandler.getUserPosts(upList, mAdapter, id);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
