@@ -60,11 +60,12 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
         storageHandler.loadProfileImageToApp(u.getId(), context, holder.UserImg);
 
         PostDBHandler postDBHandler = new PostDBHandler(context);
-        postDBHandler.isLiked(holder.LikesIcon, holder.IsLiked, p.getPostId());
+        postDBHandler.isLiked(holder.LikesIcon, holder.IsLiked, p.getPostId()); // determines if current user should be able to like
 
         holder.View.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // go to comments page to show case more about the run
                 Intent intent = new Intent(context, CommentsActivity.class);
                 intent.putExtra("postId", p.getPostId());
                 intent.putExtra("runId", p.getRunId());
@@ -76,6 +77,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
         holder.UserImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // go to user profile
                 Intent intent = new Intent(view.getContext(), UserDetailActivity.class);
                 intent.putExtra("id", ""+u.getId());
                 ((Activity) view.getContext()).startActivity(intent);
@@ -85,6 +87,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
         holder.Username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // go to user profile
                 Intent intent = new Intent(view.getContext(), UserDetailActivity.class);
                 intent.putExtra("id", ""+u.getId());
                 ((Activity) view.getContext()).startActivity(intent);
@@ -94,6 +97,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
         holder.PostDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // go to user profile
                 Intent intent = new Intent(view.getContext(), UserDetailActivity.class);
                 intent.putExtra("id", ""+u.getId());
                 ((Activity) view.getContext()).startActivity(intent);
@@ -115,6 +119,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
         });
     }
     public void addOneLike(PostViewHolder holder, String postId){
+        // adds a like to the database and changes like icon color to red
         holder.Likes.setText(""+(Integer.parseInt(holder.Likes.getText().toString())+1));
         holder.LikesIcon.setColorFilter(((Activity) context).getResources().getColor(R.color.red)); // Add tint color
         PostDBHandler postDBHandler = new PostDBHandler(context);
@@ -125,6 +130,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostViewHolder> {
         holder.IsLiked.setText("1");
     }
     public void removeOneLike(PostViewHolder holder, String postId){
+        // removes a like from the database and changes like icon color to normal
         holder.Likes.setText(""+(Integer.parseInt(holder.Likes.getText().toString())-1));
         holder.LikesIcon.setColorFilter(null); // remove tint color
         PostDBHandler postDBHandler = new PostDBHandler(context);

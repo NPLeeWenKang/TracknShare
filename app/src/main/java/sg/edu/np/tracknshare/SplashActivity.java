@@ -18,11 +18,10 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        //getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         AuthHandler auth = new AuthHandler(this);
-        if (auth.isSignedIn()){
+        if (auth.isSignedIn()){ // if user is alr signin, change to BaseActivity
             Intent intent = new Intent(SplashActivity.this, BaseActivity.class);
             startActivity(intent);
             finish();

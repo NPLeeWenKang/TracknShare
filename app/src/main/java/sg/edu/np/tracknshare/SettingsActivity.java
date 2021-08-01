@@ -36,6 +36,7 @@ public class SettingsActivity extends AppCompatActivity {
         changeProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // go to change profile page
                 Intent intent = new Intent(SettingsActivity.this, ChangeProfileActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
@@ -45,6 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // requests for reset password email
                 AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
                 builder.setMessage("Are you sure?")
                         .setCancelable(false)
@@ -82,6 +84,7 @@ public class SettingsActivity extends AppCompatActivity {
         viewPrivacy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // leads to privacy policy website
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://westwq.github.io/MADPrivacy/"));
                 startActivity(browserIntent);
             }

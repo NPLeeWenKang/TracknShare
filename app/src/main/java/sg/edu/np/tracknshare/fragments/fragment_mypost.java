@@ -54,6 +54,6 @@ public class fragment_mypost extends Fragment {
 
         PostDBHandler postDBHandler = new PostDBHandler(view.getContext());
         AuthHandler auth = new AuthHandler(view.getContext());
-        postDBHandler.getUserPosts(upList, mAdapter, auth.getCurrentUser().getUid());
+        postDBHandler.getUserPosts(upList, mAdapter, auth.getCurrentUser().getUid()); // gets all of the current user's posts
     }
 }

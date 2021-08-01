@@ -48,6 +48,6 @@ public class fragment_general extends Fragment {
         super.onResume();
         PostDBHandler postDBHandler = new PostDBHandler(getContext());
         AuthHandler authHandler = new AuthHandler(getContext());
-        postDBHandler.getGeneralPosts(upList, postAdapter);
+        postDBHandler.getGeneralPosts(upList, postAdapter); // updates recyclerview to display all posts
     }
 }

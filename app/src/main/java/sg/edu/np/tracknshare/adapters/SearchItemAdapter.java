@@ -43,6 +43,7 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemViewHolder
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // clicking of view leads to the user's profile page
                 Intent intent = new Intent(view.getContext(), UserDetailActivity.class);
                 intent.putExtra("id", ""+u.getId());
                 ((Activity) view.getContext()).startActivity(intent);

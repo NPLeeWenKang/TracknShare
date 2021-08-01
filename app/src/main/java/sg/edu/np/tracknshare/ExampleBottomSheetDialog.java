@@ -46,6 +46,7 @@ public class ExampleBottomSheetDialog extends BottomSheetDialogFragment {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // opens settings page
                 dismiss();
                 Intent intent = new Intent(getContext(), SettingsActivity.class);
                 startActivity(intent);
@@ -55,6 +56,7 @@ public class ExampleBottomSheetDialog extends BottomSheetDialogFragment {
         signout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // performs signout
                 AuthHandler auth = new AuthHandler(getContext());
                 auth.signOut();
                 Log.d("NAV", "onNavigationItemSelected: ");
@@ -78,14 +80,12 @@ public class ExampleBottomSheetDialog extends BottomSheetDialogFragment {
     }
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void setWhiteNavigationBar(@NonNull Dialog dialog) {
-
         Window window = dialog.getWindow();
         if (window != null) {
             DisplayMetrics metrics = new DisplayMetrics();
             window.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
             GradientDrawable dimDrawable = new GradientDrawable();
-            // ...customize your dim effect here
 
             GradientDrawable navigationBarDrawable = new GradientDrawable();
             navigationBarDrawable.setShape(GradientDrawable.RECTANGLE);

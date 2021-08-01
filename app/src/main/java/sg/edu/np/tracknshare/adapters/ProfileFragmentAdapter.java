@@ -19,9 +19,9 @@ public class ProfileFragmentAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch(position){
             case 0:
-                return new fragment_mypost();
+                return new fragment_mypost(); // go to my posts
             case 1:
-                return new fragment_statistics();
+                return new fragment_statistics(); // go to my statistics
         }
         return null;
     }

@@ -47,6 +47,7 @@ public class StartRunActivity extends AppCompatActivity{
     int currentSteps;
     private AlertDialog dialog;
     public boolean isMapEnabled(Context c){
+        // checks if GPS is running
         LocationManager manager = (LocationManager) getSystemService(c.LOCATION_SERVICE);
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
             return false;

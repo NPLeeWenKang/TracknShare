@@ -31,6 +31,8 @@ public class UserDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_detail);
 
+        // Only used to display other user's profile page
+
         Toolbar toolBar = findViewById(R.id.toolBar);
         setSupportActionBar(toolBar);
 
@@ -64,10 +66,12 @@ public class UserDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (friends_btn.getText().toString().equals("Remove from Friends")){
+                    // removes friends
                     Toast.makeText(UserDetailActivity.this, "From from Friends", Toast.LENGTH_SHORT).show();
                     db.removeFriends(auth.getCurrentUser().getUid(), id);
                     friends_btn.setText("Add to Friends");
                 }else{
+                    // adds friends
                     Toast.makeText(UserDetailActivity.this, "Added to Friends", Toast.LENGTH_SHORT).show();
                     db.addToFriends(auth.getCurrentUser().getUid(), id);
                     friends_btn.setText("Remove from Friends");

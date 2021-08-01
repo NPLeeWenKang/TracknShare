@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,25 +20,18 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import sg.edu.np.tracknshare.MapsFragment;
+import sg.edu.np.tracknshare.fragments.MapsFragment;
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.adapters.RunsAdapter;
-import sg.edu.np.tracknshare.adapters.SearchItemAdapter;
 import sg.edu.np.tracknshare.adapters.StatsAdapter;
-import sg.edu.np.tracknshare.fragments.SearchFragment;
 import sg.edu.np.tracknshare.models.Bargraph;
-import sg.edu.np.tracknshare.models.MyLatLng;
 import sg.edu.np.tracknshare.models.Run;
 import sg.edu.np.tracknshare.models.Statistics;
-import sg.edu.np.tracknshare.models.User;
-import java.util.Calendar;
 
 public class RunDBHandler {
     private final String dbUrl = "https://testapp-bc30f-default-rtdb.asia-southeast1.firebasedatabase.app";

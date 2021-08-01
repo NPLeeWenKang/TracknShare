@@ -42,12 +42,13 @@ public class ChangeProfileActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        loadData();
+        loadData(); // load current user's data into the Image and Text views
 
         StorageHandler storageHandler = new StorageHandler();
         AuthHandler auth = new AuthHandler(this);
         UserDBHandler userDBHandler = new UserDBHandler(this);
 
+        // when user has chosen an image from gallery
         ImageView imageView = findViewById(R.id.add_profile_image);
         ActivityResultLauncher<Intent> myActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -60,6 +61,7 @@ public class ChangeProfileActivity extends AppCompatActivity {
                             Uri selectedImage = result.getData().getData();
                             Bitmap bitmap = null;
                             try {
+                                // displays chosen image on ImageView
                                 bitmap = MediaStore.Images.Media.getBitmap(ChangeProfileActivity.this.getContentResolver(), selectedImage);
                                 imageView.setImageBitmap(bitmap);
                                 Log.d("UPLOADFILE", "onActivityResult: Success");
@@ -77,6 +79,7 @@ public class ChangeProfileActivity extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // opens the user's image gallery
                 Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
                 intent.setType("image/*");
                 long maxVideoSize = 1500000;
@@ -87,12 +90,13 @@ public class ChangeProfileActivity extends AppCompatActivity {
         TextView newName = findViewById(R.id.edit_username);
         TextView newMass = findViewById(R.id.edit_mass);
         TextView newHeight = findViewById(R.id.edit_height);
-        ImageView settingsBtn = findViewById(R.id.save_profile);
-        settingsBtn.setOnClickListener(new View.OnClickListener() {
+        ImageView saveBtn = findViewById(R.id.save_profile);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("SETTINGS", "onClick: Settings");
                 if (imageIsChanged){
+                    // save new profile image into firebase storage
                     BitmapDrawable bitmapDrawable = ((BitmapDrawable) imageView.getDrawable());
                     Bitmap bitmap = bitmapDrawable.getBitmap();
                     storageHandler.uploadProfileImage(""+auth.getCurrentUser().getUid(), bitmap);
@@ -102,7 +106,7 @@ public class ChangeProfileActivity extends AppCompatActivity {
                 u.setId(auth.getCurrentUser().getUid());
                 u.setMass(newMass.getText().toString());
                 u.setHeight(newHeight.getText().toString());
-                userDBHandler.updateUserDetails(u);
+                userDBHandler.updateUserDetails(u); // inserts new data into database
 
                 finish();
                 overridePendingTransition(R.anim.end_enter, R.anim.end_exit);

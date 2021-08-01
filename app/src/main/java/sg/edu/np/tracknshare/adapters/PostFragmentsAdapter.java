@@ -23,9 +23,9 @@ public class PostFragmentsAdapter extends FragmentStateAdapter {
         switch(position)
         {
             case 0:
-                return new fragment_general();
+                return new fragment_general(); // show general posts
             case 1:
-                return new fragment_follow();
+                return new fragment_follow(); // show friends posts
         }
         return null;
     }

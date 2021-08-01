@@ -52,9 +52,9 @@ public class CommentsActivity extends AppCompatActivity {
         if (postId == null && runId == null){
             finish();
         }
-        Log.d("COMMENTSACTI", "onCreate: "+postId);
+
         PostDBHandler postDBHandler = new PostDBHandler(this);
-        postDBHandler.getPost(postId, this);
+        postDBHandler.getPost(postId, this); // get and display all run information
 
         ImageView mapImage = findViewById(R.id.post_Image);
         ImageView userImage = findViewById(R.id.avatarIMG);
@@ -82,6 +82,7 @@ public class CommentsActivity extends AppCompatActivity {
         mapImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // opens up full map image
                 Intent intent = new Intent(CommentsActivity.this, FullMapActivity.class);
                 intent.putExtra("mapType", "movable");
                 intent.putExtra("id", runId);
@@ -91,6 +92,7 @@ public class CommentsActivity extends AppCompatActivity {
         userImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // opens user's profile
                 Intent intent = new Intent(CommentsActivity.this, UserDetailActivity.class);
                 intent.putExtra("id", ""+userId);
                 startActivity(intent);
@@ -100,6 +102,7 @@ public class CommentsActivity extends AppCompatActivity {
         username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // opens user's profile
                 Intent intent = new Intent(CommentsActivity.this, UserDetailActivity.class);
                 intent.putExtra("id", ""+userId);
                 startActivity(intent);
@@ -109,6 +112,7 @@ public class CommentsActivity extends AppCompatActivity {
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // opens user's profile
                 Intent intent = new Intent(CommentsActivity.this, UserDetailActivity.class);
                 intent.putExtra("id", ""+userId);
                 startActivity(intent);
@@ -117,6 +121,7 @@ public class CommentsActivity extends AppCompatActivity {
         });
     }
     public void addOneLike(TextView likes, TextView isLiked, ImageView likeIcon, String postId){
+        // add a like to database and reflect on UI
         likes.setText(""+(Integer.parseInt(likes.getText().toString())+1));
         likeIcon.setColorFilter(getResources().getColor(R.color.red)); // Add tint color
         PostDBHandler postDBHandler = new PostDBHandler(CommentsActivity.this);
@@ -127,6 +132,7 @@ public class CommentsActivity extends AppCompatActivity {
         isLiked.setText("1");
     }
     public void removeOneLike(TextView likes, TextView isLiked, ImageView likeIcon, String postId){
+        // remove a like to database and reflect on UI
         likes.setText(""+(Integer.parseInt(likes.getText().toString())-1));
         likeIcon.setColorFilter(null); // remove tint color
         PostDBHandler postDBHandler = new PostDBHandler(CommentsActivity.this);

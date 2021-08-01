@@ -40,18 +40,17 @@ public class CreatePostActivity extends AppCompatActivity {
 
         ImageView img = findViewById(R.id.create_post_img);
 
-        Log.d("CREATEPOST", "onCreate: "+img.getWidth());
-
         StorageHandler storageDB = new StorageHandler();
         storageDB.loadFileToApp(runId, this, img);
 
-        ImageView settingsBtn = findViewById(R.id.post_run);
-        settingsBtn.setOnClickListener(new View.OnClickListener() {
+        ImageView saveBtn = findViewById(R.id.post_run);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditText captionText = findViewById(R.id.caption_editText);
                 String caption = captionText.getText().toString();
                 if(!caption.isEmpty()){
+                    // creates a post in the database
                     performPost(captionText.getText().toString());
                 }
                 else{ //empty caption validation
@@ -62,6 +61,7 @@ public class CreatePostActivity extends AppCompatActivity {
 
     }
     public void performPost(String caption){
+        // creates a post in the database
         StorageHandler storageHandler = new StorageHandler();
         AuthHandler auth = new AuthHandler(CreatePostActivity.this);
         TrackingDBHandler trackingDB = new TrackingDBHandler(CreatePostActivity.this);

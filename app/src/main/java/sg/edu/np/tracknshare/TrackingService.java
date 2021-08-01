@@ -39,6 +39,7 @@ public class TrackingService extends Service {
     LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(@NonNull LocationResult locationResult) {
+            // triggers every 2 - 5 seconds by the service
             super.onLocationResult(locationResult);
             List<Location> locationList = locationResult.getLocations();
             for(int i = 0; i < locationList.size(); i++){

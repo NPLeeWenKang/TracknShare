@@ -50,6 +50,6 @@ public class fragment_TotalRuns extends Fragment {
         run_count.setBackgroundTintList(null);//hide the background tint
         RunDBHandler runDBHandler = new RunDBHandler(getContext());
         AuthHandler authHandler = new AuthHandler(getContext());
-        runDBHandler.getCount(authHandler.getCurrentUser().getUid(), run_count);
+        runDBHandler.getCount(authHandler.getCurrentUser().getUid(), run_count); // gets the total amount of runs the current user has and displays it
     }
 }

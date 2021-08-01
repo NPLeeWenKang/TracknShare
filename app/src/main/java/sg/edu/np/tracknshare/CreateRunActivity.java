@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
+import sg.edu.np.tracknshare.fragments.MapsFragment;
 import sg.edu.np.tracknshare.handlers.AuthHandler;
 import sg.edu.np.tracknshare.handlers.RunDBHandler;
 import sg.edu.np.tracknshare.handlers.StorageHandler;

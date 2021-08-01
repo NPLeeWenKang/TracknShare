@@ -88,7 +88,7 @@ public class fragment_statistics extends Fragment {
 
         RunDBHandler runDBHandler = new RunDBHandler(getContext());
         AuthHandler authHandler = new AuthHandler(getContext());
-        runDBHandler.getMyRunStatistics(authHandler.getCurrentUser().getUid(), statisticsList, adapter);
+        runDBHandler.getMyRunStatistics(authHandler.getCurrentUser().getUid(), statisticsList, adapter); // gets data from database and populates bar graph
     }
 
 }

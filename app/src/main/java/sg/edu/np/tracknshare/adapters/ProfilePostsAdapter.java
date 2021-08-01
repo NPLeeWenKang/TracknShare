@@ -59,11 +59,7 @@ public class ProfilePostsAdapter extends RecyclerView.Adapter<ProfilePostViewHol
         StorageHandler storageHandler = new StorageHandler();
         storageHandler.loadFileToApp(p.getRunId(), context, holder.PostImg);
 
-        isSelected = false;
-        int red = Color.RED;
-        int white = Color.WHITE;
         AuthHandler auth = new AuthHandler(context);
-        Log.d("POSTADAPTOR", "onBindViewHolder: "+(u.getId().equals(auth.getCurrentUser().getUid())));
 
         holder.View.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,13 +85,9 @@ public class ProfilePostsAdapter extends RecyclerView.Adapter<ProfilePostViewHol
                     clickCount += 1;
                     if(clickCount > 0){//to prevent unnecessary minusing of like as initial isClicked is false
                         if(!isSelected){ // unselected to selected:turns red,likes + 1,
-                            likes = addOneLike(holder,red,l);
-                            isSelected = true;
                         }
 
                         else{   // selected to unselected:turns white,likes - 1,
-                            likes = removeOneLike(holder,white,l);
-                            isSelected = false;
                         }
 
                         p.setLikes(likes);
@@ -110,38 +102,9 @@ public class ProfilePostsAdapter extends RecyclerView.Adapter<ProfilePostViewHol
 
 
     }
-    public int addOneLike(ProfilePostViewHolder holder,int red,int l){
-        isSelected = true;
-        l +=1;
-        holder.LikesIcon.setBackgroundColor(red);
-        return l;
-    }
-    public int removeOneLike(ProfilePostViewHolder holder, int white, int l){
-        isSelected = false;
-        l -= 1;
-        holder.LikesIcon.setBackgroundColor(white);
-        return l;
-    }
     @Override
     public int getItemCount() {
         return data.size();
     }
-
-//    public void EnterCommentView(Post p, Run r){
-//        Intent intent = new Intent(context, CommentsActivity.class);
-//        intent.putExtra("Username", );
-//        intent.putExtra("Postdate",p.getPostDate());
-//        intent.putExtra("PostLikes",p.getLikes());
-//        intent.putExtra("PostCaption",p.getCaption());
-//        intent.putExtra("RunDistance",r.getRunDistance());
-//        intent.putExtra("RunDuration",r.getRunDuration());
-//        intent.putExtra("RunCalories",r.getRunCalories());
-//        intent.putExtra("RunPace",r.getRunPace());
-//        intent.putExtra("RunDate",r.getRunDate());
-//        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //to allow activity transition from adapter class
-//        context.startActivity(intent);
-//
-//    }
-
 
 }

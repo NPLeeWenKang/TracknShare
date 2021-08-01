@@ -58,6 +58,6 @@ public class fragment_pace extends Fragment {
 
         RunDBHandler runDBHandler = new RunDBHandler(getContext());
         AuthHandler authHandler = new AuthHandler(getContext());
-        runDBHandler.getPacesForBarGraph(authHandler.getCurrentUser().getUid(), Bargraph, barChart);
+        runDBHandler.getPacesForBarGraph(authHandler.getCurrentUser().getUid(), Bargraph, barChart); // gets data from database and populates bar graph
     }
 }

@@ -1,4 +1,4 @@
-package sg.edu.np.tracknshare;
+package sg.edu.np.tracknshare.fragments;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,6 +39,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.adapters.RunsAdapter;
 import sg.edu.np.tracknshare.handlers.RunDBHandler;
 import sg.edu.np.tracknshare.handlers.TrackingDBHandler;
@@ -64,7 +65,7 @@ public class MapsFragment extends Fragment {
 
                     Log.e("MAP", "onMapLoaded: "+mapType);
 
-                    if (mapType == null){
+                    if (mapType == null){ // map is used in CreateRunActivity.java
                         LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
                         TrackingDBHandler trackingDB = new TrackingDBHandler(c);
@@ -78,18 +79,19 @@ public class MapsFragment extends Fragment {
                         int padding = 150; // offset from edges of the map in pixels
                         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
 
-                        googleMap.moveCamera(cu);
+                        googleMap.moveCamera(cu); // move camera such that all points are inside screen
 
                         googleMap.getUiSettings().setAllGesturesEnabled(false);
 
                         setPoints(googleMap, llList);
-                    } else{
+                    } else{ // map is used in FullMapActivity.java
                         googleMap.getUiSettings().setAllGesturesEnabled(true);
                         Log.e("MAP", "onMapLoaded: "+mapType);
                         RunDBHandler runDBHandler = new RunDBHandler(c);
-                        runDBHandler.getRunPoints(id, googleMap, c);
+                        runDBHandler.getRunPoints(id, googleMap, c); // gets all running points and plots them
                     }
 
+                    // disables the markers on the google map
                     googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 
                         public boolean onMarkerClick(Marker marker) {
@@ -124,16 +126,18 @@ public class MapsFragment extends Fragment {
 
     //This method is used to set points on the map according to the starting and ending location.
     static public void setPoints(GoogleMap googleMap, ArrayList<MyLatLng> llList){
+        // sets first marker
         googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(llList.get(0).latitude, llList.get(0).longitude))
                 .title("Start"));
+        // sets last marker
         googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(llList.get(llList.size()-1).latitude, llList.get(llList.size()-1).longitude))
                 .title("End"));
+        // plots the line
         for (int i = 0; i <= llList.size() - 2; i++) {
             MyLatLng src = llList.get(i);
             MyLatLng dest = llList.get(i + 1);
-            // mMap is the Map Object
             googleMap.addPolyline(new PolylineOptions()
                     .add(
                             new LatLng(src.latitude, src.longitude),

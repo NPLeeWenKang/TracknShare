@@ -43,7 +43,7 @@ public class FriendListActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
         UserDBHandler userDB = new UserDBHandler(this);
         AuthHandler auth = new AuthHandler(this);
-        userDB.getFriendsList(""+auth.getCurrentUser().getUid(), uList, mAdapter);
+        userDB.getFriendsList(""+auth.getCurrentUser().getUid(), uList, mAdapter); // displays friends list
     }
 
     @Override

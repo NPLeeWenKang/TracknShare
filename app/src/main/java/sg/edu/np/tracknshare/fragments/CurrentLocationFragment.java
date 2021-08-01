@@ -1,4 +1,4 @@
-package sg.edu.np.tracknshare;
+package sg.edu.np.tracknshare.fragments;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +29,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import sg.edu.np.tracknshare.R;
 
 public class CurrentLocationFragment extends Fragment {
 

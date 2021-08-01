@@ -22,6 +22,8 @@ public class SplashCreateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_create);
 
+        // Create a TracknShare account
+
         Toolbar toolBar = findViewById(R.id.toolBar);
         setSupportActionBar(toolBar);
 
@@ -58,9 +60,11 @@ public class SplashCreateActivity extends AppCompatActivity {
 
             }
         });
+
         email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                // used to check if edit text should lose focus
                 if (!email.hasFocus() && !password.hasFocus() && !username.hasFocus() && !mass.hasFocus() && !height.hasFocus()) {
                     hideKeyboard(v);
                 }
@@ -69,6 +73,7 @@ public class SplashCreateActivity extends AppCompatActivity {
         password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                // used to check if edit text should lose focus
                 if (!email.hasFocus() && !password.hasFocus() && !username.hasFocus() && !mass.hasFocus() && !height.hasFocus()) {
                     hideKeyboard(v);
                 }
@@ -77,6 +82,7 @@ public class SplashCreateActivity extends AppCompatActivity {
         username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                // used to check if edit text should lose focus
                 if (!email.hasFocus() && !password.hasFocus() && !username.hasFocus() && !mass.hasFocus() && !height.hasFocus()) {
                     hideKeyboard(v);
                 }
@@ -85,6 +91,7 @@ public class SplashCreateActivity extends AppCompatActivity {
         mass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                // used to check if edit text should lose focus
                 if (!email.hasFocus() && !password.hasFocus() && !username.hasFocus() && !mass.hasFocus() && !height.hasFocus()) {
                     hideKeyboard(v);
                 }
@@ -93,6 +100,7 @@ public class SplashCreateActivity extends AppCompatActivity {
         height.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                // used to check if edit text should lose focus
                 if (!email.hasFocus() && !password.hasFocus() && !username.hasFocus() && !mass.hasFocus() && !height.hasFocus()) {
                     hideKeyboard(v);
                 }

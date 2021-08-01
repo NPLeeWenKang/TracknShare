@@ -17,20 +17,8 @@ import pub.devrel.easypermissions.EasyPermissions;
 import sg.edu.np.tracknshare.models.Comment;
 
 public class TrackingUtility {
-    public boolean HasPermissions(Context c){
-        if (Build.VERSION.SDK_INT<Build.VERSION_CODES.Q){
-            return EasyPermissions.hasPermissions(c,
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACTIVITY_RECOGNITION);
-        } else{
-            return EasyPermissions.hasPermissions(c,
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION, Manifest.permission.ACTIVITY_RECOGNITION);
-        }
-    }
     public boolean HasPerms(Context c){
-        Log.d("BUILDVERS", "HasPerms: "+Build.VERSION.SDK_INT + " "+Build.VERSION_CODES.Q);
+        // checks if phone has permissions
         if (Build.VERSION.SDK_INT<Build.VERSION_CODES.Q){
             boolean accessFine = ContextCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
             boolean accessCoarse = ContextCompat.checkSelfPermission(c, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
@@ -46,6 +34,7 @@ public class TrackingUtility {
         }
     }
     public boolean PermsDeniedPermemently(Context c){
+        // checks if phone has permemently blocked permissions
         if (Build.VERSION.SDK_INT<Build.VERSION_CODES.Q){
             boolean accessFine = ActivityCompat.shouldShowRequestPermissionRationale((Activity) c, Manifest.permission.ACCESS_FINE_LOCATION);
             boolean accessCoarse = ActivityCompat.shouldShowRequestPermissionRationale((Activity) c, Manifest.permission.ACCESS_COARSE_LOCATION);
@@ -60,6 +49,7 @@ public class TrackingUtility {
         }
     }
     public void requestPermission(Context c){
+        // request permissions from the phone
         if (Build.VERSION.SDK_INT<Build.VERSION_CODES.Q){
             ActivityCompat.requestPermissions((Activity) c,
                     new String[] {Manifest.permission.ACCESS_FINE_LOCATION,
@@ -75,6 +65,7 @@ public class TrackingUtility {
 
 
     public boolean isMyServiceRunning(Class<?> serviceClass, Context c) {
+        // checks if the TrackingService is running
         ActivityManager manager = (ActivityManager) c.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {

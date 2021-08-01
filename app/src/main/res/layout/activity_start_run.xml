@@ -34,7 +34,7 @@
 
     <fragment
         android:id="@+id/trackmap"
-        android:name="sg.edu.np.tracknshare.CurrentLocationFragment"
+        android:name="sg.edu.np.tracknshare.fragments.CurrentLocationFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"

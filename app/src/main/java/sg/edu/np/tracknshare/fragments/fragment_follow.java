@@ -48,6 +48,6 @@ public class fragment_follow extends Fragment {
         super.onResume();
         PostDBHandler postDBHandler = new PostDBHandler(getContext());
         AuthHandler authHandler = new AuthHandler(getContext());
-        postDBHandler.getFriendsPost(upList, adapter, authHandler.getCurrentUser().getUid());
+        postDBHandler.getFriendsPost(upList, adapter, authHandler.getCurrentUser().getUid());  // updates recyclerview to display friend's post
     }
 }

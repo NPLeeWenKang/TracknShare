@@ -99,10 +99,7 @@ public class RunsAdapter extends RecyclerView.Adapter<RunsViewHolder>  {
                     StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().build()); //set external app-sharing permissions
 
                     File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Run_temp.png");
-                   //String file_path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/tracknshare/";
-                    //File dir = new File(file_path);
-                    //dir.mkdirs();
-                    //File file = new File(dir,System.currentTimeMillis()+".png");
+
                     FileOutputStream fileOutputStream = new FileOutputStream(file);
                     bitmap.compress(Bitmap.CompressFormat.PNG,90,fileOutputStream);
                     file.setReadable(true,true);

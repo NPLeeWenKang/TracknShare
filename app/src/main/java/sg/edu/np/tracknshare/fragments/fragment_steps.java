@@ -68,6 +68,6 @@ public class fragment_steps extends Fragment {
         Bargraph = new Bargraph();
         RunDBHandler runDBHandler = new RunDBHandler(getContext());
         AuthHandler authHandler = new AuthHandler(getContext());
-        runDBHandler.getStepsForBarGraph(authHandler.getCurrentUser().getUid(), Bargraph, barChart);
+        runDBHandler.getStepsForBarGraph(authHandler.getCurrentUser().getUid(), Bargraph, barChart); // gets data from database and populates bar graph
     }
 }

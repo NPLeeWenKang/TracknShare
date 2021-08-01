@@ -30,7 +30,6 @@ public class SplashLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_login);
 
-        //getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         AuthHandler auth = new AuthHandler(this);
@@ -47,6 +46,7 @@ public class SplashLoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // signs in the user
                 if (!email.getText().toString().equals("") && !password.getText().toString().equals("")){
                     auth.signInWithEmailPassword(email.getText().toString(),password.getText().toString(),errorText);
                 }
@@ -56,6 +56,7 @@ public class SplashLoginActivity extends AppCompatActivity {
         email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                // used to check if edit text should lose focus
                 if (!hasFocus && !password.hasFocus()) {
                     hideKeyboard(v);
                 }
@@ -64,6 +65,7 @@ public class SplashLoginActivity extends AppCompatActivity {
         password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                // used to check if edit text should lose focus
                 if (!hasFocus && !email.hasFocus()) {
                     hideKeyboard(v);
                 }
@@ -79,6 +81,7 @@ public class SplashLoginActivity extends AppCompatActivity {
         forgotPasswordText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // displays dialog box to input account email to reset password
                 View ediTextView = getLayoutInflater().inflate(R.layout.alert_edittext, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(SplashLoginActivity.this);
                 builder.setMessage("Request for to reset password?")
@@ -97,7 +100,7 @@ public class SplashLoginActivity extends AppCompatActivity {
                                 EditText input = ediTextView.findViewById(R.id.edittextfield);
                                 if (!input.getText().toString().equals("")){
                                     String emailAddress = input.getText().toString();
-                                    auth.sendResetEmail(emailAddress);
+                                    auth.sendResetEmail(emailAddress); // sets the password reset email
                                     dialog.dismiss();
                                     Toast.makeText(SplashLoginActivity.this, "Email Sent", Toast.LENGTH_SHORT).show();
                                 }else{
@@ -118,6 +121,8 @@ public class SplashLoginActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
+        // toggles to display password
         passwordImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
