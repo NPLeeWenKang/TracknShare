@@ -61,7 +61,7 @@ public class CreateRunActivity extends AppCompatActivity {
         long timeMilli = calendar.getTimeInMillis();
         Run r = new Run(auth.getCurrentUser().getUid(), ""+timeMilli,timeMilli, ""+timeMilli,getTimeInS(),getDistance(),getCalories(),getPace(), getStep(), trackingDB.getAllPoints());
 
-        DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy h:ma");
+        DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy hh:mma");
 
         dateText.setText(dateFormat.format(timeMilli));
 
