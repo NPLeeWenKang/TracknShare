@@ -1,39 +1,24 @@
 package sg.edu.np.tracknshare.fragments;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.lang.reflect.Field;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 
-import sg.edu.np.tracknshare.BaseActivity;
 import sg.edu.np.tracknshare.R;
 import sg.edu.np.tracknshare.adapters.PostFragmentsAdapter;
-import sg.edu.np.tracknshare.adapters.ViewPagerAdapter;
-import sg.edu.np.tracknshare.models.Post;
-import sg.edu.np.tracknshare.adapters.PostsAdapter;
-import sg.edu.np.tracknshare.viewholders.PostViewHolder;
 
 public class PostFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";

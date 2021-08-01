@@ -49,9 +49,6 @@
         <activity android:name=".StartRunActivity"
             android:screenOrientation="portrait"  />
         <activity
-            android:name=".SplashDescriptionActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".SplashCreateActivity"
             android:screenOrientation="portrait" />
         <activity

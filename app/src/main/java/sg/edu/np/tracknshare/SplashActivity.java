@@ -33,13 +33,8 @@ public class SplashActivity extends AppCompatActivity {
             public void onClick(View view) {
                 auth.signOut();
                 Intent intent;
-                if (getSharedPreferences("isChecked", MODE_PRIVATE).getBoolean("firstTimeLogin",true)==true){
-                    intent = new Intent(SplashActivity.this, SplashDescriptionActivity.class);
-                }else{
-                    intent = new Intent(SplashActivity.this, SplashLoginActivity.class);
-                }
+                intent = new Intent(SplashActivity.this, SplashLoginActivity.class);
                 SharedPreferences.Editor editor =  getSharedPreferences("isChecked", MODE_PRIVATE).edit();
-                editor.putBoolean("firstTimeLogin",false);
                 editor.apply();
                 startActivity(intent);
                 overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
